@@ -7,13 +7,10 @@
     "dev": "ts-node-dev --respawn --transpile-only --exit-child src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "db:seed": "ts-node prisma/seed.ts",
+    "db:seed": "prisma db seed",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio"
-  },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -46,6 +43,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/cookie": "^0.6.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",

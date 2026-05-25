@@ -3,8 +3,9 @@ import { Server as SocketIOServer } from 'socket.io'
 import app from './app'
 import prisma from './config/database'
 import logger from './utils/logger'
+import { registerSocketHandlers } from './sockets'
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'
 
 const httpServer = http.createServer(app)
@@ -14,32 +15,11 @@ export const io = new SocketIOServer(httpServer, {
     origin: CLIENT_URL,
     credentials: true,
   },
+  // Allow both polling and websocket transports
+  transports: ['websocket', 'polling'],
 })
 
-io.on('connection', socket => {
-  logger.info(`Socket connected: ${socket.id}`)
-
-  socket.on('user:join', (userId: string) => {
-    socket.join(`user:${userId}`)
-    logger.debug(`Socket ${socket.id} joined room user:${userId}`)
-  })
-
-  socket.on('conversation:join', (conversationId: string) => {
-    socket.join(`conversation:${conversationId}`)
-  })
-
-  socket.on('conversation:leave', (conversationId: string) => {
-    socket.leave(`conversation:${conversationId}`)
-  })
-
-  socket.on('user:typing', (data: { conversationId: string; userId: string }) => {
-    socket.to(`conversation:${data.conversationId}`).emit('user:typing', data)
-  })
-
-  socket.on('disconnect', () => {
-    logger.debug(`Socket disconnected: ${socket.id}`)
-  })
-})
+registerSocketHandlers(io)
 
 async function start() {
   try {
