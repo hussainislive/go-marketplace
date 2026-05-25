@@ -1,0 +1,266 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Favorites - EliteMarket</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#ffafd4",
+                        "tertiary-fixed": "#e5e2e1",
+                        "tertiary-container": "#706f6f",
+                        "inverse-on-surface": "#f0f0f2",
+                        "secondary": "#972ca9",
+                        "tertiary": "#575757",
+                        "primary": "#a70172",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "background": "#f9f9fb",
+                        "secondary-fixed": "#ffd6fe",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#7b028f",
+                        "error": "#ba1a1a",
+                        "surface-container": "#edeef0",
+                        "inverse-primary": "#ffafd4",
+                        "surface-variant": "#e2e2e4",
+                        "on-error": "#ffffff",
+                        "outline": "#8a707b",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "surface-container-high": "#e8e8ea",
+                        "on-primary-fixed": "#3d0027",
+                        "outline-variant": "#ddbfca",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "primary-container": "#c82c8c",
+                        "surface-dim": "#d9dadc",
+                        "surface-container-low": "#f3f3f5",
+                        "on-primary-container": "#fff0f4",
+                        "on-surface-variant": "#56414a",
+                        "on-background": "#1a1c1d",
+                        "on-secondary-fixed": "#35003f",
+                        "surface-container-highest": "#e2e2e4",
+                        "secondary-fixed-dim": "#f9abff",
+                        "on-surface": "#1a1c1d",
+                        "primary-fixed": "#ffd8e8",
+                        "on-primary-fixed-variant": "#8a005d",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#6f0082",
+                        "surface-tint": "#b1137a",
+                        "surface-bright": "#f9f9fb",
+                        "surface": "#f9f9fb",
+                        "on-tertiary-container": "#f6f3f3",
+                        "inverse-surface": "#2f3132",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#ef7ffe",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "80px",
+                        "gutter": "24px",
+                        "container-max": "1200px",
+                        "base": "4px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "hero-title-mobile": ["Inter"],
+                        "caption": ["Inter"],
+                        "body": ["Inter"],
+                        "section-title": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "hero-title": ["Inter"]
+                    },
+                    "fontSize": {
+                        "hero-title-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body": ["15px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "section-title": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-bold": ["13px", { "lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "hero-title": ["56px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body antialiased flex">
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full flex-col p-6 border-r border-outline-variant dark:border-outline bg-surface-container-lowest dark:bg-inverse-surface shadow-sm w-64 z-40">
+<!-- Brand -->
+<div class="mb-10 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">shopping_bag</span>
+<span class="font-hero-title text-[24px] font-bold text-primary tracking-tight">EliteMarket</span>
+</div>
+<!-- User Profile -->
+<div class="flex items-center gap-4 mb-8 p-3 rounded-xl bg-surface-container-low border border-outline-variant/30">
+<img alt="Merchant Avatar" class="w-12 h-12 rounded-full object-cover" data-alt="A close-up portrait of a professional man in a bright, modern setting. The lighting is soft and even, highlighting a friendly expression. The aesthetic is clean and corporate, matching a premium minimalist style with high-key lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLgKzOpHQcCKGUmnLOHqN9vqgW-AFhyXsUZEpkicLAz_nNk0gEAaaE4DSi7X_raIXw2wFLCDXRr6iChoUhfIv9glqh71qyJ2xL7gcwzzr86iNkyKZnwVOw0ns4FuwF61dWpLb-iEGHqBNEChJAcD0naOdi7fsThOKmblUxztMVHZGeZJJpZFiLmkqA278ZmLdslmCpzNDDtqw3W1rNRrlw64rZTGdMRv6EgMhIyt5CHQszYHZwHTx--SJSDFTq2ig6CZ8H4ZV8j48">
+<div>
+<div class="font-label-bold text-label-bold text-on-surface">Alex Rivers</div>
+<div class="font-caption text-caption text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] filled text-secondary">verified</span>
+                    Verified Merchant
+                </div>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-2 flex-grow">
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-variant rounded-lg transition-all scale-100 hover:scale-102 active:scale-98" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-bold text-label-bold">Dashboard</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-variant rounded-lg transition-all scale-100 hover:scale-102 active:scale-98" href="#">
+<span class="material-symbols-outlined">campaign</span>
+<span class="font-label-bold text-label-bold">My Ads</span>
+</a>
+<!-- We add a Favorites tab since it's the intent of the page -->
+<!-- Active -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg transition-all scale-100 hover:scale-102 active:scale-98" href="#">
+<span class="material-symbols-outlined filled">favorite</span>
+<span class="font-label-bold text-label-bold">Favorites</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-variant rounded-lg transition-all scale-100 hover:scale-102 active:scale-98" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-label-bold text-label-bold">Analytics</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-variant rounded-lg transition-all scale-100 hover:scale-102 active:scale-98" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-bold text-label-bold">Wallet</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-variant rounded-lg transition-all scale-100 hover:scale-102 active:scale-98" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-bold text-label-bold">Support</span>
+</a>
+</div>
+<!-- CTA -->
+<button class="mt-auto w-full py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-label-bold text-label-bold rounded-xl shadow-[0_4px_14px_rgba(167,1,114,0.3)] hover:shadow-[0_6px_20px_rgba(167,1,114,0.4)] transition-all hover:-translate-y-0.5 active:translate-y-0">
+            Create New Ad
+        </button>
+</nav>
+<!-- TopNavBar (Mobile Only) -->
+<nav class="md:hidden fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl">shopping_bag</span>
+<span class="font-hero-title-mobile text-[20px] font-bold text-primary dark:text-inverse-primary tracking-tight">EliteMarket</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">notifications</span>
+<img alt="User Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A close-up portrait of a professional man in a bright, modern setting. The lighting is soft and even, highlighting a friendly expression. The aesthetic is clean and corporate, matching a premium minimalist style with high-key lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhT0-CztWplyiFIVQ1sh4DZYHN7p_d7Mtb1K3X60dPfI3GJGjMsEbyqinRQo1amnAlXtnEwbh2kOfNNBVmuS-rGLWXGVqFqnbeBby9dQPdX02yfYHoIhFeDY8mwDcWxnsNPQNwzN54QG4dNShBWYk2OA-L14alQuu86jcddpkwFpP_dsxEhqxdEdBbvwSRGp5p2riKvuVq38JZeqxHMq_I7DuCbS3n7C2UEB_RhcOUlaI0CinuvMNbM_MmRTyTow_PnDtybEvDeE0">
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 pt-20 md:pt-10 px-margin-mobile md:px-margin-desktop pb-24 max-w-container-max mx-auto w-full">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+<div>
+<h1 class="font-section-title text-section-title text-on-surface mb-2">Your Saved Listings</h1>
+<p class="font-body text-body text-on-surface-variant">Manage your favorite items and curated collections.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full font-body text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors w-full md:w-64" placeholder="Search favorites..." type="text">
+</div>
+<button class="p-2 border border-outline-variant rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Favorites Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+<!-- Listing Card 1 -->
+<article class="bg-surface-container-lowest rounded-[20px] overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-shadow duration-300 group border border-outline-variant/20 flex flex-col h-full">
+<div class="relative h-48 overflow-hidden bg-surface-container">
+<img alt="Red Nike Sneakers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A striking studio shot of premium red athletic sneakers against a clean, minimalist background. The lighting is high-key and soft, highlighting the textures of the shoe material. The aesthetic is modern and commercial, fitting a high-end marketplace style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnA-nVJx-xnjh3mPiVz_tqBIz8Ay1apDg-Kcw0KnYiuz5X4PKkTsyJW4g5k7ES33BG0U_wmtWg96FrwBwe7tC-HizxQFXoHFquUDtGe2aZoiM1wDF0YAEbv5JZn-wyhjA3r6HCufTiYUdSi6HJLJY6xa-EdHQoNc_f38ed4MR1d9xS5z0lX0z0d3nkAPghjhlVFFQP4GxA_cOVhd2AfBChklaUzPS3A0fCn21B46hHnGMITT2stEuyrdwah6w-l30vvMOVTWBlBAA">
+<button class="absolute top-3 right-3 w-8 h-8 bg-surface-container-lowest/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm hover:scale-110 transition-transform">
+<span class="material-symbols-outlined filled text-primary text-[18px]">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3">
+<span class="bg-surface-container-lowest text-on-surface font-label-bold text-[11px] px-2 py-1 rounded-full shadow-sm">Premium</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-bold text-label-bold text-on-surface line-clamp-1">Air Max Pro Edition</h3>
+<span class="font-label-bold text-label-bold text-primary whitespace-nowrap">$245</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant line-clamp-2 mb-4">Limited edition athletic wear with superior comfort and signature design elements.</p>
+<div class="mt-auto flex items-center justify-between border-t border-outline-variant/30 pt-3">
+<div class="flex items-center gap-2">
+<img alt="Seller" class="w-6 h-6 rounded-full" data-alt="Small avatar of a smiling young woman in a bright minimalist setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn6aZH9CGy0D6tUUs_N-yHyvlTMHawN-Rg9QZV8ESHsHfzGIKnBDkGimzt_ZUXg5ukfe9w-ZOInkBSK10VIZPpEFX7F1kOV-WcJTcNTtoCk1VWctGvEh66o7WShcpE_iIDFcsgj6Avm1f7tIk7MvebFm3wyRdwnTNi26FUB1JyyVZbr8oKlsIxYPhO2eOKpTlWoNFcaFbHGLGfiXMvyxpM9MUKtc9KrktKEhjQdLfank_0inwTcKLUqAODkxNm0Ce9oKTVz8yEpG0">
+<span class="font-caption text-caption text-on-surface-variant">Sarah J.</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined filled text-[14px] text-amber-500">star</span>
+<span class="font-caption text-[11px] font-semibold">4.9</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Listing Card 2 -->
+<article class="bg-surface-container-lowest rounded-[20px] overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-shadow duration-300 group border border-outline-variant/20 flex flex-col h-full">
+<div class="relative h-48 overflow-hidden bg-surface-container">
+<img alt="Smart Watch" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek minimalist smartwatch with a black band resting on a pristine white surface. Soft, diffused lighting creates a premium, high-tech mood. The composition is clean and editorial, emphasizing the modern design of the device." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3oVvfwzBXjZ00ikvAKKobGK9zaE-v6ywrToEJi7oQHFOcpxgk4g1pYm96MEhD1G7I5gO58B7Nhey4xHLT8uSbLPwJqq6ZBAnWnS37rzT6q8OurCmzcxpU4vdkzpsNBmZu8-uqFeqC6Xh2__7X2bGLy4FArQRh0cGu5_Fd9sqUWGerAz0RZxPakDZQ83xVjNV0TTOFWPM1vrFbVoZJ21ANkRttl7tjtdFpH3z-A3_1ByN8iKS383OkuUpdbAYmGkdP-7gRY7LV1_g">
+<button class="absolute top-3 right-3 w-8 h-8 bg-surface-container-lowest/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm hover:scale-110 transition-transform">
+<span class="material-symbols-outlined filled text-primary text-[18px]">favorite</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-bold text-label-bold text-on-surface line-clamp-1">Chronos Smartwatch</h3>
+<span class="font-label-bold text-label-bold text-primary whitespace-nowrap">$199</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant line-clamp-2 mb-4">Advanced fitness tracking with an elegant minimalist interface.</p>
+<div class="mt-auto flex items-center justify-between border-t border-outline-variant/30 pt-3">
+<div class="flex items-center gap-2">
+<img alt="Seller" class="w-6 h-6 rounded-full" data-alt="Small avatar of a professional man in a bright minimalist setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF1HWPKGMrwr_VaEcT51aUEZoGP0e6yM0sKpJgPCkmmVb-j9s32NlLRdLLpKfWFi7dYZfl1_Bdprh6kbJp3g78WplL1EYvzPRCmqt5bDoG1Z17Y-jkpo0XcspIJFRg2ChRG41N3c_FDvX3JFITzGTfmrmjPFMMl4_izDDC8KFH066MP0bnnT39cKLWdu-WKVKZ9SGoae4mvnwN0selAPEilEIJ1KvMg42NOCnTg6gg6iLG208livfYPeEX0jK7tjLuBYsBiiSiRQc">
+<span class="font-caption text-caption text-on-surface-variant">TechGear</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined filled text-[14px] text-amber-500">star</span>
+<span class="font-caption text-[11px] font-semibold">4.7</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface dark:bg-inverse-surface border-t border-outline-variant dark:border-outline flex justify-around items-center h-16 px-2">
+<a class="flex flex-col items-center justify-center gap-1 w-16 h-full text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<span class="font-caption text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-16 h-full text-primary" href="#">
+<span class="material-symbols-outlined filled text-[24px]">favorite</span>
+<span class="font-caption text-[10px] font-semibold">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-16 h-full text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="font-caption text-[10px]">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Reports &amp; Moderation - GO Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed-dim": "#ffafd4",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-fixed": "#e5e2e1",
+                      "tertiary-container": "#706f6f",
+                      "inverse-on-surface": "#f0f0f2",
+                      "tertiary": "#575757",
+                      "primary": "#a70172",
+                      "on-tertiary-fixed-variant": "#474746",
+                      "secondary": "#972ca9",
+                      "background": "#f9f9fb",
+                      "on-secondary-fixed-variant": "#7b028f",
+                      "secondary-fixed": "#ffd6fe",
+                      "on-secondary": "#ffffff",
+                      "surface-container": "#edeef0",
+                      "error": "#ba1a1a",
+                      "surface-variant": "#e2e2e4",
+                      "inverse-primary": "#ffafd4",
+                      "outline": "#8a707b",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed-dim": "#c8c6c5",
+                      "surface-container-high": "#e8e8ea",
+                      "on-primary-fixed": "#3d0027",
+                      "primary-container": "#c82c8c",
+                      "outline-variant": "#ddbfca",
+                      "on-tertiary-fixed": "#1b1c1c",
+                      "surface-dim": "#d9dadc",
+                      "surface-container-low": "#f3f3f5",
+                      "on-primary-container": "#fff0f4",
+                      "on-surface-variant": "#56414a",
+                      "on-background": "#1a1c1d",
+                      "on-secondary-fixed": "#35003f",
+                      "on-surface": "#1a1c1d",
+                      "surface-container-highest": "#e2e2e4",
+                      "secondary-fixed-dim": "#f9abff",
+                      "primary-fixed": "#ffd8e8",
+                      "on-primary-fixed-variant": "#8a005d",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#6f0082",
+                      "surface-tint": "#b1137a",
+                      "surface-bright": "#f9f9fb",
+                      "surface": "#f9f9fb",
+                      "on-tertiary-container": "#f6f3f3",
+                      "inverse-surface": "#2f3132",
+                      "error-container": "#ffdad6",
+                      "secondary-container": "#ef7ffe",
+                      "on-tertiary": "#ffffff",
+                      "on-error-container": "#93000a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1200px",
+                      "base": "4px",
+                      "margin-desktop": "80px",
+                      "gutter": "24px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "hero-title": [
+                              "Inter"
+                      ],
+                      "hero-title-mobile": [
+                              "Inter"
+                      ],
+                      "caption": [
+                              "Inter"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "section-title": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-bold": [
+                              "13px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "hero-title": [
+                              "56px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "hero-title-mobile": [
+                              "40px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body": [
+                              "15px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "section-title": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9fb; }
+        .shadow-ambient { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .shadow-hover { box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+        .bg-primary-gradient { background: linear-gradient(135deg, #a70172, #972ca9); }
+        
+        /* Side Panel Transition */
+        #side-panel { transition: transform 0.3s ease-in-out; transform: translateX(100%); }
+        #side-panel.open { transform: translateX(0); }
+        #side-panel-overlay { transition: opacity 0.3s ease-in-out; opacity: 0; pointer-events: none; }
+        #side-panel-overlay.open { opacity: 1; pointer-events: auto; }
+    </style>
+</head>
+<body class="text-on-background font-body text-body bg-background h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-[#111827] text-white font-body text-body h-screen w-64 fixed left-0 top-0 border-r border-white/10 shadow-sm z-40 hidden md:flex flex-col py-6">
+<div class="px-6 mb-8 flex flex-col gap-2">
+<div class="font-hero-title text-[24px] font-black text-white">GO Admin</div>
+<div class="text-white/50 font-caption text-caption">Premium Marketplace</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="flex flex-col gap-2 px-2">
+<li>
+<a class="text-white/60 hover:text-white px-4 py-2 mx-2 hover:bg-white/10 transition-colors flex items-center gap-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="text-white/60 hover:text-white px-4 py-2 mx-2 hover:bg-white/10 transition-colors flex items-center gap-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span>Users</span>
+</a>
+</li>
+<li>
+<a class="text-white/60 hover:text-white px-4 py-2 mx-2 hover:bg-white/10 transition-colors flex items-center gap-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[20px]">sell</span>
+<span>Listings</span>
+</a>
+</li>
+<li>
+<a class="bg-gradient-to-r from-[#C82C8C] to-[#8A1D9D] text-white rounded-lg px-4 py-2 mx-2 flex items-center gap-3 shadow-lg" href="#">
+<span class="material-symbols-outlined text-[20px]">assessment</span>
+<span>Reports</span>
+</a>
+</li>
+<li>
+<a class="text-white/60 hover:text-white px-4 py-2 mx-2 hover:bg-white/10 transition-colors flex items-center gap-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span>Settings</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="px-6 mt-auto">
+<button class="w-full bg-primary-gradient text-white py-3 rounded-[14px] font-label-bold text-label-bold flex items-center justify-center gap-2 hover:shadow-hover transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Listing
+            </button>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="bg-surface/80 backdrop-blur-md text-primary font-section-title text-section-title docked full-width top-0 sticky shadow-sm flex justify-between items-center w-full h-16 px-8 ml-0 md:ml-64 max-w-full md:max-w-[calc(100%-16rem)] z-30">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface md:hidden">menu</span>
+<h1 class="font-hero-title text-hero-title text-primary text-[24px]">GO</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-surface-variant rounded-full text-body font-body text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-all" placeholder="Search..." type="text">
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="hover:text-primary transition-opacity relative group">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="hover:text-primary transition-opacity">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<button class="hidden md:flex items-center gap-2 text-primary font-label-bold text-label-bold hover:text-secondary transition-colors">
+                 Create New
+            </button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant">
+<img alt="Administrator" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFmY8w78FA4QCwXpuCZCjqTjVTAM7cFL6jMalrRHyim6Kd7K8MpL0C_hIhOReu4Mfn3vt2gHaDBpy0uBmiOLergpy8QbIULDeZ5EFMtaW0qi4JwFZcbdSse7zsNVJvqPAkWEC5Cxpaj5xggljn5m0Ya7jyWK1mqcasqeoz7JavUBIY-ZPBRA0MmcA8f2xWubAbcZFS0f5CPbpA7kH7igM1bIyPRnvsvhULYfnFZ7cTb7CGsvbyRDk97wzPXzjZ9b_bFqQcDmbd7xo">
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-0 md:ml-64 mt-16 p-4 md:p-8 overflow-y-auto h-[calc(100vh-4rem)]">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+<div>
+<h2 class="font-section-title text-section-title text-[#232323] text-[28px] mb-1">Reports &amp; Moderation</h2>
+<p class="font-caption text-caption text-on-surface-variant">Review and action user-submitted reports</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Auto-refresh</span>
+<button class="w-10 h-6 bg-green-500 rounded-full relative transition-colors focus:outline-none">
+<span class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></span>
+</button>
+</div>
+<button class="bg-surface-container-lowest border border-[#ECECF1] text-on-background py-2 px-4 rounded-[14px] font-label-bold text-label-bold flex items-center gap-2 hover:shadow-ambient transition-all">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                    Export
+                </button>
+</div>
+</div>
+<!-- Stats Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-6 shadow-ambient border border-[#ECECF1]">
+<div class="flex items-start justify-between mb-4">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Total Reports</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-50">assessment</span>
+</div>
+<div class="text-[32px] font-hero-title font-bold text-on-background">1,248</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-6 shadow-ambient border border-[#ECECF1]">
+<div class="flex items-start justify-between mb-4">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Pending Review</span>
+<span class="material-symbols-outlined text-amber-500">pending</span>
+</div>
+<div class="flex items-end gap-3">
+<div class="text-[32px] font-hero-title font-bold text-on-background">86</div>
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 mb-2">+12 today</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-6 shadow-ambient border border-[#ECECF1]">
+<div class="flex items-start justify-between mb-4">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Resolved Today</span>
+<span class="material-symbols-outlined text-green-500">check_circle</span>
+</div>
+<div class="flex items-end gap-3">
+<div class="text-[32px] font-hero-title font-bold text-on-background">42</div>
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-2">95% SLA</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-6 shadow-ambient border border-[#ECECF1]">
+<div class="flex items-start justify-between mb-4">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Banned from Reports</span>
+<span class="material-symbols-outlined text-error">gavel</span>
+</div>
+<div class="flex items-end gap-3">
+<div class="text-[32px] font-hero-title font-bold text-on-background">7</div>
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 mb-2">-2 vs last week</span>
+</div>
+</div>
+</div>
+<!-- Filters & Actions Area -->
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+<!-- Pill Tabs -->
+<div class="flex overflow-x-auto pb-2 lg:pb-0 hide-scrollbar w-full lg:w-auto gap-2">
+<button class="bg-primary-gradient text-white px-5 py-2.5 rounded-full font-label-bold text-label-bold whitespace-nowrap shadow-sm">All</button>
+<button class="bg-[#FAFAFC] text-on-surface-variant px-5 py-2.5 rounded-full font-label-bold text-label-bold whitespace-nowrap border border-[#ECECF1] hover:bg-surface-variant transition-colors">Pending</button>
+<button class="bg-[#FAFAFC] text-on-surface-variant px-5 py-2.5 rounded-full font-label-bold text-label-bold whitespace-nowrap border border-[#ECECF1] hover:bg-surface-variant transition-colors">Under Review</button>
+<button class="bg-[#FAFAFC] text-on-surface-variant px-5 py-2.5 rounded-full font-label-bold text-label-bold whitespace-nowrap border border-[#ECECF1] hover:bg-surface-variant transition-colors">Resolved</button>
+<button class="bg-[#FAFAFC] text-on-surface-variant px-5 py-2.5 rounded-full font-label-bold text-label-bold whitespace-nowrap border border-[#ECECF1] hover:bg-surface-variant transition-colors">Dismissed</button>
+</div>
+<!-- Secondary Filters -->
+<div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+<div class="relative">
+<select class="appearance-none bg-surface-container-lowest border border-[#ECECF1] text-on-background py-2.5 pl-4 pr-10 rounded-[14px] font-body text-body text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm cursor-pointer">
+<option>All Types</option>
+<option>Spam</option>
+<option>Fraud</option>
+<option>Inappropriate</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-lowest border border-[#ECECF1] text-on-background py-2.5 pl-4 pr-10 rounded-[14px] font-body text-body text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm cursor-pointer">
+<option>Any Date</option>
+<option>Today</option>
+<option>Last 7 Days</option>
+<option>Last 30 Days</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-lowest border border-[#ECECF1] text-on-background py-2.5 pl-4 pr-10 rounded-[14px] font-body text-body text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm cursor-pointer">
+<option>All Priorities</option>
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+<div class="relative flex-grow lg:flex-grow-0">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full lg:w-48 pl-10 pr-4 py-2.5 bg-[#FAFAFC] border border-[#ECECF1] rounded-[14px] text-body font-body text-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search ID or User" type="text">
+</div>
+</div>
+</div>
+<!-- Reports List (Bento-style rows) -->
+<div class="flex flex-col gap-4">
+<!-- Row Item 1 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-5 shadow-ambient border border-[#ECECF1] flex flex-col xl:flex-row gap-6 items-start xl:items-center hover:shadow-hover transition-shadow">
+<div class="flex items-center gap-6 flex-1 min-w-0">
+<div class="flex-shrink-0">
+<span class="font-label-bold text-label-bold text-on-surface-variant">#GO-2045</span>
+</div>
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-variant flex-shrink-0">
+<img alt="Reported Item Thumbnail" class="w-full h-full object-cover" data-alt="A close-up studio shot of a bright red, premium athletic sneaker on a clean white background. High-key lighting highlights the texture of the fabric and sleek design. Modern, crisp, commercial product photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQwCNydpY1iAvD_OoIXG5G_skHbgx_GZQxp80ibE4SnZnEY7lenmfWNfFjmW6X__xNKbxC99qbBBAvqEuWuHNfnszr58y937yoqkDaJ8SDzRR18W1-RoIkChO4eYv4OlDZOvM5bxSB8JB3uCP3TLqpSx-FAk2nS3EJIY_gdVMbdUmw_zCws--CJUasvPxuLH7hLKFNJ_v_Ib9p9FAQIRXuD-BUsmZrFt1j_yh1xP_qh8FnfKMg0PW8n2cKqr2zayTt23qFGxtJmG4">
+</div>
+<div class="min-w-0">
+<h4 class="font-label-bold text-label-bold text-on-background truncate">Vintage Red Sneakers</h4>
+<p class="font-caption text-caption text-on-surface-variant truncate">Reported by @user_mark99</p>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-4 w-full xl:w-auto flex-shrink-0">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">Spam</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">High Priority</span>
+<span class="font-caption text-caption text-on-surface-variant">2 hrs ago</span>
+<span class="font-caption text-caption text-amber-600 font-medium">Pending</span>
+</div>
+<div class="flex items-center gap-3 w-full xl:w-auto mt-4 xl:mt-0 justify-end border-t xl:border-t-0 border-[#ECECF1] pt-4 xl:pt-0">
+<button class="bg-surface-container-lowest border border-[#ECECF1] text-on-surface-variant py-2 px-4 rounded-[14px] font-label-bold text-label-bold hover:bg-surface-variant transition-colors">
+                        Dismiss
+                    </button>
+<button class="bg-primary-gradient text-white py-2 px-5 rounded-[14px] font-label-bold text-label-bold hover:shadow-md transition-shadow" onclick="document.getElementById('side-panel').classList.add('open'); document.getElementById('side-panel-overlay').classList.add('open');">
+                        Review
+                    </button>
+</div>
+</div>
+<!-- Row Item 2 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-5 shadow-ambient border border-[#ECECF1] flex flex-col xl:flex-row gap-6 items-start xl:items-center hover:shadow-hover transition-shadow">
+<div class="flex items-center gap-6 flex-1 min-w-0">
+<div class="flex-shrink-0">
+<span class="font-label-bold text-label-bold text-on-surface-variant">#GO-2046</span>
+</div>
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-variant flex-shrink-0">
+<img alt="Reported Item Thumbnail" class="w-full h-full object-cover" data-alt="A sleek, minimalist digital smart watch with a black screen and silver rim, resting on a flat matte grey surface. Soft, diffused lighting casts a subtle drop shadow. High-end tech editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_ZHh6a9UPlU2e7cAvfUlaxx-QOsf63AsVaia5fB9xWyK3H_za2oXMME6raiW8uh7VS4ouWiNEdrKEOYgxKUqu3eflmplJJYxn-6mti5C3PqOB3VIgzeAhuzq1Oo6eAJdDWgmoaQ2CYJ7GOJI-3-4B41SskhqrcubJBeGkwBAESPI-35yyD-w38MZLISlhkBUzQu3UafbFCD3LmNLiNtCgL6YPCfYI7YzL8MlGSFnMfrs4Xo-rLClAeeGKQ17c1P_4dc4D109iPoE">
+</div>
+<div class="min-w-0">
+<h4 class="font-label-bold text-label-bold text-on-background truncate">Smart Watch Gen 4</h4>
+<p class="font-caption text-caption text-on-surface-variant truncate">Reported by @sarah_j</p>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-4 w-full xl:w-auto flex-shrink-0">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">Fraud</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">High Priority</span>
+<span class="font-caption text-caption text-on-surface-variant">4 hrs ago</span>
+<span class="font-caption text-caption text-amber-600 font-medium">Pending</span>
+</div>
+<div class="flex items-center gap-3 w-full xl:w-auto mt-4 xl:mt-0 justify-end border-t xl:border-t-0 border-[#ECECF1] pt-4 xl:pt-0">
+<button class="bg-surface-container-lowest border border-[#ECECF1] text-on-surface-variant py-2 px-4 rounded-[14px] font-label-bold text-label-bold hover:bg-surface-variant transition-colors">
+                        Dismiss
+                    </button>
+<button class="bg-primary-gradient text-white py-2 px-5 rounded-[14px] font-label-bold text-label-bold hover:shadow-md transition-shadow">
+                        Review
+                    </button>
+</div>
+</div>
+<!-- Row Item 3 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-5 shadow-ambient border border-[#ECECF1] flex flex-col xl:flex-row gap-6 items-start xl:items-center hover:shadow-hover transition-shadow">
+<div class="flex items-center gap-6 flex-1 min-w-0">
+<div class="flex-shrink-0">
+<span class="font-label-bold text-label-bold text-on-surface-variant">#GO-2041</span>
+</div>
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-variant flex-shrink-0 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div class="min-w-0">
+<h4 class="font-label-bold text-label-bold text-on-background truncate">User Profile: @toxic_gamer</h4>
+<p class="font-caption text-caption text-on-surface-variant truncate">Reported by @anon44</p>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-4 w-full xl:w-auto flex-shrink-0">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-800">Harassment</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">Med Priority</span>
+<span class="font-caption text-caption text-on-surface-variant">1 day ago</span>
+<span class="font-caption text-caption text-blue-600 font-medium">Under Review</span>
+</div>
+<div class="flex items-center gap-3 w-full xl:w-auto mt-4 xl:mt-0 justify-end border-t xl:border-t-0 border-[#ECECF1] pt-4 xl:pt-0">
+<button class="bg-surface-container-lowest border border-[#ECECF1] text-on-surface-variant py-2 px-4 rounded-[14px] font-label-bold text-label-bold hover:bg-surface-variant transition-colors">
+                        Dismiss
+                    </button>
+<button class="bg-surface-container-lowest border border-primary text-primary py-2 px-5 rounded-[14px] font-label-bold text-label-bold hover:bg-primary-fixed-dim transition-colors">
+                        Continue Review
+                    </button>
+</div>
+</div>
+<!-- Row Item 4 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-5 shadow-ambient border border-[#ECECF1] flex flex-col xl:flex-row gap-6 items-start xl:items-center hover:shadow-hover transition-shadow">
+<div class="flex items-center gap-6 flex-1 min-w-0">
+<div class="flex-shrink-0">
+<span class="font-label-bold text-label-bold text-on-surface-variant">#GO-2039</span>
+</div>
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-variant flex-shrink-0 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+<div class="min-w-0">
+<h4 class="font-label-bold text-label-bold text-on-background truncate">Designer Handbag Replica</h4>
+<p class="font-caption text-caption text-on-surface-variant truncate">Reported by @fashion_police</p>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-4 w-full xl:w-auto flex-shrink-0">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-800">Fake Listing</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">High Priority</span>
+<span class="font-caption text-caption text-on-surface-variant">1 day ago</span>
+<span class="font-caption text-caption text-green-600 font-medium">Resolved</span>
+</div>
+<div class="flex items-center gap-3 w-full xl:w-auto mt-4 xl:mt-0 justify-end border-t xl:border-t-0 border-[#ECECF1] pt-4 xl:pt-0">
+<button class="bg-surface-container-lowest border border-[#ECECF1] text-on-surface-variant py-2 px-4 rounded-[14px] font-label-bold text-label-bold hover:bg-surface-variant transition-colors">
+                        View Details
+                    </button>
+</div>
+</div>
+<!-- Row Item 5 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-5 shadow-ambient border border-[#ECECF1] flex flex-col xl:flex-row gap-6 items-start xl:items-center hover:shadow-hover transition-shadow">
+<div class="flex items-center gap-6 flex-1 min-w-0">
+<div class="flex-shrink-0">
+<span class="font-label-bold text-label-bold text-on-surface-variant">#GO-2038</span>
+</div>
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-variant flex-shrink-0 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">forum</span>
+</div>
+<div class="min-w-0">
+<h4 class="font-label-bold text-label-bold text-on-background truncate">Inappropriate Comment</h4>
+<p class="font-caption text-caption text-on-surface-variant truncate">Reported by @jane_doe</p>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-4 w-full xl:w-auto flex-shrink-0">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-200 text-gray-800">Inappropriate</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">Low Priority</span>
+<span class="font-caption text-caption text-on-surface-variant">2 days ago</span>
+<span class="font-caption text-caption text-amber-600 font-medium">Pending</span>
+</div>
+<div class="flex items-center gap-3 w-full xl:w-auto mt-4 xl:mt-0 justify-end border-t xl:border-t-0 border-[#ECECF1] pt-4 xl:pt-0">
+<button class="bg-surface-container-lowest border border-[#ECECF1] text-on-surface-variant py-2 px-4 rounded-[14px] font-label-bold text-label-bold hover:bg-surface-variant transition-colors">
+                        Dismiss
+                    </button>
+<button class="bg-primary-gradient text-white py-2 px-5 rounded-[14px] font-label-bold text-label-bold hover:shadow-md transition-shadow">
+                        Review
+                    </button>
+</div>
+</div>
+<!-- Row Item 6 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-5 shadow-ambient border border-[#ECECF1] flex flex-col xl:flex-row gap-6 items-start xl:items-center hover:shadow-hover transition-shadow">
+<div class="flex items-center gap-6 flex-1 min-w-0">
+<div class="flex-shrink-0">
+<span class="font-label-bold text-label-bold text-on-surface-variant">#GO-2035</span>
+</div>
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-variant flex-shrink-0 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div class="min-w-0">
+<h4 class="font-label-bold text-label-bold text-on-background truncate">User Profile: @scam_bot</h4>
+<p class="font-caption text-caption text-on-surface-variant truncate">Reported by @admin_sys</p>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-4 w-full xl:w-auto flex-shrink-0">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">Fraud</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">High Priority</span>
+<span class="font-caption text-caption text-on-surface-variant">3 days ago</span>
+<span class="font-caption text-caption text-blue-600 font-medium">Under Review</span>
+</div>
+<div class="flex items-center gap-3 w-full xl:w-auto mt-4 xl:mt-0 justify-end border-t xl:border-t-0 border-[#ECECF1] pt-4 xl:pt-0">
+<button class="bg-surface-container-lowest border border-[#ECECF1] text-on-surface-variant py-2 px-4 rounded-[14px] font-label-bold text-label-bold hover:bg-surface-variant transition-colors">
+                        Dismiss
+                    </button>
+<button class="bg-surface-container-lowest border border-primary text-primary py-2 px-5 rounded-[14px] font-label-bold text-label-bold hover:bg-primary-fixed-dim transition-colors">
+                        Continue Review
+                    </button>
+</div>
+</div>
+<!-- Row Item 7 -->
+<div class="bg-surface-container-lowest rounded-[20px] p-5 shadow-ambient border border-[#ECECF1] flex flex-col xl:flex-row gap-6 items-start xl:items-center hover:shadow-hover transition-shadow">
+<div class="flex items-center gap-6 flex-1 min-w-0">
+<div class="flex-shrink-0">
+<span class="font-label-bold text-label-bold text-on-surface-variant">#GO-2031</span>
+</div>
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-variant flex-shrink-0 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">devices</span>
+</div>
+<div class="min-w-0">
+<h4 class="font-label-bold text-label-bold text-on-background truncate">Counterfeit Electronics</h4>
+<p class="font-caption text-caption text-on-surface-variant truncate">Reported by @tech_reviewer</p>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-4 w-full xl:w-auto flex-shrink-0">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-800">Fake Listing</span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">Med Priority</span>
+<span class="font-caption text-caption text-on-surface-variant">4 days ago</span>
+<span class="font-caption text-caption text-amber-600 font-medium">Pending</span>
+</div>
+<div class="flex items-center gap-3 w-full xl:w-auto mt-4 xl:mt-0 justify-end border-t xl:border-t-0 border-[#ECECF1] pt-4 xl:pt-0">
+<button class="bg-surface-container-lowest border border-[#ECECF1] text-on-surface-variant py-2 px-4 rounded-[14px] font-label-bold text-label-bold hover:bg-surface-variant transition-colors">
+                        Dismiss
+                    </button>
+<button class="bg-primary-gradient text-white py-2 px-5 rounded-[14px] font-label-bold text-label-bold hover:shadow-md transition-shadow">
+                        Review
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Overlay & Side Panel for Review -->
+<div class="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 open" id="side-panel-overlay" onclick="document.getElementById('side-panel').classList.remove('open'); this.classList.remove('open');"></div>
+<aside class="fixed top-0 right-0 h-full w-full max-w-[420px] bg-surface-container-lowest shadow-[-8px_0_32px_rgba(0,0,0,0.1)] z-50 flex flex-col open" id="side-panel">
+<!-- Panel Header -->
+<div class="px-6 py-5 border-b border-[#ECECF1] flex items-center justify-between bg-surface-bright">
+<h3 class="font-section-title text-section-title text-[20px] text-on-background">Report #GO-2045</h3>
+<button class="text-on-surface-variant hover:text-on-background transition-colors p-1 rounded-full hover:bg-surface-variant" onclick="document.getElementById('side-panel').classList.remove('open'); document.getElementById('side-panel-overlay').classList.remove('open');">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Panel Content -->
+<div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+<!-- Context Pills -->
+<div class="flex gap-2">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">Spam</span>
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">High Priority</span>
+</div>
+<!-- Reported Item Preview -->
+<div class="border border-[#ECECF1] rounded-[20px] overflow-hidden">
+<div class="h-40 bg-surface-variant relative">
+<img alt="Item Preview Full" class="w-full h-full object-cover" data-alt="A high-resolution image of bright red athletic shoes. The shoes are styled elegantly against a stark white backdrop, emphasizing their modern, sleek curves and premium material texture. Bright, clear lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADh4LZhrlLZ5g-Om96EIuxiNbpB9AE61vA8TclR9LFUEiHwWlVqrVWCDrEniLRq1rqilqtH9YIw2Qz6EG_kuhiW8kKawSvgqfWku7wluAastwyneA1rVUuOo71b08v8T5BiQBrfg7RpeEYKVwtYK3lmah0VmMJ3SoGiHUDR-_ZxnLSGEBOLid6EZ1FtijGGgqKGQ0968b79Q4ECzcsOqP2ypZ0EiN7PsVX83NH6kId_zTm15gvVqo8iL9a85gQfUjqDc_k3HO-bPw">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+<div class="text-white">
+<div class="font-label-bold text-label-bold text-[16px]">Vintage Red Sneakers</div>
+<div class="font-caption text-caption opacity-80">$150.00</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-surface-bright font-body text-body text-sm text-on-surface-variant">
+                    "Seller is asking me to pay outside the platform via wire transfer. The listing seems fake and copied from another site."
+                </div>
+</div>
+<!-- Reporter Info -->
+<div class="flex flex-col gap-3">
+<h4 class="font-label-bold text-label-bold text-on-background uppercase tracking-wider text-[11px] text-on-surface-variant">Reporter Information</h4>
+<div class="flex items-center gap-3 bg-[#FAFAFC] p-3 rounded-[14px] border border-[#ECECF1]">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden flex-shrink-0">
+<span class="material-symbols-outlined w-full h-full flex items-center justify-center text-on-surface-variant">person</span>
+</div>
+<div class="flex-1">
+<div class="font-label-bold text-label-bold text-on-background">@user_mark99</div>
+<div class="font-caption text-caption text-on-surface-variant">Account created 2 yrs ago • 14 successful purchases</div>
+</div>
+</div>
+</div>
+<!-- Timeline -->
+<div class="flex flex-col gap-3">
+<h4 class="font-label-bold text-label-bold text-on-background uppercase tracking-wider text-[11px] text-on-surface-variant">Report Timeline</h4>
+<div class="relative pl-4 border-l-2 border-[#ECECF1] flex flex-col gap-4 ml-2">
+<div class="relative">
+<div class="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-amber-500 border-2 border-surface-container-lowest"></div>
+<div class="font-label-bold text-label-bold text-on-background text-sm">Report Submitted</div>
+<div class="font-caption text-caption text-on-surface-variant">Today, 10:42 AM</div>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-surface-variant border-2 border-surface-container-lowest"></div>
+<div class="font-label-bold text-label-bold text-on-surface-variant text-sm">Automated Scan Flagged Seller</div>
+<div class="font-caption text-caption text-on-surface-variant">Today, 10:45 AM</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel Bottom Actions -->
+<div class="p-6 border-t border-[#ECECF1] bg-surface-bright flex flex-col gap-3">
+<button class="w-full bg-error text-white py-3 px-4 rounded-[14px] font-label-bold text-label-bold flex justify-center items-center gap-2 hover:bg-on-error-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+                Remove Listing
+            </button>
+<div class="flex gap-3">
+<button class="flex-1 bg-surface-container-lowest border border-error text-error py-3 px-4 rounded-[14px] font-label-bold text-label-bold hover:bg-error-container transition-colors text-center">
+                    Ban User
+                </button>
+<button class="flex-1 bg-surface-container-lowest border border-[#ECECF1] text-on-surface-variant py-3 px-4 rounded-[14px] font-label-bold text-label-bold hover:bg-surface-variant transition-colors text-center">
+                    Dismiss
+                </button>
+</div>
+</div>
+</aside>
+</body></html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>GO Marketplace - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error": "#ffffff",
+                    "surface-bright": "#f9f9fb",
+                    "on-tertiary-container": "#f6f3f3",
+                    "tertiary-container": "#706f6f",
+                    "tertiary-fixed-dim": "#c8c6c5",
+                    "on-tertiary-fixed-variant": "#474746",
+                    "surface-container-low": "#f3f3f5",
+                    "background": "#f9f9fb",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#edeef0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e2e2e4",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d9dadc",
+                    "secondary-fixed-dim": "#f9abff",
+                    "on-primary-fixed-variant": "#8a005d",
+                    "on-secondary-fixed-variant": "#7b028f",
+                    "inverse-primary": "#ffafd4",
+                    "inverse-on-surface": "#f0f0f2",
+                    "on-primary-container": "#fff0f4",
+                    "on-surface-variant": "#56414a",
+                    "secondary-container": "#ef7ffe",
+                    "tertiary-fixed": "#e5e2e1",
+                    "primary-fixed-dim": "#ffafd4",
+                    "surface-container-highest": "#e2e2e4",
+                    "primary-fixed": "#ffd8e8",
+                    "on-background": "#1a1c1d",
+                    "on-primary-fixed": "#3d0027",
+                    "secondary-fixed": "#ffd6fe",
+                    "on-tertiary-fixed": "#1b1c1c",
+                    "surface-tint": "#b1137a",
+                    "on-surface": "#1a1c1d",
+                    "error-container": "#ffdad6",
+                    "inverse-surface": "#2f3132",
+                    "secondary": "#972ca9",
+                    "primary-container": "#c82c8c",
+                    "outline": "#8a707b",
+                    "on-secondary": "#ffffff",
+                    "primary": "#a70172",
+                    "on-secondary-fixed": "#35003f",
+                    "tertiary": "#575757",
+                    "surface": "#f9f9fb",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e8e8ea",
+                    "outline-variant": "#ddbfca",
+                    "on-secondary-container": "#6f0082"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "80px",
+                    "container-max": "1200px",
+                    "margin-mobile": "20px",
+                    "gutter": "24px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "hero-title": [
+                            "Inter"
+                    ],
+                    "caption": [
+                            "Inter"
+                    ],
+                    "section-title": [
+                            "Inter"
+                    ],
+                    "hero-title-mobile": [
+                            "Inter"
+                    ],
+                    "label-bold": [
+                            "Inter"
+                    ],
+                    "body": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "hero-title": [
+                            "56px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "caption": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "section-title": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "hero-title-mobile": [
+                            "40px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-bold": [
+                            "13px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body": [
+                            "15px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .gradient-hero { background: linear-gradient(135deg, #C82C8C 0%, #8A1D9D 100%); }
+        .ambient-shadow { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .ambient-shadow-hover:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.12); transform: translateY(-2px); transition: all 0.3s ease; }
+        .category-hover:hover { background: linear-gradient(135deg, #C82C8C 0%, #8A1D9D 100%); color: white; transition: all 0.3s ease; }
+        .category-hover:hover .icon-text { color: white; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="h-[72px] sticky top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm bg-surface text-primary font-body text-body">
+<div class="flex justify-between items-center max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop h-full">
+<div class="flex items-center gap-6">
+<a class="text-section-title font-hero-title bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent" href="#">GO</a>
+<div class="hidden md:flex relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-surface-variant rounded-[16px] focus:border-primary focus:ring-1 focus:ring-primary outline-none text-body font-body text-on-surface transition-all w-64" placeholder="Search..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant transition-colors text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button aria-label="Favorites" class="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant transition-colors text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<button aria-label="Chat" class="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant transition-colors text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</button>
+<a class="bg-gradient-to-r from-primary to-secondary text-on-primary px-6 py-2.5 rounded-[14px] font-label-bold text-label-bold hover:shadow-md transition-all active:scale-95" href="#">SELL NOW</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="gradient-hero pt-24 pb-32 px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+<div class="max-w-container-max mx-auto text-center relative z-10">
+<h1 class="font-hero-title-mobile text-hero-title-mobile md:font-hero-title md:text-hero-title text-on-primary mb-6">Discover the Extraordinary</h1>
+<p class="font-body text-body text-on-primary-container max-w-2xl mx-auto mb-12 text-lg">Your premium destination for curated lifestyle goods and exclusive experiences.</p>
+</div>
+<!-- Abstract Background Elements (CSS only to avoid base64 bloat) -->
+<div class="absolute top-[-20%] left-[-10%] w-[50%] h-[150%] bg-white/5 blur-3xl rounded-full rounded-tr-[100px]"></div>
+<div class="absolute bottom-[-20%] right-[-10%] w-[40%] h-[120%] bg-black/10 blur-2xl rounded-full rounded-tl-[100px]"></div>
+</section>
+<!-- Floating Search/Filter Card -->
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop -mt-16 relative z-20 mb-24">
+<div class="bg-surface-container-lowest rounded-[20px] ambient-shadow p-6 md:p-8 flex flex-col md:flex-row gap-4 items-center">
+<div class="w-full md:flex-1 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border border-surface-variant rounded-[16px] focus:border-primary focus:ring-1 focus:ring-primary outline-none text-body font-body text-on-surface transition-all" placeholder="What are you looking for?" type="text">
+</div>
+<div class="w-full md:w-auto flex gap-4">
+<select class="w-full md:w-48 px-4 py-4 bg-surface-container-low border border-surface-variant rounded-[16px] focus:border-primary focus:ring-1 focus:ring-primary outline-none text-body font-body text-on-surface transition-all appearance-none">
+<option value="">All Categories</option>
+<option value="electronics">Electronics</option>
+<option value="fashion">Fashion</option>
+<option value="home">Home &amp; Garden</option>
+</select>
+<button class="bg-gradient-to-r from-primary to-secondary text-on-primary px-8 py-4 rounded-[14px] font-label-bold text-label-bold hover:shadow-md transition-all active:scale-95 whitespace-nowrap">Explore</button>
+</div>
+</div>
+</div>
+<!-- Categories Grid -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-32">
+<h2 class="font-section-title text-section-title text-on-surface mb-8">Browse Categories</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+<!-- Category Items -->
+<a class="bg-surface-container-low rounded-[20px] p-6 flex flex-col items-center justify-center gap-4 cursor-pointer category-hover group" href="#">
+<span class="text-4xl">📱</span>
+<span class="font-label-bold text-label-bold text-on-surface icon-text transition-colors">Tech</span>
+</a>
+<a class="bg-surface-container-low rounded-[20px] p-6 flex flex-col items-center justify-center gap-4 cursor-pointer category-hover group" href="#">
+<span class="text-4xl">👟</span>
+<span class="font-label-bold text-label-bold text-on-surface icon-text transition-colors">Fashion</span>
+</a>
+<a class="bg-surface-container-low rounded-[20px] p-6 flex flex-col items-center justify-center gap-4 cursor-pointer category-hover group" href="#">
+<span class="text-4xl">🛋️</span>
+<span class="font-label-bold text-label-bold text-on-surface icon-text transition-colors">Home</span>
+</a>
+<a class="bg-surface-container-low rounded-[20px] p-6 flex flex-col items-center justify-center gap-4 cursor-pointer category-hover group" href="#">
+<span class="text-4xl">🚗</span>
+<span class="font-label-bold text-label-bold text-on-surface icon-text transition-colors">Motors</span>
+</a>
+<a class="bg-surface-container-low rounded-[20px] p-6 flex flex-col items-center justify-center gap-4 cursor-pointer category-hover group" href="#">
+<span class="text-4xl">🎨</span>
+<span class="font-label-bold text-label-bold text-on-surface icon-text transition-colors">Art</span>
+</a>
+<a class="bg-surface-container-low rounded-[20px] p-6 flex flex-col items-center justify-center gap-4 cursor-pointer category-hover group" href="#">
+<span class="text-4xl">✨</span>
+<span class="font-label-bold text-label-bold text-on-surface icon-text transition-colors">More</span>
+</a>
+</div>
+</section>
+<!-- Featured Listings (Bento Grid Style) -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-32">
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-section-title text-section-title text-on-surface">Featured Now</h2>
+<a class="font-label-bold text-label-bold text-primary hover:text-secondary transition-colors" href="#">View All</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+<!-- Large Card (Spans 2 columns on desktop) -->
+<div class="md:col-span-2 bg-surface-container-lowest rounded-[20px] ambient-shadow ambient-shadow-hover overflow-hidden relative group cursor-pointer border border-[#ECECF1]">
+<img alt="Premium wireless headphones" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="High-end wireless over-ear headphones resting on a minimalist white marble surface. The scene is bathed in soft, bright, high-key lighting characteristic of premium lifestyle photography. Subtle gradient shadows emphasize the sleek curves of the product. The overall aesthetic is clean, modern, and aligned with a luxury e-commerce platform using a light mode UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASxrEjw9tpRSTU03TEz3vBSqBJsAy0KCajXxAVXUn-WquBfNS4w64eDB-KYlUIL4J0IWqcGet7VyaU_EBlBKxyLnpSoSogUjCGXvlyWdkqWRdM4iybP4N_NWJMWG9cXBSl0583YSn_vgaOgHfcU1MOZESbKjMuASXVfPHrp8LT7x3J2o2r_gErjQlpx6Q2TCDWIeqmxmRNumDM6WTj0VFTDwnCy2doRw5sWrtbO3OAsxNFQB3HaSHoW9yCPTPLWJ7lXMzAp1kI9Xk">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full flex justify-between items-end">
+<div>
+<span class="inline-block px-3 py-1 bg-surface-container-lowest/20 backdrop-blur-md rounded-full font-label-bold text-caption text-white mb-2">Audio</span>
+<h3 class="font-section-title text-2xl text-white mb-1">Aura Studio Pro</h3>
+<p class="font-body text-body text-white/80">$349.00</p>
+</div>
+<button aria-label="Add to favorites" class="w-10 h-10 rounded-full bg-white text-primary flex items-center justify-center hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+</div>
+<!-- Regular Card -->
+<div class="bg-surface-container-lowest rounded-[20px] ambient-shadow ambient-shadow-hover overflow-hidden relative group cursor-pointer border border-[#ECECF1]">
+<img alt="Minimalist smart watch" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A sleek, minimalist smartwatch with a white band displayed on a soft pastel background. The lighting is diffused and even, eliminating harsh shadows to create a clean, modern look. The composition is simple and elegant, focusing entirely on the product's premium design. The visual style fits seamlessly into a high-end, light-themed retail interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC45IdC9efx6XfQWBnbM7Rw3wCiutk68F_MaIsONqlbx8U8dpGHho6qugqnNeFKGd0ZR93pDkr9HLOOKj4tkv0-_9bvKAljL0DbTft3ATaUcb_dhPK37JpWIOmJMoVJfAbRmh6idyZhUymI7LohqGNXxfs3sXwENqVz6WaDvmVjhxaFQwtor-Zy--yPcSnBWiZQ-9yQDVXQ_NomKa0l5GVWZynZDrG542K476TI2_UbHxnmFP8BUb0zDrGclt7SmU9GgsyxFLEHFBA">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 w-full flex justify-between items-end">
+<div>
+<span class="inline-block px-3 py-1 bg-surface-container-lowest/20 backdrop-blur-md rounded-full font-label-bold text-caption text-white mb-2">Wearables</span>
+<h3 class="font-section-title text-xl text-white mb-1">Chrono Fit</h3>
+<p class="font-body text-body text-white/80">$199.00</p>
+</div>
+</div>
+</div>
+<!-- Regular Card -->
+<div class="bg-surface-container-lowest rounded-[20px] ambient-shadow ambient-shadow-hover overflow-hidden relative group cursor-pointer border border-[#ECECF1]">
+<img alt="Red athletic sneaker" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A single, vibrant red athletic sneaker floating slightly above a pristine white background. The lighting is bright and studio-quality, casting a very soft, diffused shadow beneath the shoe to create depth. The intense red provides a striking accent against the otherwise minimalist, high-key setting. This image perfectly complements a premium, light-mode shopping aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKXK-3b1prS4Jul1CrcigoRf-ZjQ3WuzeGLr1IIFcV8uRwQXqXuq9alfGshMCag_NalZ79ILPPc2zylonUvbLF74RhvuqVS10BiAd0DzqZi75XPqoAT98h4EQsvwvV_Hd_nBIh9D4BPasUw5eX6rKYwd6y5TxwSP3RKfnXLLwSa1cB5xpp1zmiorJw6QUV7u8fwhMMrKjqRdzzcxlf2kXQMHGO9UdUu7_M1Znmr1hYw2fzzXZbMOnRsj6SAauV2xYsccW4fYBQPlg">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 w-full flex justify-between items-end">
+<div>
+<span class="inline-block px-3 py-1 bg-surface-container-lowest/20 backdrop-blur-md rounded-full font-label-bold text-caption text-white mb-2">Footwear</span>
+<h3 class="font-section-title text-xl text-white mb-1">Velocity Run X</h3>
+<p class="font-body text-body text-white/80">$129.00</p>
+</div>
+</div>
+</div>
+<!-- Large Card (Spans 2 columns on desktop) -->
+<div class="md:col-span-2 bg-surface-container-lowest rounded-[20px] ambient-shadow ambient-shadow-hover overflow-hidden relative group cursor-pointer border border-[#ECECF1]">
+<img alt="Modern minimalist interior" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A curated vignette of a modern, minimalist living room interior. A stylish, sculptural lounge chair sits next to a sleek side table on a polished concrete floor. The room is flooded with natural daylight from out-of-frame tall windows, creating a bright, airy, and sophisticated atmosphere. The color palette relies on crisp whites, soft greys, and warm wood tones, perfectly suited for a luxury lifestyle design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCXQU3VJeEqhItMVlk61DuulwQvc7N8ioN_7DQr0kcu4lUJ7EVO6ChV0Fbksj2YLg_XRo23VqfnjHG3bGhqlUNImm9pFIm2LWLa-6WzVW9bm3b93MHtX6VzEBL1WCR2Qiidwrpnb24i2eZA4lkUPIM_9m-12cUorPaiZb2F-4HYP5yRcWbRh5ItpPB3W6LkEC_XwFUXsh_Kcd4Bm0ZG2SzhHKynZDNzGL3sGDdO8PMrGAdC0E6-FflAxbueb4Ad9H682or5H--kzM">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full flex justify-between items-end">
+<div>
+<span class="inline-block px-3 py-1 bg-surface-container-lowest/20 backdrop-blur-md rounded-full font-label-bold text-caption text-white mb-2">Furniture</span>
+<h3 class="font-section-title text-2xl text-white mb-1">Nordic Lounge Chair</h3>
+<p class="font-body text-body text-white/80">$895.00</p>
+</div>
+<button aria-label="Add to favorites" class="w-10 h-10 rounded-full bg-white text-primary flex items-center justify-center hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-16 border-t border-surface-variant dark:border-outline-variant flat no shadows bg-surface-container-lowest dark:bg-inverse-surface text-primary dark:text-primary-fixed font-body text-body">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter max-w-container-max mx-auto px-margin-desktop">
+<div class="col-span-2 lg:col-span-2 mb-8 lg:mb-0">
+<div class="text-section-title font-hero-title text-primary mb-4">GO</div>
+<p class="text-on-surface-variant dark:text-surface-variant mb-4">© 2024 GO Marketplace. All rights reserved.</p>
+</div>
+<div class="flex flex-col gap-3">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+</div>
+<div class="flex flex-col gap-3">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Help Center</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Careers</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Press</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>GO Marketplace - Public Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2f3132",
+                        "surface-bright": "#f9f9fb",
+                        "on-error": "#ffffff",
+                        "surface-container": "#edeef0",
+                        "primary": "#a70172",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "primary-fixed-dim": "#ffafd4",
+                        "on-secondary-fixed-variant": "#7b028f",
+                        "inverse-primary": "#ffafd4",
+                        "surface-tint": "#b1137a",
+                        "on-surface": "#1a1c1d",
+                        "surface-container-highest": "#e2e2e4",
+                        "secondary-fixed-dim": "#f9abff",
+                        "background": "#f9f9fb",
+                        "on-surface-variant": "#56414a",
+                        "secondary-container": "#ef7ffe",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#ffd6fe",
+                        "primary-container": "#c82c8c",
+                        "on-primary-fixed-variant": "#8a005d",
+                        "on-primary-fixed": "#3d0027",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "tertiary": "#575757",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#706f6f",
+                        "surface-dim": "#d9dadc",
+                        "secondary": "#972ca9",
+                        "tertiary-fixed": "#e5e2e1",
+                        "surface-container-high": "#e8e8ea",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "inverse-on-surface": "#f0f0f2",
+                        "surface-container-low": "#f3f3f5",
+                        "on-background": "#1a1c1d",
+                        "primary-fixed": "#ffd8e8",
+                        "on-secondary-container": "#6f0082",
+                        "on-primary-container": "#fff0f4",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#f6f3f3",
+                        "surface-variant": "#e2e2e4",
+                        "outline-variant": "#ddbfca",
+                        "outline": "#8a707b",
+                        "on-secondary-fixed": "#35003f",
+                        "error-container": "#ffdad6",
+                        "surface": "#f9f9fb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "container-max": "1200px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "80px"
+                    },
+                    "fontFamily": {
+                        "body": ["Inter"],
+                        "hero-title": ["Inter"],
+                        "hero-title-mobile": ["Inter"],
+                        "caption": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "section-title": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body": ["15px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "hero-title": ["56px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "hero-title-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-bold": ["13px", { "lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "section-title": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .shadow-ambient {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .shadow-ambient-hover:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen pt-16 md:pt-0">
+<!-- Mobile TopNav (Semantic suppression: Not a linear/transactional page, but profile views are often secondary. However, it's public. We'll include TopNavBar for desktop, BottomNav for mobile suppression handled by specific design needs, but let's stick to the prompt structure. Actually, JSON gives SideNav and TopNav. Standard is TopNav for web, SideNav for dashboard. Let's use TopNavBar for global context.) -->
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface-container-lowest dark:bg-inverse-surface border-b border-surface-container-highest dark:border-outline-variant shadow-sm hidden md:block">
+<div class="flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto">
+<div class="font-hero-title text-hero-title tracking-tighter bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent cursor-pointer">GO</div>
+<div class="flex items-center gap-6">
+<!-- Search could go here -->
+<div class="flex items-center gap-4 text-on-surface-variant dark:text-surface-variant font-label-bold text-label-bold">
+<span class="hover:text-primary dark:hover:text-primary-fixed-dim transition-colors cursor-pointer">Explore</span>
+<span class="hover:text-primary dark:hover:text-primary-fixed-dim transition-colors cursor-pointer">Categories</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant dark:text-surface-variant">
+<button aria-label="shopping_cart" class="active:scale-95 duration-200 hover:text-primary transition-colors p-2">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button aria-label="notifications" class="active:scale-95 duration-200 hover:text-primary transition-colors p-2">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden cursor-pointer border border-surface-container-highest">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A small, circular avatar portrait of a modern user against a clean, light studio background. The lighting is soft and flattering, emphasizing a premium minimalist aesthetic. The color palette relies on neutral skin tones and bright, clean whites. The mood is approachable yet professional, perfectly suited for a high-end platform profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_BeV1kMamVjvs3My7DnRfqzMkEvefTg_aVkKn2LgXuoE1IJAKECSi9zg5seibJaZhZppUKBY_MN7odsLZ8qjKaOphg7vh4ITo6-YUR9B9YVhM5sVezNyqsn3K43YDLUgX3YQFYFKW9-VkUzSAydxvgCtxwAlNg-9Q0p_P2U34Oz3Vlbvvzx46yJdH3dtvRk7fPuZgqg_5j3A3K9DBkkzzlkQqKS1maZqi7YPNnDroZpO3UVIGeCteFXcbjTrkubl7v3uNSSs8A3k">
+</div>
+</div>
+</div>
+</nav>
+<!-- Mobile Header -->
+<nav class="md:hidden fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-surface-container-highest shadow-sm h-16 flex items-center px-4 justify-between">
+<button class="p-2 text-on-surface-variant" onclick="history.back()">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="font-hero-title-mobile text-[24px] font-bold tracking-tighter bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">GO</div>
+<button class="p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</nav>
+<!-- Main Content -->
+<main class="w-full">
+<!-- Banner -->
+<!-- Profile Info Container -->
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative pt-24 md:pt-32">
+<!-- Avatar & Primary Actions -->
+<div class="flex flex-col md:flex-row md:justify-between items-start md:items-end mb-8 gap-4 md:gap-0 mt-8">
+<div class="flex flex-col md:flex-row items-start md:items-end gap-4 md:gap-6">
+<!-- Avatar -->
+<div class="relative">
+<img alt="Alex Rivers" class="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-surface-variant shadow-ambient object-cover" data-alt="A medium close-up, high-quality portrait of a confident, stylish individual acting as a verified seller profile picture. The subject is well-lit with soft, natural studio lighting against a clean, unobtrusive background. The image has a crisp, professional quality with a subtle premium feel. The color palette relies on natural skin tones and neutral clothing to ensure the focus remains on the person, fitting a high-end marketplace aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2VVERasBe6avZoVF2-R4d3lNjFx57QrXa5CneMimySifmzUN0whJ6Rq6p-b_NvZ0s_XtJC5XFZuHStgdsQ2I12iveXXaaWmCJsKXJxJrfE3yNIg8ck0DJW2sVY4X82NA8xRLUi6GqH0lE0mWe7T_8md4-5hpxDh57FGPpFNlLqiDnmqyvnmw8ouWuF4-BSWqFYvKV4VlyyiOkGuaZB4c0Spxp3GnOHqrOgaYhBvHmjecJ6h65AaCUmzBsY5-AXhxz1QIK3qBEZ5o">
+<div class="absolute bottom-0 right-0 bg-surface-container-lowest rounded-full p-1 shadow-ambient border border-surface-container-highest">
+<span class="material-symbols-outlined fill text-primary text-[20px]" data-icon="verified">verified</span>
+</div>
+</div>
+<!-- Names & Badges -->
+<div class="pb-2">
+<h1 class="font-section-title text-section-title text-on-background mb-1 leading-tight">Alex Rivers</h1>
+<div class="flex items-center gap-2 text-on-surface-variant font-body text-body">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="">San Francisco, CA</span>
+<span class="w-1 h-1 rounded-full bg-surface-container-highest mx-1"></span>
+<span class="">Member since 2021</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-3 w-full md:w-auto pb-2">
+<button class="flex-1 md:flex-none bg-surface-container-lowest border border-surface-container-highest text-on-background font-label-bold text-label-bold py-2 px-6 rounded-[14px] hover:bg-surface-container transition-colors shadow-ambient-hover">
+                        Message
+                    </button>
+<button class="flex-1 md:flex-none bg-gradient-to-r from-primary to-primary-container text-on-primary font-label-bold text-label-bold py-2 px-6 rounded-[14px] shadow-ambient hover:shadow-ambient-hover transition-all active:scale-95">
+                        Follow
+                    </button>
+</div>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-3 gap-4 bg-surface-container-lowest p-6 rounded-[20px] shadow-ambient mb-8 border border-surface-container-highest/50">
+<div class="text-center md:text-left border-r border-surface-container-highest last:border-0">
+<div class="font-section-title text-section-title text-primary mb-1">124</div>
+<div class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Listings</div>
+</div>
+<div class="text-center md:text-left border-r border-surface-container-highest last:border-0">
+<div class="flex items-center justify-center md:justify-start gap-1 mb-1">
+<span class="font-section-title text-section-title text-on-background">4.9</span>
+<span class="material-symbols-outlined fill text-primary text-[24px]">star</span>
+</div>
+<div class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">284 Reviews</div>
+</div>
+<div class="text-center md:text-left">
+<div class="font-section-title text-section-title text-on-background mb-1">98%</div>
+<div class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Response Rate</div>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex gap-8 border-b border-surface-container-highest mb-8 overflow-x-auto scrollbar-hide">
+<button class="pb-4 font-label-bold text-label-bold text-primary border-b-2 border-primary whitespace-nowrap">
+                    Listings
+                </button>
+<button class="pb-4 font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">
+                    Reviews
+                </button>
+<button class="pb-4 font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">
+                    About
+                </button>
+</div>
+<!-- Tab Content: Listings (Active) -->
+<div class="bento-grid mb-16">
+<!-- Listing Card 1 -->
+<div class="bg-surface-container-lowest rounded-[20px] shadow-ambient shadow-ambient-hover transition-shadow overflow-hidden group cursor-pointer border border-surface-container-highest/30">
+<div class="relative h-48 w-full overflow-hidden">
+<img alt="Product Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean, minimalist product shot of a high-end smart watch resting on a light, textured surface. The lighting is soft and diffused, creating subtle shadows that enhance the product's premium materials. The background is a stark, bright white, adhering to a light-mode, minimalist design language. The overall mood is sophisticated, modern, and focused entirely on the item's sleek design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2Pp8FjvyKctPo3hbVn9U_Fk2h2fexMnTJMqkFF_gkkU7tvmqOarEQ4CqCHdQFtgtailSndfDJKR2ce4Vx-Nfu5c9hGGW8tE3tD6bNY3PCxsbVeZz6dDKQ4fChhQsZkxOPzwnTq8uQ4bYXdY6O6yfJ74uoN9COHUzFaNk5WrAlFZeQ42aSybcagQOVK2fg6PQf-eEWWK2UGEzSv1ChJD36dsTPNMPz75FrtgCXGp3yh09fBognRDjFJ1PjdCZRKmxUnaYJqGq9YYQ">
+<button class="absolute top-4 right-4 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-bold text-label-bold text-on-background line-clamp-1">Minimalist Smart Watch</h3>
+<span class="font-label-bold text-label-bold text-primary">$199</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant mb-4 line-clamp-2">Barely used, comes with original packaging and charger. Perfect condition.</p>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-surface-container rounded-full font-caption text-caption text-on-surface-variant">Electronics</span>
+<span class="px-3 py-1 bg-surface-container rounded-full font-caption text-caption text-on-surface-variant">Like New</span>
+</div>
+</div>
+</div>
+<!-- Listing Card 2 -->
+<div class="bg-surface-container-lowest rounded-[20px] shadow-ambient shadow-ambient-hover transition-shadow overflow-hidden group cursor-pointer border border-surface-container-highest/30">
+<div class="relative h-48 w-full overflow-hidden">
+<img alt="Product Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A premium overhead shot of noise-canceling over-ear headphones lying flat on a pristine white marble surface. The lighting is bright and even, reflecting off the metallic accents of the headphones. The aesthetic is clean, modern, and uncluttered, emphasizing a high-quality luxury item. The color palette relies on crisp whites, soft grays, and the dark tones of the headphones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIpd78lGRDS0IguH90tqXbaSE03XDUmCLTsn9aVuO2WYu2-sOT_6DzuGxR3N2e7IHfHxbonBEeqOt86jNS346OVTPlb20qtxeQMvbt7m_AWQ-1E4ofYyILRf5nzKGjkiey7chzIdJBtOwJQbjweoo9SLVYePcz1wWXKHSg7e6IumS4YdVvdMjyoNytcz1wDZQwEqFwej5yuG8yr-cgljfJnCVfFpWf9fmzQiPTLdoS5TFuIQA8T6VaodRrnLrI87mWrwPzmHtehyw">
+<button class="absolute top-4 right-4 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-bold text-label-bold text-on-background line-clamp-1">Pro Noise Cancelling Headphones</h3>
+<span class="font-label-bold text-label-bold text-primary">$249</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant mb-4 line-clamp-2">Upgraded to a newer model. These are still incredible for travel.</p>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-surface-container rounded-full font-caption text-caption text-on-surface-variant">Audio</span>
+<span class="px-3 py-1 bg-surface-container rounded-full font-caption text-caption text-on-surface-variant">Good</span>
+</div>
+</div>
+</div>
+<!-- Listing Card 3 -->
+<div class="bg-surface-container-lowest rounded-[20px] shadow-ambient shadow-ambient-hover transition-shadow overflow-hidden group cursor-pointer border border-surface-container-highest/30">
+<div class="relative h-48 w-full overflow-hidden">
+<img alt="Product Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A stylish flat-lay composition featuring a sleek, minimalist ceramic coffee mug and a small potted succulent on a smooth, light-colored desk. The scene is bathed in natural, soft daylight, creating gentle shadows. The aesthetic is warm yet exceptionally clean, aligning with a premium lifestyle marketplace. Colors are muted, focusing on whites, soft greens, and warm grays." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV6ANB5Ddy31wyWkZkxRmCd7Iyu_5rsH8QUrIv8Jez2c25R5tEC4d6f7rHIacQdsvDf5nsDWpnElEuAS65T2M3_ThMhqDTH1O1-tRpaxXMzLVI70yEka9GL-zB-Z2uvOslU7gzX9ibcHrlnO3hXmvpR1dYYFII5Id6qaGsvhYY5g72jO5jrBq9KbPpozfCQR1VDwfuXgbO7bCZzfWfkv6ePVwulsRW2vESmLW-yqm_6hPaVXMWb8iW_dkqrzVqovKzXbuG9jRnJI8">
+<button class="absolute top-4 right-4 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-bold text-label-bold text-on-background line-clamp-1">Artisan Ceramic Mug Set</h3>
+<span class="font-label-bold text-label-bold text-primary">$45</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant mb-4 line-clamp-2">Handmade set of 4. Never used, received as a gift.</p>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-surface-container rounded-full font-caption text-caption text-on-surface-variant">Home</span>
+<span class="px-3 py-1 bg-surface-container rounded-full font-caption text-caption text-on-surface-variant">New</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface w-full py-12 border-t border-surface-container-highest dark:border-outline-variant mt-auto">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter px-gutter max-w-container-max mx-auto font-caption text-caption">
+<div class="col-span-2 md:col-span-1 mb-8 md:mb-0">
+<div class="font-label-bold text-label-bold text-primary mb-4 tracking-tighter text-xl">GO</div>
+<p class="text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim">© 2024 GO Marketplace. All rights reserved.</p>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-bold text-on-surface dark:text-surface-bright">Platform</span>
+<a class="text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim underline transition-opacity opacity-80 hover:opacity-100" href="#">About</a>
+<a class="text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim underline transition-opacity opacity-80 hover:opacity-100" href="#">Help</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-bold text-on-surface dark:text-surface-bright">Legal</span>
+<a class="text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim underline transition-opacity opacity-80 hover:opacity-100" href="#">Terms</a>
+<a class="text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim underline transition-opacity opacity-80 hover:opacity-100" href="#">Privacy</a>
+</div>
+</div>
+</footer>
+</body></html>

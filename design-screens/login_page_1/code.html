@@ -1,0 +1,190 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Login - GO Marketplace</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f9f9fb",
+                        "on-tertiary-container": "#f6f3f3",
+                        "tertiary-container": "#706f6f",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface-container-low": "#f3f3f5",
+                        "background": "#f9f9fb",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#edeef0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e2e2e4",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d9dadc",
+                        "secondary-fixed-dim": "#f9abff",
+                        "on-primary-fixed-variant": "#8a005d",
+                        "on-secondary-fixed-variant": "#7b028f",
+                        "inverse-primary": "#ffafd4",
+                        "inverse-on-surface": "#f0f0f2",
+                        "on-primary-container": "#fff0f4",
+                        "on-surface-variant": "#56414a",
+                        "secondary-container": "#ef7ffe",
+                        "tertiary-fixed": "#e5e2e1",
+                        "primary-fixed-dim": "#ffafd4",
+                        "surface-container-highest": "#e2e2e4",
+                        "primary-fixed": "#ffd8e8",
+                        "on-background": "#1a1c1d",
+                        "on-primary-fixed": "#3d0027",
+                        "secondary-fixed": "#ffd6fe",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface-tint": "#b1137a",
+                        "on-surface": "#1a1c1d",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2f3132",
+                        "secondary": "#972ca9",
+                        "primary-container": "#c82c8c",
+                        "outline": "#8a707b",
+                        "on-secondary": "#ffffff",
+                        "primary": "#a70172",
+                        "on-secondary-fixed": "#35003f",
+                        "tertiary": "#575757",
+                        "surface": "#f9f9fb",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e8e8ea",
+                        "outline-variant": "#ddbfca",
+                        "on-secondary-container": "#6f0082"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "80px",
+                        "container-max": "1200px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "hero-title": ["Inter"],
+                        "caption": ["Inter"],
+                        "section-title": ["Inter"],
+                        "hero-title-mobile": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body": ["Inter"]
+                    },
+                    "fontSize": {
+                        "hero-title": ["56px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "400" }],
+                        "section-title": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "hero-title-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-bold": ["13px", { "lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "body": ["15px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body text-body antialiased flex min-h-screen overflow-hidden">
+<!-- Left Panel: Brand Display (Hidden on Mobile) -->
+<div class="hidden lg:flex flex-col justify-between w-1/2 bg-gradient-to-br from-primary to-secondary p-margin-desktop relative overflow-hidden">
+<!-- Abstract Background Element -->
+<div class="absolute inset-0 opacity-10 bg-cover bg-center mix-blend-overlay" data-alt="A highly detailed, sophisticated abstract digital art pattern featuring flowing, generative geometric waves in deep blacks, pristine whites, and vibrant pink accents. The high-key, soft white lighting creates a premium, modern light-mode aesthetic that evokes a sense of calm sophistication and luxury lifestyle." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBfeadsXftw2vtzrrlXHQZyf5vf6cRd2QeMnxuzQqoGBF9QTGkg7CRD4WA3sGyp3ayykstoyy7rQlI8FHh59uUxick1ytvxrBhaQp4349iG9dN--MKe2b3B4Vg7adTojRsoDJqNIamPwt8PMR9YIA7ym34rmyOhQve9VaDQArZPQ_qu9b2Li5EmfDfrqkU9zvghFdO-NWWHVzTzCUlJUZiOHKOCpE3HNVJIR-DYUSi6xT9MkaSYfi0YDarhdq6tGgWaqQ4h6hCUjaw');">
+</div>
+<!-- Top Header/Logo -->
+<div class="relative z-10">
+<h1 class="font-hero-title text-hero-title text-on-primary tracking-tight">GO</h1>
+</div>
+<!-- Middle Content/Tagline -->
+<div class="relative z-10 max-w-lg space-y-6">
+<h2 class="font-hero-title text-hero-title text-on-primary">Discover the extraordinary.</h2>
+<p class="font-section-title text-section-title text-on-primary opacity-80 font-normal">A curated marketplace for those who appreciate premium quality and flawless design.</p>
+</div>
+<!-- Bottom Footer Info -->
+<div class="relative z-10">
+<p class="font-caption text-caption text-on-primary opacity-60">© 2024 GO Marketplace.</p>
+</div>
+</div>
+<!-- Right Panel: Login Form -->
+<div class="flex flex-col justify-center items-center w-full lg:w-1/2 bg-surface-container-lowest p-margin-mobile md:p-margin-desktop overflow-y-auto">
+<div class="w-full max-w-md space-y-8">
+<!-- Mobile Brand Identity (Visible only on small screens) -->
+<div class="lg:hidden text-center mb-12">
+<h1 class="font-hero-title-mobile text-hero-title-mobile bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">GO</h1>
+</div>
+<!-- Form Header -->
+<div class="text-center lg:text-left space-y-2">
+<h2 class="font-section-title text-section-title text-on-surface">Welcome back</h2>
+<p class="font-body text-body text-on-surface-variant">Please enter your details to sign in to your account.</p>
+</div>
+<!-- Main Form -->
+<form class="space-y-5">
+<!-- Email Input -->
+<div class="space-y-1.5">
+<label class="font-label-bold text-label-bold text-on-surface block ml-1" for="email">Email address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-tertiary">mail</span>
+<input class="w-full bg-surface-bright border border-surface-variant rounded-xl pl-12 pr-4 py-3.5 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200 font-body text-body text-on-surface placeholder:text-tertiary-container" id="email" placeholder="name@example.com" required="" type="email">
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-1.5">
+<div class="flex justify-between items-center ml-1">
+<label class="font-label-bold text-label-bold text-on-surface" for="password">Password</label>
+<a class="font-label-bold text-label-bold text-primary hover:text-secondary transition-colors duration-200" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-tertiary">lock</span>
+<input class="w-full bg-surface-bright border border-surface-variant rounded-xl pl-12 pr-12 py-3.5 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200 font-body text-body text-on-surface placeholder:text-tertiary-container" id="password" placeholder="••••••••" required="" type="password">
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-tertiary hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Remember Me & Submit -->
+<div class="pt-2 space-y-6">
+<div class="flex items-center">
+<input class="w-5 h-5 rounded text-primary focus:ring-primary border-surface-variant bg-surface-bright transition-colors cursor-pointer" id="remember" type="checkbox">
+<label class="ml-3 font-body text-body text-on-surface-variant cursor-pointer select-none" for="remember">Remember for 30 days</label>
+</div>
+<button class="w-full bg-gradient-to-r from-primary to-secondary text-on-primary font-label-bold text-label-bold py-4 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-all duration-300 transform hover:-translate-y-0.5 flex justify-center items-center gap-2 group" type="submit">
+                        Sign In
+                        <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</form>
+<!-- Divider -->
+<div class="relative py-2">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-surface-variant"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-4 bg-surface-container-lowest text-on-surface-variant font-caption text-caption uppercase tracking-wider">Or continue with</span>
+</div>
+</div>
+<!-- Secondary Actions -->
+<button class="w-full bg-surface-container-lowest border border-surface-variant text-on-surface font-label-bold text-label-bold py-3.5 rounded-xl flex justify-center items-center gap-3 hover:bg-surface-bright hover:shadow-[0_2px_12px_rgba(0,0,0,0.06)] transition-all duration-200" type="button">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+                Google
+            </button>
+<!-- Sign Up Prompt -->
+<p class="text-center font-body text-body text-on-surface-variant pt-4">
+                Don't have an account? <a class="font-label-bold text-label-bold text-primary hover:text-secondary transition-colors duration-200 underline underline-offset-4 decoration-primary/30 hover:decoration-secondary" href="#">Sign up</a>
+</p>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Notifications - GO Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#2f3132",
+                    "surface-bright": "#f9f9fb",
+                    "on-error": "#ffffff",
+                    "surface-container": "#edeef0",
+                    "primary": "#a70172",
+                    "on-tertiary-fixed": "#1b1c1c",
+                    "primary-fixed-dim": "#ffafd4",
+                    "on-secondary-fixed-variant": "#7b028f",
+                    "inverse-primary": "#ffafd4",
+                    "surface-tint": "#b1137a",
+                    "on-surface": "#1a1c1d",
+                    "surface-container-highest": "#e2e2e4",
+                    "secondary-fixed-dim": "#f9abff",
+                    "background": "#f9f9fb",
+                    "on-surface-variant": "#56414a",
+                    "secondary-container": "#ef7ffe",
+                    "on-secondary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#ffd6fe",
+                    "primary-container": "#c82c8c",
+                    "on-primary-fixed-variant": "#8a005d",
+                    "on-primary-fixed": "#3d0027",
+                    "tertiary-fixed-dim": "#c8c6c5",
+                    "tertiary": "#575757",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#706f6f",
+                    "surface-dim": "#d9dadc",
+                    "secondary": "#972ca9",
+                    "tertiary-fixed": "#e5e2e1",
+                    "surface-container-high": "#e8e8ea",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#474746",
+                    "inverse-on-surface": "#f0f0f2",
+                    "surface-container-low": "#f3f3f5",
+                    "on-background": "#1a1c1d",
+                    "primary-fixed": "#ffd8e8",
+                    "on-secondary-container": "#6f0082",
+                    "on-primary-container": "#fff0f4",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-container": "#f6f3f3",
+                    "surface-variant": "#e2e2e4",
+                    "outline-variant": "#ddbfca",
+                    "outline": "#8a707b",
+                    "on-secondary-fixed": "#35003f",
+                    "error-container": "#ffdad6",
+                    "surface": "#f9f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "container-max": "1200px",
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "80px"
+            },
+            "fontFamily": {
+                    "body": [
+                            "Inter"
+                    ],
+                    "hero-title": [
+                            "Inter"
+                    ],
+                    "hero-title-mobile": [
+                            "Inter"
+                    ],
+                    "caption": [
+                            "Inter"
+                    ],
+                    "label-bold": [
+                            "Inter"
+                    ],
+                    "section-title": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "body": [
+                            "15px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "hero-title": [
+                            "56px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "hero-title-mobile": [
+                            "40px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "caption": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-bold": [
+                            "13px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "section-title": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9fb; /* surface */
+        }
+        
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #e2e2e4; /* surface-container-highest */
+            border-radius: 10px;
+        }
+        
+        .shadow-ambient {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .shadow-ambient-hover:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        
+        /* Unread gradient border effect */
+        .unread-indicator {
+            position: relative;
+        }
+        .unread-indicator::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #a70172, #972ca9); /* primary to secondary */
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar (Web) -->
+<nav class="hidden md:flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto w-full z-50 bg-surface-container-lowest dark:bg-inverse-surface border-b border-surface-container-highest dark:border-outline-variant shadow-sm fixed top-0 left-0 right-0">
+<div class="flex items-center gap-6">
+<a class="font-hero-title text-hero-title tracking-tighter bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent" href="#">GO</a>
+<div class="relative ml-4">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-surface-container-highest rounded-full font-body text-body text-on-surface focus:outline-none focus:border-primary transition-colors w-64" placeholder="Search marketplace..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-primary dark:text-primary-fixed-dim font-label-bold flex flex-col items-center group" href="#">
+<span class="material-symbols-outlined hover:text-primary transition-colors active:scale-95 duration-200">dashboard</span>
+<span class="sr-only">Overview</span>
+</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors flex flex-col items-center group" href="#">
+<span class="material-symbols-outlined active:scale-95 duration-200">list_alt</span>
+<span class="sr-only">My Listings</span>
+</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors flex flex-col items-center group" href="#">
+<span class="material-symbols-outlined active:scale-95 duration-200">favorite</span>
+<span class="sr-only">Favorites</span>
+</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors flex flex-col items-center group" href="#">
+<span class="material-symbols-outlined active:scale-95 duration-200">mail</span>
+<span class="sr-only">Messages</span>
+</a>
+<a class="text-primary dark:text-primary-fixed-dim font-label-bold flex flex-col items-center group" href="#">
+<span class="material-symbols-outlined active:scale-95 duration-200" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="sr-only">Notifications</span>
+</a>
+<div class="flex items-center gap-4 ml-4 pl-4 border-l border-surface-container-highest">
+<button class="text-on-surface-variant hover:text-primary transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full border border-surface-container-highest cursor-pointer active:scale-95 duration-200" data-alt="A close-up portrait of a professional woman with a soft smile, styled in an elegant and minimalist manner, serving as a premium user avatar. The background is a clean, neutral white tone, complementing the bright, light-mode UI design. Soft, natural lighting highlights her features gracefully." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpoqSXRZq5BpBb460ma0uhRiBT0i1Fov4ElaW-IsSGrDW1t4dKsicUWqrC9gp_IpkP4gc6KgToEHt4UNAUJVyFYl4UX9tfWPgJR9WDBTMx3GnUSEem7hCCltIty7SgtO75knY_nbDLo8bFtF7qlVi_KjniWOU5iXXpYRuGCySax7-EGqJQ0dsKXw7SsiJdIkXyTEUueizI_jHssruMR7cASnWATg-OmGJMz54-WfVMNjyw_6nOrYSSYhNDcWE2rUhH4vFaywKr1LI">
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Mobile) - Technically supposed to be BottomNav per rules, adapting SideNav content to BottomNav format for mobile relevance -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-surface-container-highest shadow-[0_-4px_24px_rgba(0,0,0,0.04)] z-50 flex justify-around items-center h-16 pb-safe">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant p-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-caption text-[10px]">Overview</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant p-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-caption text-[10px]">Favorites</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary p-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="font-caption text-[10px] font-bold">Alerts</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant p-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-caption text-[10px]">Settings</span>
+</a>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-grow pt-20 md:pt-28 pb-24 md:pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full flex flex-col items-center">
+<!-- Header -->
+<div class="w-full max-w-3xl mb-8 flex justify-between items-end">
+<div>
+<h1 class="font-section-title text-section-title text-on-background mb-2">Notifications</h1>
+<p class="font-body text-body text-on-surface-variant">Stay updated on your listings, messages, and favorites.</p>
+</div>
+<button class="font-label-bold text-label-bold text-primary hover:text-secondary transition-colors px-4 py-2 rounded-lg hover:bg-primary-fixed duration-200">
+                Mark all as read
+            </button>
+</div>
+<!-- Categories / Chips -->
+<div class="w-full max-w-3xl flex gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-on-surface text-surface-container-lowest font-label-bold text-label-bold shadow-ambient transition-transform active:scale-95">
+                All
+            </button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container-highest font-label-bold text-label-bold hover:bg-surface-container-low transition-colors active:scale-95">
+                Unread
+                <span class="ml-2 bg-primary text-on-primary text-[10px] px-1.5 py-0.5 rounded-full">3</span>
+</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container-highest font-label-bold text-label-bold hover:bg-surface-container-low transition-colors active:scale-95">
+                Messages
+            </button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container-highest font-label-bold text-label-bold hover:bg-surface-container-low transition-colors active:scale-95">
+                Updates
+            </button>
+</div>
+<!-- Notification List -->
+<div class="w-full max-w-3xl flex flex-col gap-4">
+<!-- Unread Message Item -->
+<div class="unread-indicator bg-surface-container-lowest rounded-[20px] p-6 shadow-ambient shadow-ambient-hover transition-all duration-300 cursor-pointer flex gap-5 items-start bg-primary-fixed/10">
+<div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-bold text-label-bold text-on-surface text-base">New message from Alex Rivers</h3>
+<span class="font-caption text-caption text-primary font-medium">Just now</span>
+</div>
+<p class="font-body text-body text-on-surface-variant line-clamp-2">Hi there! I was wondering if the minimalist desk lamp is still available? I can pick it up tomorrow afternoon if it is.</p>
+</div>
+<div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+</div>
+<!-- Unread Listing Update -->
+<div class="unread-indicator bg-surface-container-lowest rounded-[20px] p-6 shadow-ambient shadow-ambient-hover transition-all duration-300 cursor-pointer flex gap-5 items-start bg-primary-fixed/10">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0 shadow-sm border border-secondary/10">
+<span class="material-symbols-outlined text-on-secondary-container">sell</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-bold text-label-bold text-on-surface text-base">Listing Approved: Vintage Chair</h3>
+<span class="font-caption text-caption text-primary font-medium">10m ago</span>
+</div>
+<p class="font-body text-body text-on-surface-variant line-clamp-2">Great news! Your listing for "Mid-Century Modern Vintage Chair" has been approved and is now live on the marketplace.</p>
+</div>
+<div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+</div>
+<!-- Read Favorite -->
+<div class="bg-surface-container-lowest rounded-[20px] p-6 shadow-ambient shadow-ambient-hover transition-all duration-300 cursor-pointer flex gap-5 items-start border border-surface-container-highest">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-error-container" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-bold text-label-bold text-on-surface text-base opacity-90">Someone favorited your listing</h3>
+<span class="font-caption text-caption text-on-surface-variant">2h ago</span>
+</div>
+<p class="font-body text-body text-on-surface-variant opacity-80">A buyer saved your "Ceramic Vases Set" to their favorites. Consider offering a small discount to encourage a sale.</p>
+</div>
+</div>
+<!-- Read System Update -->
+<div class="bg-surface-container-lowest rounded-[20px] p-6 shadow-ambient shadow-ambient-hover transition-all duration-300 cursor-pointer flex gap-5 items-start border border-surface-container-highest opacity-75 hover:opacity-100">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant">auto_awesome</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-bold text-label-bold text-on-surface text-base">New Feature: Better Image Uploads</h3>
+<span class="font-caption text-caption text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body text-body text-on-surface-variant">We've upgraded our image processing. Your listing photos will now look crisper and load faster across all devices.</p>
+</div>
+</div>
+<!-- Read Purchase Notification -->
+<div class="bg-surface-container-lowest rounded-[20px] p-6 shadow-ambient shadow-ambient-hover transition-all duration-300 cursor-pointer flex gap-5 items-start border border-surface-container-highest">
+<div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-bold text-label-bold text-on-surface text-base opacity-90">Order Delivered</h3>
+<span class="font-caption text-caption text-on-surface-variant">Oct 12</span>
+</div>
+<p class="font-body text-body text-on-surface-variant opacity-80">Your recent purchase from premium seller Sarah Jenkins has been delivered. Please leave a review!</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface border-t border-surface-container-highest dark:border-outline-variant w-full py-12 mt-auto">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter px-gutter max-w-container-max mx-auto">
+<div class="col-span-2 md:col-span-1 flex flex-col gap-4">
+<span class="font-label-bold text-label-bold text-primary text-xl">GO</span>
+<p class="font-caption text-caption text-on-surface-variant">Premium minimalist marketplace for refined goods.</p>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-bold text-label-bold text-on-surface">Platform</span>
+<a class="font-caption text-caption text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim underline opacity-80 hover:opacity-100 transition-opacity" href="#">About</a>
+<a class="font-caption text-caption text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim underline opacity-80 hover:opacity-100 transition-opacity" href="#">Help</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-bold text-label-bold text-on-surface">Legal</span>
+<a class="font-caption text-caption text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim underline opacity-80 hover:opacity-100 transition-opacity" href="#">Terms</a>
+<a class="font-caption text-caption text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-primary dark:hover:text-primary-fixed-dim underline opacity-80 hover:opacity-100 transition-opacity" href="#">Privacy</a>
+</div>
+<div class="col-span-2 md:col-span-4 mt-8 pt-8 border-t border-surface-container-highest dark:border-outline-variant flex justify-between items-center">
+<span class="font-caption text-caption text-on-surface-variant">© 2024 GO Marketplace. All rights reserved.</span>
+</div>
+</div>
+</footer>
+</body></html>

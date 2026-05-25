@@ -1,0 +1,396 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Listing Detail - GO Marketplace</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error": "#ffffff",
+                    "surface-bright": "#f9f9fb",
+                    "on-tertiary-container": "#f6f3f3",
+                    "tertiary-container": "#706f6f",
+                    "tertiary-fixed-dim": "#c8c6c5",
+                    "on-tertiary-fixed-variant": "#474746",
+                    "surface-container-low": "#f3f3f5",
+                    "background": "#f9f9fb",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#edeef0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e2e2e4",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d9dadc",
+                    "secondary-fixed-dim": "#f9abff",
+                    "on-primary-fixed-variant": "#8a005d",
+                    "on-secondary-fixed-variant": "#7b028f",
+                    "inverse-primary": "#ffafd4",
+                    "inverse-on-surface": "#f0f0f2",
+                    "on-primary-container": "#fff0f4",
+                    "on-surface-variant": "#56414a",
+                    "secondary-container": "#ef7ffe",
+                    "tertiary-fixed": "#e5e2e1",
+                    "primary-fixed-dim": "#ffafd4",
+                    "surface-container-highest": "#e2e2e4",
+                    "primary-fixed": "#ffd8e8",
+                    "on-background": "#1a1c1d",
+                    "on-primary-fixed": "#3d0027",
+                    "secondary-fixed": "#ffd6fe",
+                    "on-tertiary-fixed": "#1b1c1c",
+                    "surface-tint": "#b1137a",
+                    "on-surface": "#1a1c1d",
+                    "error-container": "#ffdad6",
+                    "inverse-surface": "#2f3132",
+                    "secondary": "#972ca9",
+                    "primary-container": "#c82c8c",
+                    "outline": "#8a707b",
+                    "on-secondary": "#ffffff",
+                    "primary": "#a70172",
+                    "on-secondary-fixed": "#35003f",
+                    "tertiary": "#575757",
+                    "surface": "#f9f9fb",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e8e8ea",
+                    "outline-variant": "#ddbfca",
+                    "on-secondary-container": "#6f0082"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "80px",
+                    "container-max": "1200px",
+                    "margin-mobile": "20px",
+                    "gutter": "24px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "hero-title": ["Inter"],
+                    "caption": ["Inter"],
+                    "section-title": ["Inter"],
+                    "hero-title-mobile": ["Inter"],
+                    "label-bold": ["Inter"],
+                    "body": ["Inter"]
+            },
+            "fontSize": {
+                    "hero-title": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "caption": ["12px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "400"}],
+                    "section-title": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "hero-title-mobile": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-bold": ["13px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "body": ["15px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom styles for specific premium UI effects */
+        .premium-shadow {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .premium-shadow-hover:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body antialiased selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md shadow-sm h-[72px] sticky top-0 w-full z-50">
+<div class="flex justify-between items-center max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop h-full">
+<!-- Brand Logo -->
+<div class="text-section-title font-hero-title bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent flex items-center cursor-pointer">
+                GO
+            </div>
+<!-- Search (Left Aligned in full layout, but just placeholder here) -->
+<div class="hidden md:flex flex-1 max-w-md mx-8">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="w-full bg-surface-container-low border border-surface-variant rounded-full py-2 pl-10 pr-4 text-body font-body text-on-surface focus:outline-none focus:border-primary transition-colors" placeholder="Search marketplace..." type="text">
+</div>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">favorite</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">chat</span>
+</button>
+<button class="hidden md:block bg-gradient-to-r from-primary to-secondary text-on-primary font-label-bold text-label-bold px-6 py-2.5 rounded-[14px] hover:shadow-lg hover:-translate-y-0.5 transition-all active:scale-95">
+                    SELL NOW
+                </button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-caption font-caption text-on-surface-variant mb-8">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Watches</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Vintage</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-on-surface font-semibold">1969 Speedmaster Professional</span>
+</nav>
+<div class="flex flex-col lg:grid lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Gallery & Details -->
+<div class="lg:col-span-8 flex flex-col gap-10">
+<!-- Large 4:3 Image Gallery -->
+<div class="flex flex-col gap-4">
+<div class="aspect-[4/3] rounded-[20px] overflow-hidden bg-surface-container border border-surface-variant/50 relative group cursor-zoom-in premium-shadow">
+<img alt="Main Product Image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A striking macro photograph of a vintage luxury chronometer watch resting on a sleek, dark polished slate surface. The studio lighting is soft and directional, highlighting the intricate details of the watch face, the metallic sheen of the casing, and the textured leather strap. The overall aesthetic is premium, moody, and sophisticated, emphasizing the high-end nature of the luxury item in a minimalist setting. The watch displays intricate chronograph sub-dials." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrzbuclXC-ORuJKgU4ZQ0ZH_bNdA-_Uq6qppi0Tng3lojR9GbBrEr4OKHRnlWtuh9z1xDRoeAJ75k6GyuNeeMXVbRBwf7ALvXFxYUU-mzNMiHPMqc1ovSKvfHEJc4ihiPplnL4UBXe-onZLro5_wN6IduTRLmWhz6MSMRkhBms1jDV7KfBLZfFYlr0XGwV06NheNLsr1mWJDcmzdvWd5tUvL2TvVcMZua-H7Da8ZYg_MuH-cef4bZVtB8iMuZ7LAIXUIDYD7W0s8g">
+<!-- Gradient overlay for premium feel at bottom -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+</div>
+<!-- Thumbnails -->
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-2">
+<div class="w-24 md:w-32 aspect-[4/3] rounded-lg overflow-hidden border-2 border-primary cursor-pointer flex-shrink-0">
+<img alt="Thumbnail 1" class="w-full h-full object-cover" data-alt="Thumbnail showing a striking macro photograph of a vintage luxury chronometer watch resting on a sleek, dark polished slate surface. Soft directional lighting highlights the intricate details of the watch face and metallic casing in a premium, minimalist setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtqHtBrjzGlJ6fb-4eTvYfLyYNkT3U-AJCPIAXydV0pryBs9tcq428G4N09YFQ6UrOe0d2tThbAYPkoLoAwHcBVCpcaUqO8RrZ9YjE0H5qkPeifs_RZDjZxGyqwmOROoJCZng78NkOipcwfaw05YANH6n7ViyjPzLhdztngHOaNmEiPeBiikGo3II0QKvJhCtmshiO-iiaz7EaM4UsW-URr8u3B_-YxaCa6XyGYa50IymMgg0q4J2tjg6ZbHsWT8jZjLFP3p6dMdU">
+</div>
+<div class="w-24 md:w-32 aspect-[4/3] rounded-lg overflow-hidden border border-surface-variant cursor-pointer opacity-70 hover:opacity-100 transition-opacity flex-shrink-0">
+<img alt="Thumbnail 2" class="w-full h-full object-cover" data-alt="Close up thumbnail shot of the intricate mechanical movement visible through the open sapphire case back of a luxury vintage watch. Warm ambient lighting accentuates the polished gears and ruby bearings within the meticulously crafted timepiece." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy-l6OhydNAQj3bNqqf6ED8ZyWFbj7Xv2ZE3uwooeuYMvCuN0vexImfoYG12R3T7cKFhyEImIu9Dv2rjM_kDHbJFxyL0n1rWoxWJwEbIy0qh4h6D4ZOFpW-udyjxEoagw16QfX8ANgElLR5_RDLivO2n7NKTqTSbGABMVN1g_hFEtwQE4eYt9Z5yLVwxHqKGJ8PNAqC7ZVFjQtSLFdhg4i8jArLX5_hs13XRCgtSmzAk8WcPvubOnhM-EK6wMWWG5gzWKg70C90Kk">
+</div>
+<div class="w-24 md:w-32 aspect-[4/3] rounded-lg overflow-hidden border border-surface-variant cursor-pointer opacity-70 hover:opacity-100 transition-opacity flex-shrink-0">
+<img alt="Thumbnail 3" class="w-full h-full object-cover" data-alt="Thumbnail highlighting the textured genuine leather strap and polished stainless steel buckle of a premium vintage watch. The focus is on the craftsmanship and material quality under soft, natural studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC12OUSSexlG4KJ1dciX-NsXPCO-8U7JE4v8nT6e6iHQa7dj9iW555XxOYt7McX5G_1pAAFeNvuwGNa7k8NmsOOb9OZUaQAOCIJhCq4xSPzwYrf32CEjvRn76seAKgj8fhv2w2NKlszOPA5I1aGthppZU2bvHr0DxOD5t4dwFvleXmTURRFfihDCVkawrQD2XsQGvKFrEkuU4AgE8psUn7mwlaWtv8gVBxKldgSVfsYOQAIfovivdhIUsvBfVrKfaL2ebC8vFR2wSI">
+</div>
+</div>
+</div>
+<!-- Header Info (Mobile might duplicate this above gallery, but keeping it simple here) -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-primary font-label-bold text-label-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                        Authenticated Vintage
+                    </div>
+<h1 class="font-section-title text-section-title md:text-[40px] leading-tight text-on-surface">1969 Speedmaster Professional 'Pre-Moon'</h1>
+<div class="text-section-title font-section-title text-on-surface mt-2">$8,500 <span class="text-body font-body text-on-surface-variant font-normal">USD</span></div>
+</div>
+<!-- Detailed Item Specifics (Bento Grid) -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-[20px] p-6 md:p-8 premium-shadow">
+<h2 class="font-label-bold text-[18px] text-on-surface mb-6">Item Specifics</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+<!-- Specific Item -->
+<div class="bg-surface-bright rounded-xl p-4 border border-surface-variant/50">
+<span class="block text-caption font-caption text-on-surface-variant mb-1 uppercase tracking-widest">Brand</span>
+<span class="block text-body font-label-bold text-on-surface">Omega</span>
+</div>
+<div class="bg-surface-bright rounded-xl p-4 border border-surface-variant/50">
+<span class="block text-caption font-caption text-on-surface-variant mb-1 uppercase tracking-widest">Model</span>
+<span class="block text-body font-label-bold text-on-surface">Speedmaster Prof.</span>
+</div>
+<div class="bg-surface-bright rounded-xl p-4 border border-surface-variant/50">
+<span class="block text-caption font-caption text-on-surface-variant mb-1 uppercase tracking-widest">Reference</span>
+<span class="block text-body font-label-bold text-on-surface">145.022-69</span>
+</div>
+<div class="bg-surface-bright rounded-xl p-4 border border-surface-variant/50">
+<span class="block text-caption font-caption text-on-surface-variant mb-1 uppercase tracking-widest">Year</span>
+<span class="block text-body font-label-bold text-on-surface">1969</span>
+</div>
+<div class="bg-surface-bright rounded-xl p-4 border border-surface-variant/50">
+<span class="block text-caption font-caption text-on-surface-variant mb-1 uppercase tracking-widest">Movement</span>
+<span class="block text-body font-label-bold text-on-surface">Manual Winding</span>
+</div>
+<div class="bg-surface-bright rounded-xl p-4 border border-surface-variant/50">
+<span class="block text-caption font-caption text-on-surface-variant mb-1 uppercase tracking-widest">Condition</span>
+<span class="block text-body font-label-bold text-on-surface">Excellent (Vintage)</span>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-[20px] p-6 md:p-8 premium-shadow">
+<h2 class="font-label-bold text-[18px] text-on-surface mb-4">Description</h2>
+<div class="prose prose-sm md:prose-base text-body font-body text-on-surface-variant space-y-4 leading-relaxed">
+<p>An exceptional example of the iconic 1969 Speedmaster Professional, reference 145.022-69. This 'Pre-Moon' model features the renowned caliber 861 movement, transitioning from the earlier 321 while retaining the classic stepped dial and applied logo aesthetic that collectors covet.</p>
+<p>The matte black dial has aged beautifully, exhibiting a warm, even patina on the tritium hour markers and hands. The 'Dot Over 90' (DON) bezel is in remarkable condition, showing only minor wear commensurate with its age, adding to the watch's authentic vintage character.</p>
+<p>Housed in a 42mm stainless steel asymmetrical case, the watch has been carefully preserved. It has recently undergone a sympathetic service by our master watchmaker to ensure timekeeping accuracy while meticulously preserving all original components and finishes. The watch is presented on a high-quality vintage-style leather strap.</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Sticky Seller Card -->
+<div class="lg:col-span-4 relative mt-8 lg:mt-0">
+<div class="sticky top-[104px] flex flex-col gap-6">
+<!-- Seller Card -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-[20px] p-6 premium-shadow flex flex-col gap-6">
+<!-- Seller Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-surface-container-low overflow-hidden border border-surface-variant">
+<img alt="Seller Avatar" class="w-full h-full object-cover" data-alt="A professional headshot portrait of a confident male seller in his late 30s. He is wearing a tailored casual suit and smiling slightly. The background is a soft, out-of-focus modern office environment. The lighting is bright and flattering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKG49-6c3RRoCJGKIItJNOFWYcnho6Ly2n2iNjyNyTLOEs_8lYC7zGzBYTmYm1gYJcmRuj5OMHkS-CooiS2Wbi-kUmFm83YsPqiV6fr2Ol7VM2FmndfwoiqggT1lpMVl5kv4L6Kh4fPDbQsNmH2BwTmwJYznaa97WehjlmtrMgL4hkDzR3BTEi0SRp6wLWLzCu1E0VH1cID91ONHT2PcBsG--cmdMNkpNhPeFuZ3cdy7HuE6ZGKvT3Lu3NnF2g4VtdScVd8a7qj8A">
+</div>
+<div>
+<div class="font-label-bold text-[16px] text-on-surface flex items-center gap-1">
+                                        Horology Vault
+                                        <span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="text-caption font-caption text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-medium text-on-surface">4.9</span> (124 reviews)
+                                    </div>
+</div>
+</div>
+</div>
+<!-- Trust Badges -->
+<div class="flex gap-2">
+<div class="flex-1 bg-surface-bright rounded-lg py-2 px-3 border border-surface-variant/50 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-1">shield_lock</span>
+<span class="text-[11px] font-label-bold uppercase text-on-surface-variant tracking-wider">Buyer Protection</span>
+</div>
+<div class="flex-1 bg-surface-bright rounded-lg py-2 px-3 border border-surface-variant/50 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-1">local_shipping</span>
+<span class="text-[11px] font-label-bold uppercase text-on-surface-variant tracking-wider">Ships Securely</span>
+</div>
+</div>
+<hr class="border-surface-variant">
+<!-- Actions -->
+<div class="flex flex-col gap-3">
+<button class="w-full bg-gradient-to-r from-primary to-secondary text-on-primary rounded-[14px] py-3.5 px-4 text-label-bold font-label-bold flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+                                Chat with Seller
+                            </button>
+<button class="w-full bg-surface-container-lowest border border-surface-variant text-on-surface rounded-[14px] py-3.5 px-4 text-label-bold font-label-bold flex items-center justify-center gap-2 hover:bg-surface-bright transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]">call</span>
+                                Call Seller
+                            </button>
+</div>
+<div class="text-center">
+<a class="text-caption font-caption text-on-surface-variant underline hover:text-primary transition-colors" href="#">View Seller's Other Items</a>
+</div>
+</div>
+<!-- Additional Context Card (Optional premium touch) -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-[20px] p-6 premium-shadow text-center">
+<span class="material-symbols-outlined text-outline text-[32px] mb-2">policy</span>
+<h3 class="font-label-bold text-on-surface mb-1">Return Policy</h3>
+<p class="text-caption font-caption text-on-surface-variant">14-day hassle-free returns. Item must remain in original photographed condition. <a class="text-primary underline" href="#">Learn more</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Related Listings -->
+<section class="mt-20">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-section-title text-[24px] text-on-surface">Similar Exceptional Pieces</h2>
+<a class="text-primary font-label-bold text-label-bold hover:underline flex items-center gap-1" href="#">
+                    View all
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Related Card 1 -->
+<a class="group bg-surface-container-lowest border border-surface-variant rounded-[20px] overflow-hidden premium-shadow premium-shadow-hover transition-all duration-300 block" href="#">
+<div class="aspect-square bg-surface-container-low overflow-hidden relative">
+<img alt="Related Watch 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek, modern luxury diver watch with a black dial and ceramic bezel, resting on a textured concrete surface. The lighting is crisp and cool, emphasizing the polished steel casing and rugged utilitarian design of the timepiece." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_BJT4mA1iWtjQax-HuRrt96A694vN45HPcCs8TYA1IU6ZqCtBs1xpBbOwgsimnM9_z8szH8rC_AoReoEcQGNds8KCnDSHQJRw536rypWScSYGz0Uq2iyfD0FfzeRrwfRGPn9kUel-sksRyKUKy4Bu_i_7CqqluwWYb1ZQ-8rXvVBCUy0HnWSPvKBJ900Dh8i6zDznZphOcoClAOg-1iGJrbqoCR-2hzKfVN6p2-LI9yczZdCUpyVnseYH43VX6gQtwnAkEw9lRT0">
+<div class="absolute top-3 left-3 bg-surface-container-lowest/90 backdrop-blur text-primary text-[11px] font-label-bold px-2 py-1 rounded-full uppercase tracking-wider border border-surface-variant/50">
+                            Rolex
+                        </div>
+</div>
+<div class="p-5">
+<h3 class="font-label-bold text-on-surface text-[15px] truncate mb-1">Submariner No-Date 114060</h3>
+<div class="text-body font-label-bold text-primary">$10,200</div>
+</div>
+</a>
+<!-- Related Card 2 -->
+<a class="group bg-surface-container-lowest border border-surface-variant rounded-[20px] overflow-hidden premium-shadow premium-shadow-hover transition-all duration-300 block" href="#">
+<div class="aspect-square bg-surface-container-low overflow-hidden relative">
+<img alt="Related Watch 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An elegant, vintage gold dress watch with a minimalist white dial and brown leather strap. The watch is presented on an antique wooden desk surrounded by warm, inviting ambient light that highlights the sophisticated luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxeL_G6W4dYciX07-CA9IbEROa0kVpXqee6ufxUi3n4ac22SmnifYN4_N7jxWLWRemCXMOUsL7Xsz_qoqddns0vdfm43QfwTy8mo-vOq2NGNvLTWPOFsklK7eiCDQRW6CO3sJA5XuOTEKsHm6X--JFHA1dVSs2iUlWZTWmiwcfx-9Ly1TSZf8jsUh5-BAKUVCDcWqHAfBkRYcGgJjqzLck6_1vux3Lda3U0n73NLPx-KZv7HEO7wIWr4dcVzQqtd5hhuXyzwG9cmM">
+<div class="absolute top-3 left-3 bg-surface-container-lowest/90 backdrop-blur text-primary text-[11px] font-label-bold px-2 py-1 rounded-full uppercase tracking-wider border border-surface-variant/50">
+                            Patek Philippe
+                        </div>
+</div>
+<div class="p-5">
+<h3 class="font-label-bold text-on-surface text-[15px] truncate mb-1">Calatrava 5196G White Gold</h3>
+<div class="text-body font-label-bold text-primary">$18,500</div>
+</div>
+</a>
+<!-- Related Card 3 -->
+<a class="group bg-surface-container-lowest border border-surface-variant rounded-[20px] overflow-hidden premium-shadow premium-shadow-hover transition-all duration-300 block" href="#">
+<div class="aspect-square bg-surface-container-low overflow-hidden relative">
+<img alt="Related Watch 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A highly detailed close-up shot of a complex mechanical watch movement, showing intricately decorated bridges, exposed gears, and ruby jewels. The metallic surfaces gleam under focused studio lighting, showcasing extreme precision and craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS1eUb6gKLgdokQjAG5v5jDMxEqeZ3Jh8YafLt3t1MgwTvV7DteXqqzIp9QgLFRgH1BEl4UGR1vCz3UdEBQjvmHjOM0VKPukp7-NPZmbQhK5jhDo4riLE91XbFMmfbEGaArRRY1Xwsc7aVmrdyU3Ck-vRWnUNxb-Nu8nOKZ98Z6eGf9ynmQYv_96scrqbiihj_FibcBBeCi6lBTEb5d4r7vH4zCHP5wc4vUSVZ3F9NEXXQWqWRtbCm_rFlWoARaVAQS_mid7ixt1k">
+<div class="absolute top-3 left-3 bg-surface-container-lowest/90 backdrop-blur text-primary text-[11px] font-label-bold px-2 py-1 rounded-full uppercase tracking-wider border border-surface-variant/50">
+                            A. Lange &amp; Söhne
+                        </div>
+</div>
+<div class="p-5">
+<h3 class="font-label-bold text-on-surface text-[15px] truncate mb-1">Lange 1 Moon Phase</h3>
+<div class="text-body font-label-bold text-primary">$32,000</div>
+</div>
+</a>
+<!-- Related Card 4 -->
+<a class="group bg-surface-container-lowest border border-surface-variant rounded-[20px] overflow-hidden premium-shadow premium-shadow-hover transition-all duration-300 block" href="#">
+<div class="aspect-square bg-surface-container-low overflow-hidden relative">
+<img alt="Related Watch 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A bold, modern chronograph watch featuring a brushed steel case and a vibrant blue dial with multiple sub-dials. The watch rests on a clean, white minimalist surface bathed in bright, natural daylight, conveying a sporty yet premium feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADxbu12hrcWaH6kGZX6TnOoGGzdvJ52jcY7TGWivqrggeeVunGXuwX2RWYJwZFjzIRBC0Jy6meshswTwWAg7n-blNNaGFcUoeW_jQSP85rct204YwDCJ0XPxUj8W2b-ivhTpz_oZWmHzlIWWiIK_PSoj408-uPbj4ThL-0uRKvsgMVS7utmcEnNPlcNjLPbjDQ5pkT8M-cj4_HFZceLfqxOTM6EkvuNJhLcOdjZXqR6vTogeX7biv6y-ZuGOcKBTf93oUjMFqsijM">
+<div class="absolute top-3 left-3 bg-surface-container-lowest/90 backdrop-blur text-primary text-[11px] font-label-bold px-2 py-1 rounded-full uppercase tracking-wider border border-surface-variant/50">
+                            Tudor
+                        </div>
+</div>
+<div class="p-5">
+<h3 class="font-label-bold text-on-surface text-[15px] truncate mb-1">Black Bay Chrono 'Panda'</h3>
+<div class="text-body font-label-bold text-primary">$4,800</div>
+</div>
+</a>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-inverse-surface w-full py-16 border-t border-surface-variant dark:border-outline-variant mt-20">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter max-w-container-max mx-auto px-margin-desktop">
+<div class="col-span-2 lg:col-span-2 flex flex-col gap-4 pr-8">
+<div class="text-section-title font-hero-title text-primary">GO</div>
+<p class="text-body font-body text-on-surface-variant dark:text-surface-variant">The premier marketplace for authenticated vintage and luxury goods.</p>
+<div class="text-caption font-caption text-on-surface-variant mt-auto pt-4">
+                    © 2024 GO Marketplace. All rights reserved.
+                </div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-bold text-on-surface">Company</h4>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Careers</a>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Press</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-bold text-on-surface">Support</h4>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Help Center</a>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Authentication</a>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Trust &amp; Safety</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-bold text-on-surface">Legal</h4>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Cookie Policy</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-bold text-on-surface">Social</h4>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Instagram</a>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">Twitter</a>
+<a class="text-body font-body text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors" href="#">LinkedIn</a>
+</div>
+</div>
+</footer>
+</body></html>

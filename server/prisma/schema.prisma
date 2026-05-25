@@ -1,0 +1,255 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  BANNED
+  PENDING
+}
+
+enum Condition {
+  NEW
+  USED
+  REFURBISHED
+}
+
+enum AdStatus {
+  ACTIVE
+  SOLD
+  DEACTIVATED
+  PENDING
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  VOICE_NOTE
+}
+
+enum NotificationType {
+  MESSAGE
+  FAVORITE
+  LISTING_UPDATE
+  ADMIN_ANNOUNCEMENT
+}
+
+enum ReportReason {
+  SPAM
+  FRAUD
+  INAPPROPRIATE
+  FAKE_LISTING
+  HARASSMENT
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  UNDER_REVIEW
+  RESOLVED
+  DISMISSED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// ─── Models ──────────────────────────────────────────────────────────────────
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String
+  password     String?
+  phone        String?
+  avatar       String?
+  coverImage   String?
+  bio          String?
+  city         String?
+  isVerified   Boolean    @default(false)
+  role         Role       @default(USER)
+  status       UserStatus @default(ACTIVE)
+  googleId     String?    @unique
+  refreshToken String?
+
+  // Email verification
+  verificationToken    String?
+  verificationExpires  DateTime?
+
+  // Password reset
+  resetToken        String?
+  resetTokenExpires DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ads              Ad[]
+  sentMessages     Message[]                @relation("SentMessages")
+  receivedMessages Message[]               @relation("ReceivedMessages")
+  conversations    ConversationParticipant[]
+  favorites        Favorite[]
+  notifications    Notification[]
+  reports          Report[]                 @relation("ReportedBy")
+
+  @@index([email])
+  @@index([googleId])
+  @@index([role])
+  @@index([status])
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String @unique
+  icon String
+  slug String @unique
+  ads  Ad[]
+
+  @@index([slug])
+}
+
+model Ad {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  price       Decimal   @db.Decimal(12, 2)
+  negotiable  Boolean   @default(false)
+  condition   Condition
+  status      AdStatus  @default(ACTIVE)
+  isFeatured  Boolean   @default(false)
+  views       Int       @default(0)
+  images      String[]
+  city        String
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  favorites Favorite[]
+  reports   Report[]
+
+  @@index([userId])
+  @@index([categoryId])
+  @@index([status])
+  @@index([isFeatured])
+  @@index([city])
+  @@index([createdAt])
+}
+
+model Conversation {
+  id    String  @id @default(cuid())
+  adId  String?
+
+  createdAt DateTime @default(now())
+
+  participants ConversationParticipant[]
+  messages     Message[]
+
+  @@index([adId])
+}
+
+model ConversationParticipant {
+  conversationId String
+  userId         String
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([conversationId, userId])
+}
+
+model Message {
+  id        String     @id @default(cuid())
+  content   String?
+  mediaUrl  String?
+  mediaType MediaType?
+  isRead    Boolean    @default(false)
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String
+
+  sender   User   @relation("SentMessages", fields: [senderId], references: [id])
+  senderId String
+
+  recipient   User?   @relation("ReceivedMessages", fields: [recipientId], references: [id])
+  recipientId String?
+
+  createdAt DateTime @default(now())
+
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([isRead])
+}
+
+model Favorite {
+  userId String
+  adId   String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ad   Ad   @relation(fields: [adId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@id([userId, adId])
+  @@index([userId])
+  @@index([adId])
+}
+
+model Notification {
+  id       String           @id @default(cuid())
+  type     NotificationType
+  title    String
+  body     String
+  isRead   Boolean          @default(false)
+  metadata Json?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+model Report {
+  id          String       @id @default(cuid())
+  reason      ReportReason
+  description String?
+  status      ReportStatus @default(PENDING)
+  priority    Priority     @default(MEDIUM)
+
+  reportedById String
+  reportedBy   User   @relation("ReportedBy", fields: [reportedById], references: [id])
+
+  adId String?
+  ad   Ad?    @relation(fields: [adId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([priority])
+  @@index([reportedById])
+  @@index([adId])
+}
