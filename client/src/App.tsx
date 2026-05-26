@@ -8,6 +8,7 @@ import { setConnected, userOnline, userOffline } from './store/socketSlice'
 import { incrementUnread } from './store/notificationSlice'
 import { connectSocket, disconnectSocket, socket } from './lib/socket'
 import { AuthModal } from './components/shared/AuthModal'
+import { ErrorBoundary } from './components/ui/ErrorBoundary'
 import api from './lib/axios'
 
 function SocketManager() {
@@ -62,13 +63,13 @@ function AuthBootstrap() {
 
 export default function App() {
   return (
-    <>
+    <ErrorBoundary>
       <AuthBootstrap />
       <SocketManager />
       <RouterProvider router={router} />
       <AuthModal />
       <Toaster
-        position="bottom-right"
+        position="top-center"
         toastOptions={{
           duration: 4000,
           style: {
@@ -81,6 +82,6 @@ export default function App() {
           error: { style: { background: '#EF4444', color: '#fff' } },
         }}
       />
-    </>
+    </ErrorBoundary>
   )
 }

@@ -1,10 +1,16 @@
 import { z } from 'zod'
 
+// Multipart/form-data sends every field as a string, so `negotiable` arrives
+// as "true"/"false". Coerce it to a real boolean before validation.
+const booleanFromString = z
+  .union([z.boolean(), z.enum(['true', 'false'])])
+  .transform(v => v === true || v === 'true')
+
 export const createAdSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters').max(120),
   description: z.string().min(10, 'Description must be at least 10 characters').max(2000),
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, 'Price must be a valid number'),
-  negotiable: z.boolean().optional().default(false),
+  negotiable: booleanFromString.optional().default(false),
   condition: z.enum(['NEW', 'USED', 'REFURBISHED']),
   city: z.string().min(2, 'City is required').max(80),
   categoryId: z.string().min(1, 'Category is required'),

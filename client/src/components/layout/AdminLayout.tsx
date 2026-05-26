@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
+import { PageTransition } from '../ui/PageTransition'
 import {
   LayoutDashboard,
   Users,
@@ -26,6 +28,7 @@ const navItems = [
 
 export function AdminLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const location = useLocation()
   const { user } = useAppSelector(s => s.auth)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -104,7 +107,11 @@ export function AdminLayout() {
           <div className="w-8" />
         </header>
         <div className="flex-1 p-5 lg:p-8 w-full">
-          <Outlet />
+          <AnimatePresence mode="wait" initial={false}>
+            <PageTransition key={location.pathname}>
+              <Outlet />
+            </PageTransition>
+          </AnimatePresence>
         </div>
       </div>
     </div>

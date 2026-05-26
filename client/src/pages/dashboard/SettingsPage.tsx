@@ -79,12 +79,15 @@ export default function SettingsPage() {
                 <p className="text-body font-medium text-text-primary">{label}</p>
                 <p className="text-caption text-text-primary/50">{desc}</p>
               </div>
-              <input
-                type="checkbox"
-                checked={notifPrefs[key]}
-                onChange={e => setNotifPrefs(p => ({ ...p, [key]: e.target.checked }))}
-                className="w-5 h-5 accent-brand-pink"
-              />
+              {/* Toggle switch */}
+              <div
+                className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${notifPrefs[key] ? 'bg-brand-pink' : 'bg-border'}`}
+                onClick={() => setNotifPrefs(p => ({ ...p, [key]: !p[key] }))}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-200 ${notifPrefs[key] ? 'translate-x-5' : 'translate-x-0'}`}
+                />
+              </div>
             </label>
           ))}
         </div>

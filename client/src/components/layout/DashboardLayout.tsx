@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
+import { PageTransition } from '../ui/PageTransition'
 import {
   LayoutDashboard,
   ListChecks,
@@ -32,6 +34,7 @@ const navItems = [
 
 export function DashboardLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const location = useLocation()
   const { user } = useAppSelector(s => s.auth)
   const unreadCount = useAppSelector(s => s.notification.unreadCount)
   const dispatch = useAppDispatch()
@@ -120,7 +123,11 @@ export function DashboardLayout() {
           <div className="w-8" />
         </header>
         <div className="flex-1 p-5 lg:p-8 max-w-[1100px] w-full mx-auto">
-          <Outlet />
+          <AnimatePresence mode="wait" initial={false}>
+            <PageTransition key={location.pathname}>
+              <Outlet />
+            </PageTransition>
+          </AnimatePresence>
         </div>
       </div>
 

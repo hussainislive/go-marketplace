@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { MapPin, Eye, Calendar, Heart, Flag, MessageCircle, ChevronLeft, ChevronRight, X, ShieldCheck } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useAd, useToggleFavorite } from '../../api/ads'
+import { useFavorites } from '../../api/favorites'
 import { useStartConversation } from '../../api/conversations'
 import { useCreateReport } from '../../api/reports'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
@@ -32,6 +33,7 @@ export default function AdDetailPage() {
   const dispatch = useAppDispatch()
   const { isAuthenticated, user } = useAppSelector(s => s.auth)
   const { data: ad, isLoading } = useAd(id)
+  const { data: favorites } = useFavorites()
   const toggleFavorite = useToggleFavorite()
   const startConversation = useStartConversation()
   const createReport = useCreateReport()
@@ -39,6 +41,13 @@ export default function AdDetailPage() {
   const [activeImage, setActiveImage] = useState(0)
   const [lightbox, setLightbox] = useState(false)
   const [favorited, setFavorited] = useState(false)
+
+  // Sync favorited state once favorites list and ad are both loaded
+  useEffect(() => {
+    if (favorites && id) {
+      setFavorited(favorites.some(f => f.id === id))
+    }
+  }, [favorites, id])
   const [chatOpen, setChatOpen] = useState(false)
   const [chatMsg, setChatMsg] = useState('')
   const [reportOpen, setReportOpen] = useState(false)
@@ -49,7 +58,7 @@ export default function AdDetailPage() {
     return (
       <div className="max-w-container mx-auto px-5 md:px-margin-desktop py-8 grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-4">
-          <Skeleton variant="rect" className="aspect-[16/10] rounded-card" />
+          <Skeleton variant="rect" className="aspect-16/10 rounded-card" />
           <Skeleton variant="text" className="h-8 w-2/3" />
           <Skeleton variant="text" className="h-4 w-full" />
           <Skeleton variant="text" className="h-4 w-5/6" />
@@ -135,7 +144,7 @@ export default function AdDetailPage() {
         <div className="lg:col-span-2">
           <div className="bg-white rounded-card shadow-card overflow-hidden">
             <div
-              className="relative aspect-[16/10] bg-background-soft cursor-zoom-in"
+              className="relative aspect-16/10 bg-background-soft cursor-zoom-in"
               onClick={() => images.length > 0 && setLightbox(true)}
             >
               {images[activeImage] ? (

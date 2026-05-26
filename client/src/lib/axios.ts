@@ -16,12 +16,26 @@ function processQueue(error: unknown) {
   failedQueue = []
 }
 
+// Endpoints where a 401 is an expected "not logged in" signal — never trigger
+// a refresh+redirect for these (auth bootstrap, login, the refresh call itself).
+const NO_REFRESH_PATHS = ['/auth/login', '/auth/register', '/auth/refresh', '/users/me']
+
+function isNoRefresh(url?: string): boolean {
+  if (!url) return false
+  return NO_REFRESH_PATHS.some(p => url.includes(p))
+}
+
 api.interceptors.response.use(
   res => res,
   async error => {
     const originalRequest = error.config
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      originalRequest &&
+      !originalRequest._retry &&
+      !isNoRefresh(originalRequest.url)
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject })
@@ -43,8 +57,9 @@ api.interceptors.response.use(
         return api(originalRequest)
       } catch (refreshError) {
         processQueue(refreshError)
+        // Clear auth state, but do NOT hard-redirect — route guards handle
+        // unauthenticated access gracefully (open AuthModal / show public page).
         store.dispatch(logout())
-        window.location.href = '/login'
         return Promise.reject(refreshError)
       } finally {
         isRefreshing = false

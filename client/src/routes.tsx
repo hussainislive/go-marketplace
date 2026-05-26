@@ -11,6 +11,7 @@ const SearchPage         = lazy(() => import('./pages/public/SearchPage'))
 const AdDetailPage       = lazy(() => import('./pages/public/AdDetailPage'))
 const LoginPage          = lazy(() => import('./pages/public/LoginPage'))
 const SignupPage         = lazy(() => import('./pages/public/SignupPage'))
+const VerifyEmailPage    = lazy(() => import('./pages/public/VerifyEmailPage'))
 
 const DashboardPage      = lazy(() => import('./pages/dashboard/DashboardPage'))
 const CreateAdPage       = lazy(() => import('./pages/dashboard/CreateAdPage'))
@@ -60,6 +61,7 @@ export const router = createBrowserRouter([
   // ── Auth pages (no layout chrome) ──────────────────────────────────────────
   { path: '/login', element: <L><LoginPage /></L> },
   { path: '/signup', element: <L><SignupPage /></L> },
+  { path: '/verify-email', element: <L><VerifyEmailPage /></L> },
 
   // ── Public (Header + Footer) ───────────────────────────────────────────────
   {

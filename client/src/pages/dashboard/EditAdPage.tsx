@@ -9,7 +9,7 @@ import { Input } from '../../components/ui/Input'
 import { Select } from '../../components/ui/Select'
 import { Button } from '../../components/ui/Button'
 import { Skeleton } from '../../components/ui/Skeleton'
-import { cn } from '../../utils/format'
+import { cn, apiErrorMessage } from '../../utils/format'
 import type { Condition } from '../../types'
 
 const CONDITIONS: { value: Condition; label: string }[] = [
@@ -70,8 +70,8 @@ export default function EditAdPage() {
       await updateAd.mutateAsync(fd)
       toast.success('Listing updated')
       navigate('/dashboard/ads')
-    } catch {
-      toast.error('Could not update listing')
+    } catch (err) {
+      toast.error(apiErrorMessage(err, 'Could not update listing'))
     }
   }
 

@@ -27,6 +27,15 @@ export function cn(...classes: (string | false | null | undefined)[]): string {
   return classes.filter(Boolean).join(' ')
 }
 
+// Pull the human-readable message out of an Axios error, falling back to a default.
+export function apiErrorMessage(err: unknown, fallback: string): string {
+  if (err && typeof err === 'object' && 'response' in err) {
+    const res = (err as { response?: { data?: { message?: string } } }).response
+    if (res?.data?.message) return res.data.message
+  }
+  return fallback
+}
+
 export function getInitials(name: string): string {
   return name
     .split(' ')

@@ -17,12 +17,19 @@ export const getConversations = asyncHandler(async (req: Request, res: Response)
 })
 
 export const startConversation = asyncHandler(async (req: Request, res: Response) => {
-  const { otherUserId, adId, message } = req.body as {
+  const body = req.body as {
     otherUserId: string
     adId?: string
-    message: string
+    initialMessage?: string
+    message?: string
   }
-  const result = await convService.startConversation(req.user!.id, otherUserId, adId, message)
+  const initialMessage = body.initialMessage ?? body.message ?? ''
+  const result = await convService.startConversation(
+    req.user!.id,
+    body.otherUserId,
+    body.adId,
+    initialMessage
+  )
   res.status(201).json(success('Conversation started', result))
 })
 
@@ -39,18 +46,21 @@ export const sendMessage = asyncHandler(async (req: Request, res: Response) => {
   let mediaType: MediaType | undefined
 
   if (req.file) {
-    const resourceType = req.file.mimetype.startsWith('image/')
-      ? 'image'
-      : req.file.mimetype.startsWith('video/')
-        ? 'video'
-        : 'raw'
-    const upload = await uploadToCloudinary(req.file.buffer, 'messages', resourceType)
+    // 'auto' lets Cloudinary detect image / video / audio correctly
+    // (audio/webm voice notes are stored under the video pipeline).
+    const upload = await uploadToCloudinary(req.file.buffer, 'messages', 'auto')
     mediaUrl = upload.url
-    mediaType = req.file.mimetype.startsWith('image/')
-      ? 'IMAGE'
-      : req.file.mimetype.startsWith('video/')
-        ? 'VIDEO'
-        : 'AUDIO'
+
+    const bodyMediaType = (req.body as { mediaType?: string }).mediaType
+    if (bodyMediaType === 'VOICE_NOTE') {
+      mediaType = 'VOICE_NOTE'
+    } else if (req.file.mimetype.startsWith('image/')) {
+      mediaType = 'IMAGE'
+    } else if (req.file.mimetype.startsWith('video/')) {
+      mediaType = 'VIDEO'
+    } else {
+      mediaType = 'AUDIO'
+    }
   }
 
   const message = await convService.sendMessage(

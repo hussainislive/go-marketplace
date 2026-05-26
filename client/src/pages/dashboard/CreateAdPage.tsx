@@ -8,7 +8,7 @@ import { useCreateAd } from '../../api/ads'
 import { Input } from '../../components/ui/Input'
 import { Select } from '../../components/ui/Select'
 import { Button } from '../../components/ui/Button'
-import { formatPrice, cn } from '../../utils/format'
+import { formatPrice, cn, apiErrorMessage } from '../../utils/format'
 import type { Condition } from '../../types'
 
 interface AdDraft {
@@ -91,8 +91,8 @@ export default function CreateAdPage() {
       const ad = await createAd.mutateAsync(fd)
       toast.success('Listing published!')
       navigate(`/ads/${ad.id}`)
-    } catch {
-      toast.error('Could not publish. Make sure your email is verified.')
+    } catch (err) {
+      toast.error(apiErrorMessage(err, 'Could not publish your listing.'))
     }
   }
 

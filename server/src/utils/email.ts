@@ -5,7 +5,12 @@ function getResend() {
   if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
   return _resend
 }
-const FROM = process.env.FROM_EMAIL || 'noreply@go-marketplace.com'
+
+// On Resend's free tier (no verified domain) you must send FROM `onboarding@resend.dev`.
+// Once you verify a domain in Resend, set FROM_EMAIL to e.g. noreply@yourdomain.com.
+function fromAddress(): string {
+  return process.env.FROM_EMAIL || 'GO Marketplace <onboarding@resend.dev>'
+}
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'
 
 export async function sendVerificationEmail(
@@ -15,7 +20,7 @@ export async function sendVerificationEmail(
 ): Promise<void> {
   const link = `${CLIENT_URL}/verify-email?token=${token}`
   await getResend().emails.send({
-    from: FROM,
+    from: fromAddress(),
     to,
     subject: 'Verify your GO Marketplace account',
     html: `
@@ -37,7 +42,7 @@ export async function sendPasswordResetEmail(
 ): Promise<void> {
   const link = `${CLIENT_URL}/reset-password?token=${token}`
   await getResend().emails.send({
-    from: FROM,
+    from: fromAddress(),
     to,
     subject: 'Reset your GO Marketplace password',
     html: `
