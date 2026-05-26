@@ -1,7 +1,9 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from './store/hooks'
-import { openAuthModal } from './store/uiSlice'
+import { useAppSelector } from './store/hooks'
+import { PublicLayout } from './components/layout/PublicLayout'
+import { DashboardLayout } from './components/layout/DashboardLayout'
+import { AdminLayout } from './components/layout/AdminLayout'
 
 // ── Lazy-loaded pages ────────────────────────────────────────────────────────
 const HomePage           = lazy(() => import('./pages/public/HomePage'))
@@ -26,142 +28,87 @@ const AdminListingsPage   = lazy(() => import('./pages/admin/AdminListingsPage')
 const AdminReportsPage    = lazy(() => import('./pages/admin/AdminReportsPage'))
 const AdminCategoriesPage = lazy(() => import('./pages/admin/AdminCategoriesPage'))
 
-// ── Loading fallback ─────────────────────────────────────────────────────────
 function PageLoader() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background-soft">
-      <div className="w-8 h-8 rounded-full border-4 border-brand-pink border-t-transparent animate-spin" />
+    <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="w-8 h-8 rounded-full border-[3px] border-brand-pink border-t-transparent animate-spin" />
     </div>
   )
 }
 
+function L({ children }: { children: React.ReactNode }) {
+  return <Suspense fallback={<PageLoader />}>{children}</Suspense>
+}
+
 // ── Protected route guard ────────────────────────────────────────────────────
-// Unauthenticated users → open AuthModal (not redirect)
 function ProtectedRoute() {
   const { isAuthenticated, isLoading } = useAppSelector(s => s.auth)
-  const dispatch = useAppDispatch()
-
   if (isLoading) return <PageLoader />
-
-  if (!isAuthenticated) {
-    dispatch(openAuthModal('login'))
-    return <Navigate to="/" replace />
-  }
-
+  if (!isAuthenticated) return <Navigate to="/" replace />
   return <Outlet />
 }
 
 // ── Admin route guard ────────────────────────────────────────────────────────
-// Non-admins → redirect to /
 function AdminRoute() {
   const { user, isLoading } = useAppSelector(s => s.auth)
-
   if (isLoading) return <PageLoader />
-
-  if (!user || (user.role !== 'ADMIN' && user.role !== 'SUPER_ADMIN')) {
-    return <Navigate to="/" replace />
-  }
-
+  if (!user || (user.role !== 'ADMIN' && user.role !== 'SUPER_ADMIN')) return <Navigate to="/" replace />
   return <Outlet />
 }
 
-// ── Router ───────────────────────────────────────────────────────────────────
 export const router = createBrowserRouter([
-  // ── Public routes ──────────────────────────────────────────────────────────
+  // ── Auth pages (no layout chrome) ──────────────────────────────────────────
+  { path: '/login', element: <L><LoginPage /></L> },
+  { path: '/signup', element: <L><SignupPage /></L> },
+
+  // ── Public (Header + Footer) ───────────────────────────────────────────────
   {
-    path: '/',
-    element: <Suspense fallback={<PageLoader />}><HomePage /></Suspense>,
-  },
-  {
-    path: '/search',
-    element: <Suspense fallback={<PageLoader />}><SearchPage /></Suspense>,
-  },
-  {
-    path: '/ads/:id',
-    element: <Suspense fallback={<PageLoader />}><AdDetailPage /></Suspense>,
-  },
-  {
-    path: '/login',
-    element: <Suspense fallback={<PageLoader />}><LoginPage /></Suspense>,
-  },
-  {
-    path: '/signup',
-    element: <Suspense fallback={<PageLoader />}><SignupPage /></Suspense>,
+    element: <PublicLayout />,
+    children: [
+      { path: '/', element: <L><HomePage /></L> },
+      { path: '/search', element: <L><SearchPage /></L> },
+      { path: '/ads/:id', element: <L><AdDetailPage /></L> },
+    ],
   },
 
-  // ── Protected routes (auth required) ───────────────────────────────────────
+  // ── Protected dashboard (sidebar) ──────────────────────────────────────────
   {
     element: <ProtectedRoute />,
     children: [
       {
-        path: '/dashboard',
-        element: <Suspense fallback={<PageLoader />}><DashboardPage /></Suspense>,
+        element: <DashboardLayout />,
+        children: [
+          { path: '/dashboard', element: <L><DashboardPage /></L> },
+          { path: '/dashboard/ads', element: <L><MyAdsPage /></L> },
+          { path: '/dashboard/create', element: <L><CreateAdPage /></L> },
+          { path: '/dashboard/ads/:id/edit', element: <L><EditAdPage /></L> },
+          { path: '/notifications', element: <L><NotificationsPage /></L> },
+          { path: '/favorites', element: <L><FavoritesPage /></L> },
+          { path: '/profile', element: <L><ProfilePage /></L> },
+          { path: '/settings', element: <L><SettingsPage /></L> },
+        ],
       },
-      {
-        path: '/dashboard/create',
-        element: <Suspense fallback={<PageLoader />}><CreateAdPage /></Suspense>,
-      },
-      {
-        path: '/dashboard/ads/:id/edit',
-        element: <Suspense fallback={<PageLoader />}><EditAdPage /></Suspense>,
-      },
-      {
-        path: '/dashboard/ads',
-        element: <Suspense fallback={<PageLoader />}><MyAdsPage /></Suspense>,
-      },
-      {
-        path: '/messages',
-        element: <Suspense fallback={<PageLoader />}><MessagesPage /></Suspense>,
-      },
-      {
-        path: '/notifications',
-        element: <Suspense fallback={<PageLoader />}><NotificationsPage /></Suspense>,
-      },
-      {
-        path: '/favorites',
-        element: <Suspense fallback={<PageLoader />}><FavoritesPage /></Suspense>,
-      },
-      {
-        path: '/profile',
-        element: <Suspense fallback={<PageLoader />}><ProfilePage /></Suspense>,
-      },
-      {
-        path: '/settings',
-        element: <Suspense fallback={<PageLoader />}><SettingsPage /></Suspense>,
-      },
+      // Messages is full-height — no dashboard padding wrapper
+      { path: '/messages', element: <L><MessagesPage /></L> },
     ],
   },
 
-  // ── Admin routes (SUPER_ADMIN / ADMIN only) ────────────────────────────────
+  // ── Admin (dark sidebar) ───────────────────────────────────────────────────
   {
     element: <AdminRoute />,
     children: [
       {
-        path: '/admin',
-        element: <Suspense fallback={<PageLoader />}><AdminDashboardPage /></Suspense>,
-      },
-      {
-        path: '/admin/users',
-        element: <Suspense fallback={<PageLoader />}><AdminUsersPage /></Suspense>,
-      },
-      {
-        path: '/admin/listings',
-        element: <Suspense fallback={<PageLoader />}><AdminListingsPage /></Suspense>,
-      },
-      {
-        path: '/admin/reports',
-        element: <Suspense fallback={<PageLoader />}><AdminReportsPage /></Suspense>,
-      },
-      {
-        path: '/admin/categories',
-        element: <Suspense fallback={<PageLoader />}><AdminCategoriesPage /></Suspense>,
+        element: <AdminLayout />,
+        children: [
+          { path: '/admin', element: <L><AdminDashboardPage /></L> },
+          { path: '/admin/users', element: <L><AdminUsersPage /></L> },
+          { path: '/admin/listings', element: <L><AdminListingsPage /></L> },
+          { path: '/admin/reports', element: <L><AdminReportsPage /></L> },
+          { path: '/admin/categories', element: <L><AdminCategoriesPage /></L> },
+        ],
       },
     ],
   },
 
-  // ── 404 fallback ───────────────────────────────────────────────────────────
-  {
-    path: '*',
-    element: <Navigate to="/" replace />,
-  },
+  { path: '*', element: <Navigate to="/" replace /> },
 ])

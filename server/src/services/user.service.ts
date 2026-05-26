@@ -41,6 +41,21 @@ export async function updateAvatar(userId: string, avatarUrl: string) {
   })
 }
 
+export async function getMyStats(userId: string) {
+  const [activeAds, soldAds, viewsAgg, unreadMessages] = await Promise.all([
+    prisma.ad.count({ where: { userId, status: 'ACTIVE' } }),
+    prisma.ad.count({ where: { userId, status: 'SOLD' } }),
+    prisma.ad.aggregate({ where: { userId }, _sum: { views: true } }),
+    prisma.message.count({ where: { recipientId: userId, isRead: false } }),
+  ])
+  return {
+    activeAds,
+    soldAds,
+    totalViews: viewsAgg._sum.views ?? 0,
+    unreadMessages,
+  }
+}
+
 export async function getPublicProfile(userId: string) {
   const user = await prisma.user.findUnique({
     where: { id: userId },

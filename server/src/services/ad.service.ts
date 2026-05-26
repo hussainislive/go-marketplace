@@ -137,6 +137,21 @@ export async function toggleFavorite(
   return { favorited: true }
 }
 
+export async function getFavorites(userId: string, page: number, limit: number) {
+  const skip = (page - 1) * limit
+  const [favorites, total] = await Promise.all([
+    prisma.favorite.findMany({
+      where: { userId },
+      skip,
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+      include: { ad: { include: adInclude } },
+    }),
+    prisma.favorite.count({ where: { userId } }),
+  ])
+  return { ads: favorites.map(f => f.ad), total }
+}
+
 export async function updateAdStatus(id: string, userId: string, status: AdStatus) {
   const ad = await prisma.ad.findUnique({ where: { id } })
   if (!ad) throw ApiError.notFound('Ad not found')

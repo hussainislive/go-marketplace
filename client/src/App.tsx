@@ -7,6 +7,7 @@ import { setUser, logout } from './store/authSlice'
 import { setConnected, userOnline, userOffline } from './store/socketSlice'
 import { incrementUnread } from './store/notificationSlice'
 import { connectSocket, disconnectSocket, socket } from './lib/socket'
+import { AuthModal } from './components/shared/AuthModal'
 import api from './lib/axios'
 
 function SocketManager() {
@@ -65,6 +66,7 @@ export default function App() {
       <AuthBootstrap />
       <SocketManager />
       <RouterProvider router={router} />
+      <AuthModal />
       <Toaster
         position="bottom-right"
         toastOptions={{

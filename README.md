@@ -492,13 +492,15 @@ The project follows the phased plan in `MASTER_PROMPT.md` / `CLAUDE.md`.
 | **2 — Backend** | Utilities, middleware, Zod validators, all services/controllers/routes (auth, users, ads, categories, conversations, notifications, reports, admin) | ✅ Complete |
 | **3 — Socket.io** | Cookie-authenticated socket server: rooms, chat send, read receipts, typing, presence, live notifications | ✅ Complete |
 | **4 — Frontend Core** | Axios instance + refresh interceptor, TanStack Query client, Socket.io client, Redux store (auth/ui/socket/notification), React Router guards, App/main wiring | ✅ Complete |
-| **5 — UI Components** | Design-system primitives, layout, shared components (AdCard, AuthModal, …) | ⏳ Pending |
-| **6 — Pages** | Full implementation of all 17 screens (currently route-wired placeholders) | ⏳ Pending |
-| **7 — Polish** | Framer Motion transitions, mobile audit, empty/error/loading states | ⏳ Pending |
+| **5 — UI Components** | Design-system primitives (Button, Input, Card, Badge, Modal, Skeleton, Spinner, Tabs, Avatar, Select, ConfirmModal, PriceRangeSlider), layouts (Header, Footer, Public/Dashboard/Admin), shared components (AdCard, AdCardSkeleton, CategoryCard, AuthModal, EmptyState, VerifiedBadge) | ✅ Complete |
+| **6 — Pages** | All 17 screens implemented against the live API with skeletons + empty states: Home, Search (filters + dual price slider), Ad Detail (gallery/lightbox/chat/report), Login, Signup, Dashboard, My Ads, Create/Edit Ad (dropzone wizard), Messages (realtime + media + voice notes), Notifications, Favorites, Profile, Settings, Admin Dashboard (recharts), Users, Listings, Reports (slide-in panel), Categories | ✅ Complete |
+| **7 — Polish** | Framer Motion transitions, full mobile audit, error states | ⏳ In progress (animations + responsive built into components; dedicated audit pending) |
 
-> **What's verified working today:** the backend API serves real seeded data; auth (register/login/refresh/logout) sets and rotates cookies; admin routes return 401/403 appropriately; the Socket.io handshake rejects unauthenticated clients and accepts authenticated ones; both client and server compile under `tsc` with zero errors.
->
-> The frontend pages are currently route-wired placeholders — Phases 5–7 implement the full UI.
+> **What's verified working today:** the backend API serves real seeded data; auth (register/login/refresh/logout) sets and rotates cookies; admin routes return 401/403 appropriately; the Socket.io handshake rejects unauthenticated clients and accepts authenticated ones; the full React app (all 17 pages, all components) compiles under `tsc` and builds under Vite with zero errors; new endpoints (`/users/me/stats`, `/ads/favorites`) and existing ones (`/admin/stats`, `/conversations`, `/ads/featured`, `/categories`) all respond correctly with seeded data.
+
+### Frontend data layer
+
+All API access goes through typed TanStack Query hooks in `client/src/api/` (`ads`, `categories`, `auth`, `users`, `conversations`, `notifications`, `favorites`, `reports`, `admin`), backed by the Axios instance with automatic 401 refresh. Domain types live in `client/src/types/`. Realtime chat uses the Socket.io client emitters in `client/src/lib/socket.ts`.
 
 ---
 

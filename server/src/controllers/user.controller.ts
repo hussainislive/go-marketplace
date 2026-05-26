@@ -31,6 +31,11 @@ export const uploadAvatar = asyncHandler(async (req: Request, res: Response) => 
   res.json(success('Avatar updated', user))
 })
 
+export const getMyStats = asyncHandler(async (req: Request, res: Response) => {
+  const stats = await userService.getMyStats(req.user!.id)
+  res.json(success('Stats retrieved', stats))
+})
+
 export const getProfile = asyncHandler(async (req: Request, res: Response) => {
   const user = await userService.getPublicProfile(param(req, 'id'))
   res.json(success('Profile retrieved', user))

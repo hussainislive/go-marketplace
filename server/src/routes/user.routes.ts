@@ -8,6 +8,7 @@ import { updateProfileSchema } from '../validators/user.validator'
 const router = Router()
 
 router.get('/me', authenticate, userController.getMe)
+router.get('/me/stats', authenticate, userController.getMyStats)
 router.put('/me', authenticate, validate(updateProfileSchema), userController.updateMe)
 router.put('/me/avatar', authenticate, uploadAvatar, userController.uploadAvatar)
 router.get('/:id/profile', userController.getProfile)

@@ -84,3 +84,10 @@ export const getMyAds = asyncHandler(async (req: Request, res: Response) => {
   const { ads, total } = await adService.getMyAds(req.user!.id, status, page, limit)
   res.json(paginated('My ads retrieved', ads, total, page, limit))
 })
+
+export const getFavorites = asyncHandler(async (req: Request, res: Response) => {
+  const page = Number(req.query.page) || 1
+  const limit = Number(req.query.limit) || 20
+  const { ads, total } = await adService.getFavorites(req.user!.id, page, limit)
+  res.json(paginated('Favorites retrieved', ads, total, page, limit))
+})
