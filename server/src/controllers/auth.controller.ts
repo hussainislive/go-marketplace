@@ -9,7 +9,6 @@ const isProd = process.env.NODE_ENV === 'production'
 const COOKIE_OPTS = {
   httpOnly: true,
   secure: isProd,
-  // cross-domain (Vercel → Railway) requires 'none'; local dev uses 'lax'
   sameSite: (isProd ? 'none' : 'lax') as 'none' | 'lax',
 }
 
@@ -28,7 +27,8 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body as LoginInput
   const { user, accessToken, refreshToken } = await authService.login(email, password)
   setTokenCookies(res, accessToken, refreshToken)
-  res.json(success('Login successful', user))
+  // Also return tokens in body so clients that can't use cross-site cookies (Safari) store them
+  res.json(success('Login successful', { user, accessToken, refreshToken }))
 })
 
 export const logout = asyncHandler(async (req: Request, res: Response) => {
@@ -39,14 +39,15 @@ export const logout = asyncHandler(async (req: Request, res: Response) => {
 })
 
 export const refresh = asyncHandler(async (req: Request, res: Response) => {
-  const token = req.cookies?.refreshToken as string | undefined
+  // Accept refresh token from cookie OR from request body (for Safari)
+  const token = (req.cookies?.refreshToken as string | undefined) ?? (req.body as { refreshToken?: string }).refreshToken
   if (!token) {
     res.status(401).json({ success: false, message: 'No refresh token' })
     return
   }
   const { accessToken, refreshToken } = await authService.refreshTokens(token)
   setTokenCookies(res, accessToken, refreshToken)
-  res.json(success('Tokens refreshed'))
+  res.json(success('Tokens refreshed', { accessToken, refreshToken }))
 })
 
 export const verifyEmail = asyncHandler(async (req: Request, res: Response) => {
@@ -73,5 +74,6 @@ export const googleCallback = asyncHandler(async (req: Request, res: Response) =
   const refreshToken = generateRefreshToken(user.id)
   setTokenCookies(res, accessToken, refreshToken)
   const clientUrl = process.env.CLIENT_URL ?? 'http://localhost:5173'
-  res.redirect(`${clientUrl}/dashboard`)
+  // Pass tokens in URL fragment so client can pick them up even when cookies are blocked
+  res.redirect(`${clientUrl}/dashboard?_at=${accessToken}&_rt=${refreshToken}`)
 })

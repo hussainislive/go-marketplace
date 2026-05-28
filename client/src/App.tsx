@@ -9,7 +9,7 @@ import { incrementUnread } from './store/notificationSlice'
 import { connectSocket, disconnectSocket, socket } from './lib/socket'
 import { AuthModal } from './components/shared/AuthModal'
 import { ErrorBoundary } from './components/ui/ErrorBoundary'
-import api from './lib/axios'
+import api, { setTokens, getAccessToken } from './lib/axios'
 
 function SocketManager() {
   const { isAuthenticated, user } = useAppSelector(s => s.auth)
@@ -47,15 +47,41 @@ function AuthBootstrap() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    api
-      .get('/users/me')
-      .then(res => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-        dispatch(setUser(res.data.data))
-      })
-      .catch(() => {
-        dispatch(logout())
-      })
+    async function bootstrap() {
+      // If we already have an access token in memory (sessionStorage survive reload),
+      // try /users/me directly. Otherwise attempt a token refresh first so Safari
+      // users (whose cookies are blocked) can still restore session via stored refreshToken.
+      if (!getAccessToken()) {
+        const storedRefresh = sessionStorage.getItem('_rt')
+        if (storedRefresh) {
+          try {
+            const { data } = await api.post<{ data: { accessToken: string; refreshToken: string } }>(
+              '/auth/refresh',
+              { refreshToken: storedRefresh }
+            )
+            setTokens(data.data.accessToken, data.data.refreshToken)
+          } catch {
+            dispatch(logout())
+            return
+          }
+        } else {
+          dispatch(logout())
+          return
+        }
+      }
+
+      api
+        .get('/users/me')
+        .then(res => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+          dispatch(setUser(res.data.data))
+        })
+        .catch(() => {
+          dispatch(logout())
+        })
+    }
+
+    void bootstrap()
   }, [dispatch])
 
   return null

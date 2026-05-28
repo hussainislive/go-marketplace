@@ -10,6 +10,7 @@ import { loginSchema } from '../../utils/validation'
 import type { LoginValues } from '../../utils/validation'
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
+import { apiErrorMessage } from '../../utils/format'
 
 const API_BASE = (import.meta.env.VITE_API_URL as string).replace('/api/v1', '')
 
@@ -32,8 +33,8 @@ export default function LoginPage() {
       dispatch(setUser(user))
       toast.success(`Welcome back, ${user.name.split(' ')[0]}!`)
       navigate('/dashboard')
-    } catch {
-      toast.error('Invalid email or password')
+    } catch (err) {
+      toast.error(apiErrorMessage(err, 'Invalid email or password'))
     }
   }
 

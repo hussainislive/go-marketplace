@@ -15,8 +15,8 @@ const envSchema = z.object({
   CLOUDINARY_CLOUD_NAME: z.string().optional(),
   CLOUDINARY_API_KEY: z.string().optional(),
   CLOUDINARY_API_SECRET: z.string().optional(),
-  RESEND_API_KEY: z.string().optional(),
-  FROM_EMAIL: z.string().default('noreply@go-marketplace.com'),
+  GMAIL_USER: z.string().optional(),
+  GMAIL_APP_PASSWORD: z.string().optional(),
   CLIENT_URL: z.string().default('http://localhost:5173'),
 })
 

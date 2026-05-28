@@ -2,10 +2,43 @@ import axios from 'axios'
 import { store } from '../store'
 import { logout } from '../store/authSlice'
 
+// In-memory token store — persists across navigation but not page reload.
+// For page reload we restore from sessionStorage (tab-scoped, not cross-tab).
+let _accessToken: string | null = sessionStorage.getItem('_at')
+let _refreshToken: string | null = sessionStorage.getItem('_rt')
+
+export function setTokens(access: string, refresh: string) {
+  _accessToken = access
+  _refreshToken = refresh
+  sessionStorage.setItem('_at', access)
+  sessionStorage.setItem('_rt', refresh)
+}
+
+export function clearTokens() {
+  _accessToken = null
+  _refreshToken = null
+  sessionStorage.removeItem('_at')
+  sessionStorage.removeItem('_rt')
+}
+
+export function getAccessToken() {
+  return _accessToken
+}
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL as string,
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
+})
+
+// Attach access token to every request as Authorization header
+api.interceptors.request.use(config => {
+  const token = _accessToken
+  if (token) {
+    config.headers = config.headers ?? {}
+    config.headers['Authorization'] = `Bearer ${token}`
+  }
+  return config
 })
 
 let isRefreshing = false
@@ -16,8 +49,6 @@ function processQueue(error: unknown) {
   failedQueue = []
 }
 
-// Endpoints where a 401 is an expected "not logged in" signal — never trigger
-// a refresh+redirect for these (auth bootstrap, login, the refresh call itself).
 const NO_REFRESH_PATHS = ['/auth/login', '/auth/register', '/auth/refresh', '/users/me']
 
 function isNoRefresh(url?: string): boolean {
@@ -34,7 +65,7 @@ api.interceptors.response.use(
       error.response?.status === 401 &&
       originalRequest &&
       !originalRequest._retry &&
-      !isNoRefresh(originalRequest.url)
+      !isNoRefresh(originalRequest.url as string | undefined)
     ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -48,17 +79,19 @@ api.interceptors.response.use(
       isRefreshing = true
 
       try {
-        await axios.post(
+        // Send refresh token in body so Safari (which blocks cross-site cookies) can refresh
+        const { data } = await axios.post(
           `${import.meta.env.VITE_API_URL as string}/auth/refresh`,
-          {},
+          { refreshToken: _refreshToken },
           { withCredentials: true }
         )
+        const { accessToken, refreshToken } = data.data as { accessToken: string; refreshToken: string }
+        setTokens(accessToken, refreshToken)
         processQueue(null)
         return api(originalRequest)
       } catch (refreshError) {
         processQueue(refreshError)
-        // Clear auth state, but do NOT hard-redirect — route guards handle
-        // unauthenticated access gracefully (open AuthModal / show public page).
+        clearTokens()
         store.dispatch(logout())
         return Promise.reject(refreshError)
       } finally {

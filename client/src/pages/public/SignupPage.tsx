@@ -4,24 +4,21 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 import { CheckCircle2 } from 'lucide-react'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { setUser } from '../../store/authSlice'
-import { useRegister, useLogin } from '../../api/auth'
+import { useAppSelector } from '../../store/hooks'
+import { useRegister } from '../../api/auth'
 import { signupSchema, passwordStrength } from '../../utils/validation'
 import type { SignupValues } from '../../utils/validation'
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
-import { cn } from '../../utils/format'
+import { cn, apiErrorMessage } from '../../utils/format'
 
 const API_BASE = (import.meta.env.VITE_API_URL as string).replace('/api/v1', '')
 const STRENGTH_COLORS = ['bg-status-error', 'bg-status-warning', 'bg-status-info', 'bg-status-success']
 
 export default function SignupPage() {
-  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { isAuthenticated } = useAppSelector(s => s.auth)
   const registerMut = useRegister()
-  const login = useLogin()
   const [success, setSuccess] = useState(false)
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm<SignupValues>({
@@ -31,17 +28,15 @@ export default function SignupPage() {
   const strength = passwordStrength(password)
 
   useEffect(() => {
-    if (isAuthenticated && !success) navigate('/dashboard', { replace: true })
-  }, [isAuthenticated, success, navigate])
+    if (isAuthenticated) navigate('/dashboard', { replace: true })
+  }, [isAuthenticated, navigate])
 
   async function onSubmit(values: SignupValues) {
     try {
       await registerMut.mutateAsync(values)
-      const user = await login.mutateAsync({ email: values.email, password: values.password })
-      dispatch(setUser(user))
       setSuccess(true)
-    } catch {
-      toast.error('Could not create account. Email may already be in use.')
+    } catch (err) {
+      toast.error(apiErrorMessage(err, 'Could not create account. Email may already be in use.'))
     }
   }
 
@@ -103,7 +98,7 @@ export default function SignupPage() {
                     </div>
                   )}
                 </div>
-                <Button type="submit" fullWidth size="lg" loading={registerMut.isPending || login.isPending}>
+                <Button type="submit" fullWidth size="lg" loading={registerMut.isPending}>
                   Create Account
                 </Button>
               </form>

@@ -42,6 +42,8 @@ export async function login(email: string, password: string) {
   const match = await bcrypt.compare(password, user.password)
   if (!match) throw ApiError.unauthorized('Invalid email or password')
 
+  if (!user.isVerified) throw ApiError.forbidden('Please verify your email before logging in. Check your inbox.')
+
   const accessToken = generateAccessToken(user.id, user.role, user.email)
   const refreshToken = generateRefreshToken(user.id)
 

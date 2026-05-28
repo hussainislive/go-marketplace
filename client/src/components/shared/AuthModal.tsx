@@ -6,14 +6,13 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { closeAuthModal, openAuthModal } from '../../store/uiSlice'
 import { setUser } from '../../store/authSlice'
 import { useLogin, useRegister } from '../../api/auth'
-import api from '../../lib/axios'
-import type { AuthUser } from '../../store/authSlice'
 import { loginSchema, signupSchema } from '../../utils/validation'
 import type { LoginValues, SignupValues } from '../../utils/validation'
 import { Modal } from '../ui/Modal'
 import { Input } from '../ui/Input'
 import { Button } from '../ui/Button'
 import { Tabs } from '../ui/Tabs'
+import { apiErrorMessage } from '../../utils/format'
 
 const API_BASE = (import.meta.env.VITE_API_URL as string).replace('/api/v1', '')
 
@@ -71,8 +70,8 @@ function LoginForm() {
       dispatch(setUser(user))
       dispatch(closeAuthModal())
       toast.success(`Welcome back, ${user.name.split(' ')[0]}!`)
-    } catch {
-      toast.error('Invalid email or password')
+    } catch (err) {
+      toast.error(apiErrorMessage(err, 'Invalid email or password'))
     }
   }
 
@@ -86,9 +85,7 @@ function LoginForm() {
 }
 
 function SignupForm() {
-  const dispatch = useAppDispatch()
   const registerMut = useRegister()
-  const login = useLogin()
   const [done, setDone] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
@@ -97,23 +94,18 @@ function SignupForm() {
   async function onSubmit(values: SignupValues) {
     try {
       await registerMut.mutateAsync(values)
-      // auto-login after register
-      const user = await login.mutateAsync({ email: values.email, password: values.password })
-      // refresh /me to be safe
-      await api.get<{ data: AuthUser }>('/users/me').catch(() => undefined)
-      dispatch(setUser(user))
       setDone(true)
-      toast.success('Account created! Verify your email to post ads.')
-      setTimeout(() => dispatch(closeAuthModal()), 1200)
-    } catch {
-      toast.error('Could not create account. Email may already be in use.')
+    } catch (err) {
+      toast.error(apiErrorMessage(err, 'Could not create account. Email may already be in use.'))
     }
   }
 
   if (done) {
     return (
-      <div className="text-center py-6">
-        <p className="text-body text-text-primary/70">You're all set! Check your inbox to verify your email.</p>
+      <div className="text-center py-6 space-y-2">
+        <p className="text-2xl">📬</p>
+        <p className="text-body font-semibold text-text-primary">Check your inbox!</p>
+        <p className="text-body text-text-primary/60">We sent a verification link to your email. Click it to activate your account, then log in.</p>
       </div>
     )
   }
@@ -123,7 +115,7 @@ function SignupForm() {
       <Input label="Full name" placeholder="Jane Doe" error={errors.name?.message} {...register('name')} />
       <Input label="Email" type="email" placeholder="you@example.com" error={errors.email?.message} {...register('email')} />
       <Input label="Password" type="password" placeholder="••••••••" error={errors.password?.message} {...register('password')} />
-      <Button type="submit" fullWidth loading={registerMut.isPending || login.isPending}>Create Account</Button>
+      <Button type="submit" fullWidth loading={registerMut.isPending}>Create Account</Button>
     </form>
   )
 }
