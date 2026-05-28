@@ -110,6 +110,22 @@ export async function verifyEmail(token: string) {
   })
 }
 
+export async function resendVerification(email: string): Promise<void> {
+  const user = await prisma.user.findUnique({ where: { email } })
+  if (!user) return // silently return to not reveal if email exists
+  if (user.isVerified) return // already verified, nothing to do
+
+  const verificationToken = crypto.randomBytes(32).toString('hex')
+  const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000)
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { verificationToken: hashToken(verificationToken), verificationExpires },
+  })
+
+  await sendVerificationEmail(user.email, user.name, verificationToken).catch(() => null)
+}
+
 export async function forgotPassword(email: string): Promise<void> {
   const user = await prisma.user.findUnique({ where: { email } })
   if (!user) return // silently return to not reveal if email exists

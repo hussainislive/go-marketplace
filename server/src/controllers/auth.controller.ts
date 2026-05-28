@@ -56,6 +56,12 @@ export const verifyEmail = asyncHandler(async (req: Request, res: Response) => {
   res.json(success('Email verified successfully'))
 })
 
+export const resendVerification = asyncHandler(async (req: Request, res: Response) => {
+  const { email } = req.body as { email: string }
+  await authService.resendVerification(email)
+  res.json(success('If that account exists and is unverified, a new verification email has been sent.'))
+})
+
 export const forgotPassword = asyncHandler(async (req: Request, res: Response) => {
   const { email } = req.body as { email: string }
   await authService.forgotPassword(email)

@@ -292,10 +292,11 @@ export default function HomePage() {
         <motion.div {...fadeUp} className="max-w-container mx-auto text-center">
           <h2 className="text-2xl md:text-section font-bold text-white mb-4">Ready to start selling?</h2>
           <p className="text-white/80 text-lg mb-8">Join thousands of sellers on GO Marketplace today.</p>
-          <Link to="/dashboard/create">
-            <Button size="lg" className="bg-white text-brand-pink! hover:bg-white/90 border-0 px-10">
-              Post Your First Ad
-            </Button>
+          <Link
+            to="/dashboard/create"
+            className="inline-flex items-center justify-center h-12 px-10 rounded-button bg-white text-brand-pink font-semibold text-body hover:bg-white/90 transition-colors active:scale-95"
+          >
+            Post Your First Ad
           </Link>
         </motion.div>
       </section>

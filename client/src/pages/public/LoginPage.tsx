@@ -2,10 +2,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import toast from 'react-hot-toast'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { setUser } from '../../store/authSlice'
-import { useLogin } from '../../api/auth'
+import { useLogin, useResendVerification } from '../../api/auth'
 import { loginSchema } from '../../utils/validation'
 import type { LoginValues } from '../../utils/validation'
 import { Input } from '../../components/ui/Input'
@@ -19,7 +19,9 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const { isAuthenticated } = useAppSelector(s => s.auth)
   const login = useLogin()
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginValues>({
+  const resend = useResendVerification()
+  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null)
+  const { register, handleSubmit, getValues, formState: { errors } } = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
   })
 
@@ -28,13 +30,27 @@ export default function LoginPage() {
   }, [isAuthenticated, navigate])
 
   async function onSubmit(values: LoginValues) {
+    setUnverifiedEmail(null)
     try {
       const user = await login.mutateAsync(values)
       dispatch(setUser(user))
       toast.success(`Welcome back, ${user.name.split(' ')[0]}!`)
       navigate('/dashboard')
     } catch (err) {
-      toast.error(apiErrorMessage(err, 'Invalid email or password'))
+      const msg = apiErrorMessage(err, 'Invalid email or password')
+      toast.error(msg)
+      if (msg.toLowerCase().includes('verify')) setUnverifiedEmail(values.email)
+    }
+  }
+
+  async function handleResend() {
+    const email = unverifiedEmail ?? getValues('email')
+    if (!email) return
+    try {
+      await resend.mutateAsync(email)
+      toast.success('Verification email sent. Check your inbox.')
+    } catch {
+      toast.error('Could not resend verification email.')
     }
   }
 
@@ -71,6 +87,22 @@ export default function LoginPage() {
             </div>
             <Button type="submit" fullWidth size="lg" loading={login.isPending}>Log In</Button>
           </form>
+
+          {unverifiedEmail && (
+            <div className="mt-4 p-3 rounded-input bg-status-warning/10 text-center">
+              <p className="text-caption text-text-primary/70">
+                Haven't received the verification email?{' '}
+                <button
+                  type="button"
+                  onClick={handleResend}
+                  disabled={resend.isPending}
+                  className="text-brand-pink font-medium hover:underline disabled:opacity-50"
+                >
+                  {resend.isPending ? 'Sending…' : 'Resend it'}
+                </button>
+              </p>
+            </div>
+          )}
 
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>

@@ -78,7 +78,33 @@ export async function updateUserStatus(id: string, status: UserStatus) {
 export async function deleteUser(id: string): Promise<void> {
   const user = await prisma.user.findUnique({ where: { id } })
   if (!user) throw ApiError.notFound('User not found')
-  await prisma.user.delete({ where: { id } })
+
+  // Delete related records in FK-safe order before removing the user.
+  const userAds = await prisma.ad.findMany({ where: { userId: id }, select: { id: true } })
+  const adIds = userAds.map(a => a.id)
+
+  await prisma.$transaction([
+    // Reports filed by the user, against the user's ads, or against the user
+    prisma.report.deleteMany({
+      where: { OR: [{ reportedById: id }, { adId: { in: adIds } }] },
+    }),
+    // Favorites by the user or on the user's ads
+    prisma.favorite.deleteMany({
+      where: { OR: [{ userId: id }, { adId: { in: adIds } }] },
+    }),
+    // Messages sent or received by the user
+    prisma.message.deleteMany({
+      where: { OR: [{ senderId: id }, { recipientId: id }] },
+    }),
+    // Conversation memberships
+    prisma.conversationParticipant.deleteMany({ where: { userId: id } }),
+    // Notifications for the user
+    prisma.notification.deleteMany({ where: { userId: id } }),
+    // The user's ads
+    prisma.ad.deleteMany({ where: { userId: id } }),
+    // Finally the user
+    prisma.user.delete({ where: { id } }),
+  ])
 }
 
 export async function getAdminAds(

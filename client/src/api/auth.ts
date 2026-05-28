@@ -51,3 +51,11 @@ export function useLogout() {
     },
   })
 }
+
+export function useResendVerification() {
+  return useMutation({
+    mutationFn: async (email: string) => {
+      await api.post('/auth/resend-verification', { email })
+    },
+  })
+}

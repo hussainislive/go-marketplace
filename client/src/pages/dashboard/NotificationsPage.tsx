@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { MessageCircle, Heart, Package, Megaphone, Bell, CheckCheck } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useNotifications, useMarkNotificationRead, useMarkAllRead } from '../../api/notifications'
@@ -25,6 +26,7 @@ const iconFor: Record<NotificationType, LucideIcon> = {
 
 export default function NotificationsPage() {
   const [tab, setTab] = useState('')
+  const navigate = useNavigate()
   const notifications = useNotifications()
   const markRead = useMarkNotificationRead()
   const markAll = useMarkAllRead()
@@ -34,6 +36,14 @@ export default function NotificationsPage() {
     if (tab === 'unread') return !n.isRead
     return n.type === tab
   })
+
+  function handleClick(id: string, isRead: boolean, type: NotificationType, metadata: Record<string, unknown> | null) {
+    if (!isRead) markRead.mutate(id)
+    const conversationId = metadata?.conversationId
+    if (type === 'MESSAGE' && typeof conversationId === 'string') {
+      navigate(`/messages?conv=${conversationId}`)
+    }
+  }
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -55,7 +65,7 @@ export default function NotificationsPage() {
             return (
               <button
                 key={n.id}
-                onClick={() => !n.isRead && markRead.mutate(n.id)}
+                onClick={() => handleClick(n.id, n.isRead, n.type, n.metadata)}
                 className={cn(
                   'w-full flex items-start gap-4 p-4 rounded-card text-left transition-colors',
                   n.isRead ? 'bg-white' : 'bg-brand-pink/5 hover:bg-brand-pink/10'

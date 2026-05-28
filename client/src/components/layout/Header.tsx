@@ -119,9 +119,12 @@ export function Header() {
             </>
           ) : (
             <>
-              <button onClick={() => dispatch(openAuthModal('login'))} className="px-5 py-2.5 rounded-button border border-border font-medium text-body hover:border-brand-pink hover:text-brand-pink transition-colors">
+              <Link to="/login" className="inline-flex items-center bg-brand-gradient text-white px-5 py-2.5 rounded-button font-medium text-body hover:shadow-card-hover transition-all active:scale-95">
                 Log in
-              </button>
+              </Link>
+              <Link to="/signup" className="inline-flex items-center bg-brand-gradient text-white px-5 py-2.5 rounded-button font-medium text-body hover:shadow-card-hover transition-all active:scale-95">
+                Sign up
+              </Link>
               <button onClick={handleSell} className="inline-flex items-center gap-1.5 bg-brand-gradient text-white px-5 py-2.5 rounded-button font-medium text-body hover:shadow-card-hover transition-all active:scale-95">
                 <Plus size={18} /> SELL NOW
               </button>
@@ -163,9 +166,14 @@ export function Header() {
               <button onClick={handleLogout} className="py-2.5 text-body text-status-error text-left">Log out</button>
             </div>
           ) : (
-            <button onClick={() => { dispatch(openAuthModal('login')); setMobileOpen(false) }} className="w-full py-2.5 rounded-button border border-border font-medium text-body">
-              Log in
-            </button>
+            <div className="flex gap-2">
+              <Link to="/login" onClick={() => setMobileOpen(false)} className="flex-1 text-center py-2.5 rounded-button bg-brand-gradient text-white font-medium text-body">
+                Log in
+              </Link>
+              <Link to="/signup" onClick={() => setMobileOpen(false)} className="flex-1 text-center py-2.5 rounded-button bg-brand-gradient text-white font-medium text-body">
+                Sign up
+              </Link>
+            </div>
           )}
         </div>
       )}
