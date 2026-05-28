@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Search, ArrowRight, Shield, Zap, Users, Star } from 'lucide-react'
 import { motion } from 'framer-motion'
+import type { Easing } from 'framer-motion'
+
+const EASE_OUT: Easing = 'easeOut'
 import { useFeaturedAds, useInfiniteAds } from '../../api/ads'
 import { useCategories } from '../../api/categories'
 import { AdCard } from '../../components/shared/AdCard'
@@ -57,7 +60,7 @@ const fadeUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: '-60px' },
-  transition: { duration: 0.4, ease: 'easeOut' },
+  transition: { duration: 0.4, ease: EASE_OUT },
 }
 
 export default function HomePage() {
@@ -89,7 +92,7 @@ export default function HomePage() {
           className="max-w-container mx-auto text-center relative z-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.5, ease: EASE_OUT }}
         >
           <h1 className="text-[40px] leading-[1.15] md:text-hero font-bold text-white mb-5">
             Find Anything Near You
@@ -107,7 +110,7 @@ export default function HomePage() {
           className="bg-white rounded-card shadow-modal p-5 md:p-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.15, ease: 'easeOut' }}
+          transition={{ duration: 0.4, delay: 0.15, ease: EASE_OUT }}
         >
           <div className="flex-1 relative">
             <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-primary/40" />
@@ -164,7 +167,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, scale: 0.92 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.25, delay: i * 0.04, ease: 'easeOut' }}
+                transition={{ duration: 0.25, delay: i * 0.04, ease: EASE_OUT }}
               >
                 <CategoryCard category={c} />
               </motion.div>
@@ -233,7 +236,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.35, delay: i * 0.1, ease: 'easeOut' }}
+                transition={{ duration: 0.35, delay: i * 0.1, ease: EASE_OUT }}
                 className="flex flex-col items-start p-6 rounded-card bg-background-soft"
               >
                 <div className="w-12 h-12 rounded-button bg-brand-gradient flex items-center justify-center mb-5">
@@ -260,7 +263,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.35, delay: i * 0.1, ease: 'easeOut' }}
+                transition={{ duration: 0.35, delay: i * 0.1, ease: EASE_OUT }}
                 className="bg-white rounded-card shadow-card p-6"
               >
                 <div className="flex gap-0.5 mb-4">

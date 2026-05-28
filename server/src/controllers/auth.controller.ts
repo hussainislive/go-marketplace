@@ -5,10 +5,12 @@ import { generateAccessToken, generateRefreshToken } from '../utils/jwt'
 import * as authService from '../services/auth.service'
 import type { RegisterInput, LoginInput } from '../validators/auth.validator'
 
+const isProd = process.env.NODE_ENV === 'production'
 const COOKIE_OPTS = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'strict' as const,
+  secure: isProd,
+  // cross-domain (Vercel → Railway) requires 'none'; local dev uses 'lax'
+  sameSite: (isProd ? 'none' : 'lax') as 'none' | 'lax',
 }
 
 function setTokenCookies(res: Response, accessToken: string, refreshToken: string): void {
