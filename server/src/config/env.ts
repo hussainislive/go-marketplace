@@ -15,8 +15,10 @@ const envSchema = z.object({
   CLOUDINARY_CLOUD_NAME: z.string().optional(),
   CLOUDINARY_API_KEY: z.string().optional(),
   CLOUDINARY_API_SECRET: z.string().optional(),
-  GMAIL_USER: z.string().optional(),
-  GMAIL_APP_PASSWORD: z.string().optional(),
+  BREVO_SMTP_HOST: z.string().optional(),
+  BREVO_SMTP_PORT: z.string().optional(),
+  BREVO_SMTP_USER: z.string().optional(),
+  BREVO_SMTP_PASS: z.string().optional(),
   CLIENT_URL: z.string().default('http://localhost:5173'),
 })
 

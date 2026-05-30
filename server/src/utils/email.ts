@@ -3,26 +3,19 @@ import nodemailer from 'nodemailer'
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'
 
 function getTransport() {
-  const user = process.env.GMAIL_USER
-  const pass = process.env.GMAIL_APP_PASSWORD
-  if (!user || !pass) throw new Error('GMAIL_USER and GMAIL_APP_PASSWORD must be set')
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: { user, pass },
-  })
+  const host = process.env.BREVO_SMTP_HOST
+  const port = Number(process.env.BREVO_SMTP_PORT ?? 587)
+  const user = process.env.BREVO_SMTP_USER
+  const pass = process.env.BREVO_SMTP_PASS
+  if (!host || !user || !pass) throw new Error('Brevo SMTP env vars (BREVO_SMTP_HOST, BREVO_SMTP_USER, BREVO_SMTP_PASS) must be set')
+  return nodemailer.createTransport({ host, port, secure: false, auth: { user, pass } })
 }
 
 function from(): string {
-  return `GO Marketplace <${process.env.GMAIL_USER ?? 'noreply@go-marketplace.com'}>`
+  return 'GO Marketplace <noreply@go-marketplace.app>'
 }
 
-export async function sendVerificationEmail(
-  to: string,
-  name: string,
-  token: string
-): Promise<void> {
+export async function sendVerificationEmail(to: string, name: string, token: string): Promise<void> {
   const link = `${CLIENT_URL}/verify-email?token=${token}`
   await getTransport().sendMail({
     from: from(),
@@ -40,11 +33,7 @@ export async function sendVerificationEmail(
   })
 }
 
-export async function sendPasswordResetEmail(
-  to: string,
-  name: string,
-  token: string
-): Promise<void> {
+export async function sendPasswordResetEmail(to: string, name: string, token: string): Promise<void> {
   const link = `${CLIENT_URL}/reset-password?token=${token}`
   await getTransport().sendMail({
     from: from(),
