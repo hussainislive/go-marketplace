@@ -12,7 +12,7 @@ function getTransport() {
 }
 
 function from(): string {
-  return 'GO Marketplace <noreply@go-marketplace.app>'
+  return 'GO Marketplace <developer.hussain125@gmail.com>'
 }
 
 export async function sendVerificationEmail(to: string, name: string, token: string): Promise<void> {

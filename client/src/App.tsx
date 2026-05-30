@@ -11,6 +11,23 @@ import { AuthModal } from './components/shared/AuthModal'
 import { ErrorBoundary } from './components/ui/ErrorBoundary'
 import api, { setTokens, getAccessToken } from './lib/axios'
 
+// Pick up tokens passed in the URL after Google OAuth redirect.
+// Runs synchronously at module load so AuthBootstrap sees the tokens immediately.
+;(function captureOAuthTokens() {
+  if (typeof window === 'undefined') return
+  const params = new URLSearchParams(window.location.search)
+  const at = params.get('_at')
+  const rt = params.get('_rt')
+  if (at && rt) {
+    setTokens(at, rt)
+    params.delete('_at')
+    params.delete('_rt')
+    const cleaned = params.toString()
+    const newUrl = window.location.pathname + (cleaned ? `?${cleaned}` : '') + window.location.hash
+    window.history.replaceState({}, '', newUrl)
+  }
+})()
+
 function SocketManager() {
   const { isAuthenticated, user } = useAppSelector(s => s.auth)
   const dispatch = useAppDispatch()
