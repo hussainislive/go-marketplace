@@ -71,7 +71,7 @@ GO Marketplace is a feature-complete classifieds platform where users can post l
 | Auth | Passport.js (Local + Google OAuth 2.0), JWT |
 | Validation | Zod |
 | Real-time | Socket.io |
-| Email | Resend |
+| Email | Brevo (HTTP API) |
 | Media | Cloudinary (multer memory storage → stream upload) |
 | Security | helmet, cors, hpp, express-rate-limit, bcryptjs |
 | Logging | Winston |
@@ -182,7 +182,7 @@ GO-MarketPlace/
 - **Node.js** 20 LTS or newer
 - **npm** 9+
 - A **Supabase** project (free tier) for PostgreSQL — you need the pooled and direct connection strings
-- *(Optional, for full functionality)* Cloudinary account (media uploads), Resend API key (emails), Google OAuth credentials (social login). The app boots and runs without these; only the corresponding features are inert.
+- *(Optional, for full functionality)* Cloudinary account (media uploads), Brevo API key (emails), Google OAuth credentials (social login). The app boots and runs without these; only the corresponding features are inert.
 
 ---
 
@@ -216,9 +216,8 @@ CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 
-# Resend (optional)
-RESEND_API_KEY=
-FROM_EMAIL=noreply@go-marketplace.com
+# Brevo email (optional) — HTTP API key from Brevo → Settings → SMTP & API → API keys
+BREVO_API_KEY=
 
 # Frontend origin (CORS + email links)
 CLIENT_URL=http://localhost:5173
@@ -520,7 +519,7 @@ List the seeded user emails any time with `npm run db:studio`.
 - **Prisma 7 driver adapter.** Prisma 7 removed `url`/`directUrl` from `schema.prisma`. The connection is provided at runtime via `@prisma/adapter-pg` (a `pg.Pool` wrapped in `PrismaPg`) in `server/src/config/database.ts`, in `prisma.config.ts` for migrations, and in `prisma/seed.ts` for seeding.
 - **Express 5 read-only `req.query`.** Express 5 makes `req.query` a getter, so validation middleware cannot reassign it. Query validation is therefore parsed directly in the controller (`searchAdsSchema.parse(req.query)`); `validate()` only reassigns `body`/`params`.
 - **Tailwind v4 with no config file.** All tokens live in the CSS `@theme` block; the build uses `@tailwindcss/vite`.
-- **Lazy Resend initialization.** The Resend SDK throws on an empty API key at import time, so the email client is created lazily — the server boots fine without `RESEND_API_KEY`.
+- **Brevo over HTTP, not SMTP.** Cloud hosts (Railway) block outbound SMTP ports (25/465/587), so email is sent via Brevo's HTTP API (`https://api.brevo.com/v3/smtp/email`) over port 443 using `fetch`. The `BREVO_API_KEY` is read lazily, so the server boots fine without it (email is inert in dev).
 - **String-literal enum types in services.** To stay decoupled from Prisma's generated client, services use string-literal unions (e.g. `'ACTIVE' | 'SOLD' | ...`) and the `Prisma.*WhereInput` types for query shapes.
 - **Port 5001.** macOS Control Center occupies port 5000, so the backend defaults to 5001 (client proxy and env updated to match).
 
@@ -533,7 +532,7 @@ List the seeded user emails any time with `npm run db:studio`.
 | `EADDRINUSE :::5000` | macOS Control Center owns port 5000 — the server uses **5001**; ensure `PORT=5001` in `server/.env`. |
 | `P1001: Can't reach database server` | Use the **pooler** host (`aws-1-<region>.pooler.supabase.com`), not the deprecated `aws-0`. Verify `DATABASE_URL`/`DIRECT_URL`. |
 | `PrismaClient needs … adapter or accelerateUrl` | Prisma 7 requires the pg adapter; make sure `@prisma/adapter-pg` is wired in `database.ts`, `prisma.config.ts`, and `seed.ts`. |
-| `Missing API key … new Resend(...)` | `RESEND_API_KEY` is empty — fine in dev (email is inert); set it to enable emails. |
+| Verification emails not arriving | Set `BREVO_API_KEY` and verify a sender in Brevo → Senders. The "From" address in `src/utils/email.ts` must match a verified sender. |
 | Socket connects but immediately errors | The handshake needs a valid `accessToken` cookie — log in first; the socket connects only when authenticated. |
 | `Cannot set property query of #<IncomingMessage>` | Express 5 — don't reassign `req.query`; parse it in the controller (already handled). |
 
