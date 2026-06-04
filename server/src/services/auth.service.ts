@@ -29,7 +29,9 @@ export async function register(data: RegisterInput) {
     select: { id: true, email: true, name: true, role: true, isVerified: true, createdAt: true },
   })
 
-  await sendVerificationEmail(data.email, data.name, verificationToken).catch(() => null)
+  await sendVerificationEmail(data.email, data.name, verificationToken).catch(err => {
+    console.error('[register] failed to send verification email:', err)
+  })
 
   return user
 }
@@ -123,7 +125,9 @@ export async function resendVerification(email: string): Promise<void> {
     data: { verificationToken: hashToken(verificationToken), verificationExpires },
   })
 
-  await sendVerificationEmail(user.email, user.name, verificationToken).catch(() => null)
+  await sendVerificationEmail(user.email, user.name, verificationToken).catch(err => {
+    console.error('[resendVerification] failed to send verification email:', err)
+  })
 }
 
 export async function forgotPassword(email: string): Promise<void> {

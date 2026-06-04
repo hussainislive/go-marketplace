@@ -8,27 +8,41 @@ const SENDER = { name: 'GO Marketplace', email: 'developer.hussain125@gmail.com'
 // outbound SMTP ports (25/465/587); HTTPS is never blocked.
 async function sendEmail(to: string, subject: string, html: string): Promise<void> {
   const apiKey = process.env.BREVO_API_KEY
-  if (!apiKey) throw new Error('BREVO_API_KEY must be set')
+  if (!apiKey) {
+    console.error('[email] BREVO_API_KEY is not set — cannot send email')
+    throw new Error('BREVO_API_KEY must be set')
+  }
 
-  const res = await fetch(BREVO_API_URL, {
-    method: 'POST',
-    headers: {
-      'api-key': apiKey,
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      sender: SENDER,
-      to: [{ email: to }],
-      subject,
-      htmlContent: html,
-    }),
-  })
+  console.log(`[email] sending "${subject}" to ${to} via Brevo (key length: ${apiKey.length}, from: ${SENDER.email})`)
 
+  let res: Response
+  try {
+    res = await fetch(BREVO_API_URL, {
+      method: 'POST',
+      headers: {
+        'api-key': apiKey,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        sender: SENDER,
+        to: [{ email: to }],
+        subject,
+        htmlContent: html,
+      }),
+    })
+  } catch (err) {
+    console.error('[email] fetch to Brevo threw (network/DNS error):', err)
+    throw err
+  }
+
+  const body = await res.text().catch(() => '')
   if (!res.ok) {
-    const body = await res.text().catch(() => '')
+    console.error(`[email] Brevo returned ${res.status}: ${body}`)
     throw new Error(`Brevo API error ${res.status}: ${body}`)
   }
+
+  console.log(`[email] Brevo accepted: ${res.status} ${body}`)
 }
 
 export async function sendVerificationEmail(to: string, name: string, token: string): Promise<void> {
