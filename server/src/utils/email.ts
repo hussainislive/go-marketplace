@@ -8,7 +8,7 @@ function getTransport() {
   const user = process.env.BREVO_SMTP_USER
   const pass = process.env.BREVO_SMTP_PASS
   if (!host || !user || !pass) throw new Error('Brevo SMTP env vars (BREVO_SMTP_HOST, BREVO_SMTP_USER, BREVO_SMTP_PASS) must be set')
-  return nodemailer.createTransport({ host, port, secure: false, auth: { user, pass } })
+  return nodemailer.createTransport({ host, port: 465, secure: true, auth: { user, pass } })
 }
 
 function from(): string {
