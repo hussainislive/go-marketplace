@@ -4,7 +4,6 @@ const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'
 
 function getTransport() {
   const host = process.env.BREVO_SMTP_HOST
-  const port = Number(process.env.BREVO_SMTP_PORT ?? 587)
   const user = process.env.BREVO_SMTP_USER
   const pass = process.env.BREVO_SMTP_PASS
   if (!host || !user || !pass) throw new Error('Brevo SMTP env vars (BREVO_SMTP_HOST, BREVO_SMTP_USER, BREVO_SMTP_PASS) must be set')
