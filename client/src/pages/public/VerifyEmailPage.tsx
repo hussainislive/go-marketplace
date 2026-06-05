@@ -1,16 +1,26 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { CheckCircle2, XCircle } from 'lucide-react'
-import api from '../../lib/axios'
+import api, { setTokens } from '../../lib/axios'
+import { useAppDispatch } from '../../store/hooks'
+import { setUser } from '../../store/authSlice'
+import type { AuthUser } from '../../store/authSlice'
 import { Button } from '../../components/ui/Button'
 import { Spinner } from '../../components/ui/Spinner'
 
 type Status = 'verifying' | 'success' | 'error'
 
+interface VerifyResponseData {
+  user: AuthUser
+  accessToken: string
+  refreshToken: string
+}
+
 export default function VerifyEmailPage() {
   const [params] = useSearchParams()
   const token = params.get('token')
   const [status, setStatus] = useState<Status>('verifying')
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (!token) {
@@ -18,10 +28,16 @@ export default function VerifyEmailPage() {
       return
     }
     api
-      .post('/auth/verify-email', { token })
-      .then(() => setStatus('success'))
+      .post<{ data: VerifyResponseData }>('/auth/verify-email', { token })
+      .then(res => {
+        // Log the user in immediately so "Go to Dashboard" lands them authenticated.
+        const { user, accessToken, refreshToken } = res.data.data
+        setTokens(accessToken, refreshToken)
+        dispatch(setUser(user))
+        setStatus('success')
+      })
       .catch(() => setStatus('error'))
-  }, [token])
+  }, [token, dispatch])
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background-soft p-6">

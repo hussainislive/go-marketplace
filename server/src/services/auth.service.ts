@@ -102,14 +102,31 @@ export async function verifyEmail(token: string) {
   })
   if (!user) throw ApiError.badRequest('Invalid or expired verification token')
 
+  // Issue auth tokens so the user is logged in immediately after verifying.
+  const accessToken = generateAccessToken(user.id, user.role, user.email)
+  const refreshToken = generateRefreshToken(user.id)
+
   await prisma.user.update({
     where: { id: user.id },
     data: {
       isVerified: true,
       verificationToken: null,
       verificationExpires: null,
+      refreshToken: hashToken(refreshToken),
     },
   })
+
+  const safeUser = {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    avatar: user.avatar,
+    role: user.role,
+    isVerified: true,
+    city: user.city,
+  }
+
+  return { user: safeUser, accessToken, refreshToken }
 }
 
 export async function resendVerification(email: string): Promise<void> {

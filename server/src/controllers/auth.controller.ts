@@ -52,8 +52,9 @@ export const refresh = asyncHandler(async (req: Request, res: Response) => {
 
 export const verifyEmail = asyncHandler(async (req: Request, res: Response) => {
   const { token } = req.body as { token: string }
-  await authService.verifyEmail(token)
-  res.json(success('Email verified successfully'))
+  const { user, accessToken, refreshToken } = await authService.verifyEmail(token)
+  setTokenCookies(res, accessToken, refreshToken)
+  res.json(success('Email verified successfully', { user, accessToken, refreshToken }))
 })
 
 export const resendVerification = asyncHandler(async (req: Request, res: Response) => {
