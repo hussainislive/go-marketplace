@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Globe, Share2, AtSign, Send } from 'lucide-react'
+import { Mail, Phone } from 'lucide-react'
+import { GithubIcon, LinkedinIcon } from '../shared/BrandIcons'
 
 const columns = [
   {
@@ -14,32 +15,34 @@ const columns = [
   {
     title: 'Company',
     links: [
-      { label: 'About Us', to: '/' },
-      { label: 'How It Works', to: '/' },
-      { label: 'Careers', to: '/' },
-      { label: 'Blog', to: '/' },
+      { label: 'About the Developer', to: '/about' },
+      { label: 'How It Works', to: '/how-it-works' },
+      { label: 'Contact Us', to: '/contact' },
     ],
   },
   {
     title: 'Support',
     links: [
-      { label: 'Help Center', to: '/' },
-      { label: 'Safety Tips', to: '/' },
-      { label: 'Contact Us', to: '/' },
-      { label: 'Report a Problem', to: '/' },
+      { label: 'How It Works', to: '/how-it-works' },
+      { label: 'Contact Us', to: '/contact' },
+      { label: 'Privacy & Terms', to: '/legal' },
     ],
   },
   {
     title: 'Legal',
     links: [
-      { label: 'Terms of Service', to: '/' },
-      { label: 'Privacy Policy', to: '/' },
-      { label: 'Cookie Policy', to: '/' },
+      { label: 'Terms of Use', to: '/legal' },
+      { label: 'Privacy Policy', to: '/legal' },
     ],
   },
 ]
 
-const socials = [Globe, Share2, AtSign, Send]
+const socials: { Icon: React.ComponentType<{ size?: number; className?: string }>; href: string; label: string }[] = [
+  { Icon: GithubIcon, href: 'https://github.com/hussainislive', label: 'GitHub' },
+  { Icon: LinkedinIcon, href: 'https://linkedin.com/in/hussainislive', label: 'LinkedIn' },
+  { Icon: Mail, href: 'mailto:developer.hussain125@gmail.com', label: 'Email' },
+  { Icon: Phone, href: 'tel:+923229817456', label: 'Phone' },
+]
 
 export function Footer() {
   return (
@@ -52,8 +55,15 @@ export function Footer() {
               Buy. Sell. Connect. The marketplace for everything near you.
             </p>
             <div className="flex gap-3 mt-5">
-              {socials.map((Icon, i) => (
-                <a key={i} href="#" className="p-2 rounded-full bg-white/8 hover:bg-white/15 transition-colors">
+              {socials.map(({ Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith('http') ? '_blank' : undefined}
+                  rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  aria-label={label}
+                  className="p-2 rounded-full bg-white/8 hover:bg-white/15 transition-colors"
+                >
                   <Icon size={18} />
                 </a>
               ))}

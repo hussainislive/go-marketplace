@@ -37,6 +37,8 @@ GO Marketplace is a feature-complete classifieds platform where users can post l
 - **Favorites & notifications** — save ads and receive live notifications for messages, favorites, and listing updates.
 - **User dashboard** — overview metrics, my-ads management, profile, and settings.
 - **Admin panel** — dashboard stats, user management (ban/delete), listing moderation (remove/feature), and a reports queue.
+- **Informational pages** — How It Works, Privacy Policy & Terms of Use, an About-the-Developer page, and a Contact page whose form emails the developer via Brevo.
+- **Resilience** — a branded router error page (`errorElement`) plus a one-shot silent reload that recovers open tabs from stale-chunk MIME errors after a new deploy.
 - **Production hardening** — Helmet CSP, origin-locked CORS, HPP, per-route rate limiting, Zod validation on every input, and structured Winston logging.
 
 ---
@@ -132,7 +134,9 @@ GO-MarketPlace/
 │       │   ├── socketSlice.ts    # connected, onlineUsers
 │       │   └── notificationSlice.ts # unreadCount
 │       └── pages/
-│           ├── public/           # Home, Search, AdDetail, Login, Signup
+│           ├── public/           # Home, Search, AdDetail, Login, Signup,
+│           │                     #   VerifyEmail, HowItWorks, Legal,
+│           │                     #   Developer (About), Contact, RouteError
 │           ├── dashboard/        # Dashboard, CreateAd, EditAd, MyAds,
 │           │                     #   Messages, Notifications, Favorites,
 │           │                     #   Profile, Settings
@@ -163,7 +167,7 @@ GO-MarketPlace/
         │   ├── upload.ts         # multer memory storage
         │   ├── rateLimiter.ts    # general + auth limiters
         │   └── errorHandler.ts   # global error handler
-        ├── validators/           # auth, ad, user, message, report (Zod)
+        ├── validators/           # auth, ad, user, message, report, contact (Zod)
         ├── services/             # auth, user, ad, category, conversation,
         │                         #   notification, report, admin
         ├── controllers/          # one per feature (thin, HTTP only)
@@ -422,6 +426,11 @@ All routes are prefixed with **`/api/v1`**. Successful responses share a consist
 | PATCH | `/ads/:id/feature` | Toggle featured |
 | GET | `/reports` | Reports queue |
 
+### Contact — `/api/v1/contact`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| POST | `/` | — | Send a message from the public Contact form (rate-limited; emails the developer via Brevo) |
+
 ---
 
 ## Real-time (Socket.io) Events
@@ -493,7 +502,7 @@ The project follows the phased plan in `MASTER_PROMPT.md` / `CLAUDE.md`.
 | **4 — Frontend Core** | Axios instance + refresh interceptor, TanStack Query client, Socket.io client, Redux store (auth/ui/socket/notification), React Router guards, App/main wiring | ✅ Complete |
 | **5 — UI Components** | Design-system primitives (Button, Input, Card, Badge, Modal, Skeleton, Spinner, Tabs, Avatar, Select, ConfirmModal, PriceRangeSlider), layouts (Header, Footer, Public/Dashboard/Admin), shared components (AdCard, AdCardSkeleton, CategoryCard, AuthModal, EmptyState, VerifiedBadge) | ✅ Complete |
 | **6 — Pages** | All 17 screens implemented against the live API with skeletons + empty states: Home, Search (filters + dual price slider), Ad Detail (gallery/lightbox/chat/report), Login, Signup, Dashboard, My Ads, Create/Edit Ad (dropzone wizard), Messages (realtime + media + voice notes), Notifications, Favorites, Profile, Settings, Admin Dashboard (recharts), Users, Listings, Reports (slide-in panel), Categories | ✅ Complete |
-| **7 — Polish** | Framer Motion transitions, full mobile audit, error states | ⏳ In progress (animations + responsive built into components; dedicated audit pending) |
+| **7 — Polish** | Framer Motion transitions, full mobile audit, error states, branded router error page, stale-chunk auto-recovery, and informational pages (How It Works, Privacy & Terms, About the Developer, Contact) wired into routes + footer | ✅ Complete |
 
 > **What's verified working today:** the backend API serves real seeded data; auth (register/login/refresh/logout) sets and rotates cookies; admin routes return 401/403 appropriately; the Socket.io handshake rejects unauthenticated clients and accepts authenticated ones; the full React app (all 17 pages, all components) compiles under `tsc` and builds under Vite with zero errors; new endpoints (`/users/me/stats`, `/ads/favorites`) and existing ones (`/admin/stats`, `/conversations`, `/ads/featured`, `/categories`) all respond correctly with seeded data.
 
@@ -522,6 +531,8 @@ List the seeded user emails any time with `npm run db:studio`.
 - **Brevo over HTTP, not SMTP.** Cloud hosts (Railway) block outbound SMTP ports (25/465/587), so email is sent via Brevo's HTTP API (`https://api.brevo.com/v3/smtp/email`) over port 443 using `fetch`. The `BREVO_API_KEY` is read lazily, so the server boots fine without it (email is inert in dev).
 - **String-literal enum types in services.** To stay decoupled from Prisma's generated client, services use string-literal unions (e.g. `'ACTIVE' | 'SOLD' | ...`) and the `Prisma.*WhereInput` types for query shapes.
 - **Port 5001.** macOS Control Center occupies port 5000, so the backend defaults to 5001 (client proxy and env updated to match).
+- **Stale-chunk auto-recovery.** After a deploy, a tab left open may still reference old hashed JS chunks that no longer exist; loading one fails with a "not a valid JavaScript MIME type" / dynamic-import error. `client/src/main.tsx` listens for these errors and performs a single guarded `window.location.reload()` (tracked via a `sessionStorage` flag to avoid loops) so the user silently lands on the fresh build. React Router routes also declare a branded `RouteErrorPage` as their `errorElement`.
+- **Brand icons are inline SVGs.** This version of `lucide-react` no longer ships GitHub/LinkedIn brand logos, so `client/src/components/shared/BrandIcons.tsx` defines minimal inline SVG components with the same `size`/`className` API.
 
 ---
 

@@ -19,6 +19,7 @@ import conversationRoutes from './routes/conversation.routes'
 import notificationRoutes from './routes/notification.routes'
 import reportRoutes from './routes/report.routes'
 import adminRoutes from './routes/admin.routes'
+import contactRoutes from './routes/contact.routes'
 
 const app = express()
 
@@ -61,6 +62,7 @@ app.use('/api/v1/conversations', conversationRoutes)
 app.use('/api/v1/notifications', notificationRoutes)
 app.use('/api/v1/reports', reportRoutes)
 app.use('/api/v1/admin', adminRoutes)
+app.use('/api/v1/contact', contactRoutes)
 
 app.get('/api/v1/health', (_req, res) => {
   res.json({ success: true, message: 'GO Marketplace API is running' })

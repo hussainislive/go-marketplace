@@ -4,6 +4,7 @@ import { useAppSelector } from './store/hooks'
 import { PublicLayout } from './components/layout/PublicLayout'
 import { DashboardLayout } from './components/layout/DashboardLayout'
 import { AdminLayout } from './components/layout/AdminLayout'
+import RouteErrorPage from './pages/public/RouteErrorPage'
 
 // ── Lazy-loaded pages ────────────────────────────────────────────────────────
 const HomePage           = lazy(() => import('./pages/public/HomePage'))
@@ -12,6 +13,10 @@ const AdDetailPage       = lazy(() => import('./pages/public/AdDetailPage'))
 const LoginPage          = lazy(() => import('./pages/public/LoginPage'))
 const SignupPage         = lazy(() => import('./pages/public/SignupPage'))
 const VerifyEmailPage    = lazy(() => import('./pages/public/VerifyEmailPage'))
+const HowItWorksPage     = lazy(() => import('./pages/public/HowItWorksPage'))
+const LegalPage          = lazy(() => import('./pages/public/LegalPage'))
+const DeveloperPage      = lazy(() => import('./pages/public/DeveloperPage'))
+const ContactPage        = lazy(() => import('./pages/public/ContactPage'))
 
 const DashboardPage      = lazy(() => import('./pages/dashboard/DashboardPage'))
 const CreateAdPage       = lazy(() => import('./pages/dashboard/CreateAdPage'))
@@ -59,17 +64,22 @@ function AdminRoute() {
 
 export const router = createBrowserRouter([
   // ── Auth pages (no layout chrome) ──────────────────────────────────────────
-  { path: '/login', element: <L><LoginPage /></L> },
-  { path: '/signup', element: <L><SignupPage /></L> },
-  { path: '/verify-email', element: <L><VerifyEmailPage /></L> },
+  { path: '/login', element: <L><LoginPage /></L>, errorElement: <RouteErrorPage /> },
+  { path: '/signup', element: <L><SignupPage /></L>, errorElement: <RouteErrorPage /> },
+  { path: '/verify-email', element: <L><VerifyEmailPage /></L>, errorElement: <RouteErrorPage /> },
 
   // ── Public (Header + Footer) ───────────────────────────────────────────────
   {
     element: <PublicLayout />,
+    errorElement: <RouteErrorPage />,
     children: [
       { path: '/', element: <L><HomePage /></L> },
       { path: '/search', element: <L><SearchPage /></L> },
       { path: '/ads/:id', element: <L><AdDetailPage /></L> },
+      { path: '/how-it-works', element: <L><HowItWorksPage /></L> },
+      { path: '/legal', element: <L><LegalPage /></L> },
+      { path: '/about', element: <L><DeveloperPage /></L> },
+      { path: '/contact', element: <L><ContactPage /></L> },
     ],
   },
 

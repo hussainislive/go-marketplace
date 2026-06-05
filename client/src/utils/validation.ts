@@ -16,8 +16,15 @@ export const signupSchema = z.object({
     .regex(/[^A-Za-z0-9]/, 'Include a special character'),
 })
 
+export const contactSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters').max(100),
+  email: z.string().email('Enter a valid email'),
+  message: z.string().min(10, 'Message must be at least 10 characters').max(2000),
+})
+
 export type LoginValues = z.infer<typeof loginSchema>
 export type SignupValues = z.infer<typeof signupSchema>
+export type ContactValues = z.infer<typeof contactSchema>
 
 export function passwordStrength(password: string): { score: number; label: string } {
   let score = 0

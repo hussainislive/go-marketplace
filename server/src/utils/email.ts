@@ -62,6 +62,31 @@ export async function sendVerificationEmail(to: string, name: string, token: str
   )
 }
 
+// Recipient for the public "Contact" form — the developer's inbox.
+const CONTACT_RECIPIENT = 'developer.hussain125@gmail.com'
+
+export async function sendContactEmail(
+  fromName: string,
+  fromEmail: string,
+  message: string
+): Promise<void> {
+  const safe = (v: string) => v.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  await sendEmail(
+    CONTACT_RECIPIENT,
+    `New contact message from ${safe(fromName)}`,
+    `
+      <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;padding:40px 24px;">
+        <h1 style="background:linear-gradient(135deg,#C82C8C,#8A1D9D);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:32px;margin:0 0 8px;">GO</h1>
+        <p style="color:#232323;font-size:15px;font-weight:600;margin:0 0 16px;">New message from the GO Marketplace contact form</p>
+        <p style="color:#232323;font-size:15px;margin:4px 0;"><strong>Name:</strong> ${safe(fromName)}</p>
+        <p style="color:#232323;font-size:15px;margin:4px 0;"><strong>Email:</strong> ${safe(fromEmail)}</p>
+        <p style="color:#232323;font-size:15px;margin:16px 0 4px;"><strong>Message:</strong></p>
+        <div style="color:#232323;font-size:15px;line-height:1.6;white-space:pre-wrap;border-left:3px solid #C82C8C;padding-left:16px;">${safe(message)}</div>
+      </div>
+    `
+  )
+}
+
 export async function sendPasswordResetEmail(to: string, name: string, token: string): Promise<void> {
   const link = `${CLIENT_URL}/reset-password?token=${token}`
   await sendEmail(
