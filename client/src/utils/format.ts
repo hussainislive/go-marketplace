@@ -36,6 +36,27 @@ export function apiErrorMessage(err: unknown, fallback: string): string {
   return fallback
 }
 
+// Return a CDN URL that delivers the image at roughly the display width and in a
+// modern format, instead of full-resolution. Falls back to the original URL for
+// anything we don't recognise, so behaviour never breaks for other hosts.
+export function cdnImage(url: string | undefined | null, width: number): string {
+  if (!url) return ''
+
+  // Cloudinary: inject transforms right after "/upload/".
+  if (url.includes('res.cloudinary.com') && url.includes('/upload/')) {
+    if (url.includes('/upload/f_auto')) return url // already transformed
+    return url.replace('/upload/', `/upload/f_auto,q_auto,c_fill,w_${width}/`)
+  }
+
+  // Unsplash (used by seed data): supports query-string sizing.
+  if (url.includes('images.unsplash.com')) {
+    const sep = url.includes('?') ? '&' : '?'
+    return `${url}${sep}auto=format&fit=crop&q=75&w=${width}`
+  }
+
+  return url
+}
+
 export function getInitials(name: string): string {
   return name
     .split(' ')

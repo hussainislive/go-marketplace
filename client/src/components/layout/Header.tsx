@@ -45,7 +45,9 @@ export function Header() {
   return (
     <nav
       className={cn(
-        'h-[72px] sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-border transition-shadow',
+        // Solid background (no backdrop-blur) — blur on a sticky bar forces a
+        // full re-rasterize every scroll frame, which causes visible jank.
+        'h-[72px] sticky top-0 z-50 w-full bg-white border-b border-border transition-shadow',
         scrolled && 'shadow-card'
       )}
     >
@@ -119,10 +121,10 @@ export function Header() {
             </>
           ) : (
             <>
-              <Link to="/login" className="inline-flex items-center bg-brand-gradient text-white px-5 py-2.5 rounded-button font-medium text-body hover:shadow-card-hover transition-all active:scale-95">
+              <Link to="/login" className="inline-flex items-center bg-transparent text-brand-pink border-2 border-brand-pink px-5 py-2.5 rounded-button font-medium text-body hover:bg-brand-gradient hover:text-white hover:border-transparent hover:shadow-card-hover transition-all active:scale-95">
                 Log in
               </Link>
-              <Link to="/signup" className="inline-flex items-center bg-brand-gradient text-white px-5 py-2.5 rounded-button font-medium text-body hover:shadow-card-hover transition-all active:scale-95">
+              <Link to="/signup" className="inline-flex items-center bg-transparent text-brand-pink border-2 border-brand-pink px-5 py-2.5 rounded-button font-medium text-body hover:bg-brand-gradient hover:text-white hover:border-transparent hover:shadow-card-hover transition-all active:scale-95">
                 Sign up
               </Link>
               <button onClick={handleSell} className="inline-flex items-center gap-1.5 bg-brand-gradient text-white px-5 py-2.5 rounded-button font-medium text-body hover:shadow-card-hover transition-all active:scale-95">
@@ -167,10 +169,10 @@ export function Header() {
             </div>
           ) : (
             <div className="flex gap-2">
-              <Link to="/login" onClick={() => setMobileOpen(false)} className="flex-1 text-center py-2.5 rounded-button bg-brand-gradient text-white font-medium text-body">
+              <Link to="/login" onClick={() => setMobileOpen(false)} className="flex-1 text-center py-2.5 rounded-button bg-transparent text-brand-pink border-2 border-brand-pink font-medium text-body hover:bg-brand-gradient hover:text-white hover:border-transparent transition-all">
                 Log in
               </Link>
-              <Link to="/signup" onClick={() => setMobileOpen(false)} className="flex-1 text-center py-2.5 rounded-button bg-brand-gradient text-white font-medium text-body">
+              <Link to="/signup" onClick={() => setMobileOpen(false)} className="flex-1 text-center py-2.5 rounded-button bg-transparent text-brand-pink border-2 border-brand-pink font-medium text-body hover:bg-brand-gradient hover:text-white hover:border-transparent transition-all">
                 Sign up
               </Link>
             </div>

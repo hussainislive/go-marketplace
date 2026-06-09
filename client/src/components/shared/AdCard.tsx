@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Heart, MapPin } from 'lucide-react'
-import { motion } from 'framer-motion'
 import type { Ad } from '../../types'
-import { formatPrice, formatRelativeTime, cn } from '../../utils/format'
+import { formatPrice, formatRelativeTime, cn, cdnImage } from '../../utils/format'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { openAuthModal } from '../../store/uiSlice'
 import { useToggleFavorite } from '../../api/ads'
@@ -37,17 +36,24 @@ export function AdCard({ ad, initialFavorited = false }: AdCardProps) {
 
   return (
     <Link to={`/ads/${ad.id}`} className="group block">
-      <motion.div
-        whileHover={{ y: -2 }}
-        className="bg-background-card rounded-card shadow-card overflow-hidden transition-shadow duration-200 group-hover:shadow-card-hover"
+      <div
+        // content-visibility lets the browser skip rendering off-screen cards,
+        // and a CSS-only hover lift avoids a JS animation per card while scrolling.
+        style={{ contentVisibility: 'auto', containIntrinsicSize: '320px' }}
+        className="bg-background-card rounded-card shadow-card overflow-hidden transition-[box-shadow,transform] duration-200 group-hover:shadow-card-hover group-hover:-translate-y-0.5"
       >
         {/* Image */}
         <div className="relative aspect-[16/9] bg-background-soft overflow-hidden">
           {ad.images[0] ? (
             <img
-              src={ad.images[0]}
+              src={cdnImage(ad.images[0], 600)}
+              srcSet={`${cdnImage(ad.images[0], 400)} 400w, ${cdnImage(ad.images[0], 600)} 600w, ${cdnImage(ad.images[0], 800)} 800w`}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
               alt={ad.title}
               loading="lazy"
+              decoding="async"
+              width={600}
+              height={338}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
           ) : (
@@ -65,7 +71,7 @@ export function AdCard({ ad, initialFavorited = false }: AdCardProps) {
           <button
             onClick={handleFavorite}
             aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}
-            className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur flex items-center justify-center shadow-card hover:scale-110 active:scale-95 transition-transform"
+            className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 flex items-center justify-center shadow-card hover:scale-110 active:scale-95 transition-transform"
           >
             <Heart
               size={18}
@@ -75,7 +81,7 @@ export function AdCard({ ad, initialFavorited = false }: AdCardProps) {
 
           {ad.condition && (
             <div className="absolute bottom-3 left-3">
-              <span className="rounded-badge bg-black/55 backdrop-blur px-2.5 py-1 text-caption font-medium text-white capitalize">
+              <span className="rounded-badge bg-black/60 px-2.5 py-1 text-caption font-medium text-white capitalize">
                 {ad.condition.toLowerCase()}
               </span>
             </div>
@@ -93,7 +99,7 @@ export function AdCard({ ad, initialFavorited = false }: AdCardProps) {
             <span className="whitespace-nowrap">{formatRelativeTime(ad.createdAt)}</span>
           </div>
         </div>
-      </motion.div>
+      </div>
     </Link>
   )
 }

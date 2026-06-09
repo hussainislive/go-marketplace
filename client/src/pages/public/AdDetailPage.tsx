@@ -15,7 +15,7 @@ import { Modal } from '../../components/ui/Modal'
 import { Select } from '../../components/ui/Select'
 import { VerifiedBadge } from '../../components/shared/VerifiedBadge'
 import { Skeleton } from '../../components/ui/Skeleton'
-import { formatPrice, formatRelativeTime, cn } from '../../utils/format'
+import { formatPrice, formatRelativeTime, cn, cdnImage } from '../../utils/format'
 import type { ReportReason } from '../../types'
 
 const REPORT_REASONS = [
@@ -148,7 +148,15 @@ export default function AdDetailPage() {
               onClick={() => images.length > 0 && setLightbox(true)}
             >
               {images[activeImage] ? (
-                <img src={images[activeImage]} alt={ad.title} className="w-full h-full object-cover" />
+                <img
+                  src={cdnImage(images[activeImage], 900)}
+                  alt={ad.title}
+                  width={900}
+                  height={563}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-text-primary/30">No image</div>
               )}
@@ -165,7 +173,7 @@ export default function AdDetailPage() {
                       i === activeImage ? 'border-brand-pink' : 'border-transparent'
                     )}
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    <img src={cdnImage(img, 160)} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>

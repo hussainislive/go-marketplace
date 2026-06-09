@@ -6,6 +6,13 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { store } from './store'
 import { queryClient } from './lib/queryClient'
 import App from './App'
+// Self-hosted Inter (only the weights we use) — no Google Fonts round-trip,
+// which removes a render-blocking request and the font-swap layout shift (CLS).
+import '@fontsource/inter/300.css'
+import '@fontsource/inter/400.css'
+import '@fontsource/inter/500.css'
+import '@fontsource/inter/600.css'
+import '@fontsource/inter/700.css'
 import './index.css'
 
 // After a new deploy, an open tab may hold a stale index.html that references
