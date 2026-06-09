@@ -11,6 +11,7 @@ import { AdCard } from '../../components/shared/AdCard'
 import { AdGridSkeleton } from '../../components/shared/AdCardSkeleton'
 import { CategoryCard } from '../../components/shared/CategoryCard'
 import { Button } from '../../components/ui/Button'
+import { HeroCarousel } from '../../components/shared/HeroCarousel'
 
 const TRENDING = ['iPhone', 'Toyota', 'Apartment', 'Laptop', 'Sofa']
 
@@ -84,24 +85,8 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="bg-brand-gradient pt-20 pb-32 px-5 md:px-margin-desktop relative overflow-hidden">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[150%] bg-white/5 blur-3xl rounded-full" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[40%] h-[120%] bg-black/10 blur-2xl rounded-full" />
-        <motion.div
-          className="max-w-container mx-auto text-center relative z-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: EASE_OUT }}
-        >
-          <h1 className="text-[40px] leading-[1.15] md:text-hero font-bold text-white mb-5">
-            Find Anything Near You
-          </h1>
-          <p className="text-white/85 text-lg max-w-2xl mx-auto">
-            Buy. Sell. Connect. Your local marketplace for everything from electronics to homes.
-          </p>
-        </motion.div>
-      </section>
+      {/* Hero — auto-playing banner carousel (swipe / arrows / dots) */}
+      <HeroCarousel />
 
       {/* Floating search card */}
       <div className="max-w-container mx-auto px-5 md:px-margin-desktop -mt-16 relative z-20 mb-20">

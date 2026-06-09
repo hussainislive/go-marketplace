@@ -6,6 +6,7 @@ import { openAuthModal } from '../../store/uiSlice'
 import { logout as logoutAction } from '../../store/authSlice'
 import { useLogout } from '../../api/auth'
 import { Avatar } from '../ui/Avatar'
+import { Logo } from '../shared/Logo'
 import { cn } from '../../utils/format'
 
 export function Header() {
@@ -53,8 +54,8 @@ export function Header() {
     >
       <div className="max-w-container mx-auto h-full px-5 lg:px-margin-desktop flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-brand-gradient shrink-0">
-          GO
+        <Link to="/" className="shrink-0">
+          <Logo className="h-10 md:h-12" />
         </Link>
 
         {/* Search — desktop */}

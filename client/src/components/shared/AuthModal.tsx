@@ -12,6 +12,7 @@ import { Modal } from '../ui/Modal'
 import { Input } from '../ui/Input'
 import { Button } from '../ui/Button'
 import { Tabs } from '../ui/Tabs'
+import { Logo } from './Logo'
 import { apiErrorMessage } from '../../utils/format'
 
 const API_BASE = (import.meta.env.VITE_API_URL as string).replace('/api/v1', '')
@@ -27,9 +28,9 @@ export function AuthModal() {
       className="sm:max-w-md"
       showClose
     >
-      <div className="text-center mb-5 -mt-2">
-        <span className="text-2xl font-bold text-brand-gradient">GO</span>
-        <p className="text-body text-text-primary/55 mt-1">Buy. Sell. Connect.</p>
+      <div className="flex flex-col items-center text-center mb-5 -mt-2">
+        <Logo className="h-10 md:h-12" />
+        <p className="text-body text-text-primary/55 mt-2">Buy. Sell. Connect.</p>
       </div>
       <Tabs
         tabs={[

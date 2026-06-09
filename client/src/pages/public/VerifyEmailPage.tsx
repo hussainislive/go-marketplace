@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../store/hooks'
 import { setUser } from '../../store/authSlice'
 import type { AuthUser } from '../../store/authSlice'
 import { Button } from '../../components/ui/Button'
+import { Logo } from '../../components/shared/Logo'
 import { Spinner } from '../../components/ui/Spinner'
 
 type Status = 'verifying' | 'success' | 'error'
@@ -42,7 +43,7 @@ export default function VerifyEmailPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background-soft p-6">
       <div className="w-full max-w-md bg-white rounded-card shadow-card p-8 text-center">
-        <Link to="/" className="text-3xl font-bold text-brand-gradient block mb-6">GO</Link>
+        <Link to="/" className="inline-block mb-6"><Logo className="h-10 md:h-12" /></Link>
 
         {status === 'verifying' && (
           <>

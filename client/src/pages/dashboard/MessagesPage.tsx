@@ -7,6 +7,7 @@ import { useAppSelector } from '../../store/hooks'
 import { socket, socketEvents } from '../../lib/socket'
 import { Avatar } from '../../components/ui/Avatar'
 import { EmptyState } from '../../components/shared/EmptyState'
+import { Logo } from '../../components/shared/Logo'
 import { Spinner } from '../../components/ui/Spinner'
 import { useVoiceRecorder } from '../../utils/useVoiceRecorder'
 import { formatRelativeTime, formatDuration, cn } from '../../utils/format'
@@ -107,7 +108,7 @@ export default function MessagesPage() {
           <LayoutDashboard size={18} />
           <span className="text-body font-medium hidden sm:inline">Dashboard</span>
         </Link>
-        <Link to="/" className="text-xl font-bold text-brand-gradient">GO</Link>
+        <Link to="/"><Logo className="h-10 md:h-12" /></Link>
         <div className="w-8" />
       </div>
 

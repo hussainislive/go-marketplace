@@ -10,6 +10,7 @@ import { signupSchema, passwordStrength } from '../../utils/validation'
 import type { SignupValues } from '../../utils/validation'
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
+import { Logo } from '../../components/shared/Logo'
 import { cn, apiErrorMessage } from '../../utils/format'
 
 const API_BASE = (import.meta.env.VITE_API_URL as string).replace('/api/v1', '')
@@ -44,7 +45,7 @@ export default function SignupPage() {
     <div className="min-h-screen grid lg:grid-cols-2">
       <div className="hidden lg:flex flex-col justify-between bg-brand-gradient p-12 relative overflow-hidden">
         <div className="absolute bottom-[-15%] left-[-10%] w-[60%] h-[60%] bg-white/5 blur-3xl rounded-full" />
-        <Link to="/" className="text-3xl font-bold text-white relative z-10">GO</Link>
+        <Link to="/" className="relative z-10"><Logo variant="white" className="h-9" /></Link>
         <div className="relative z-10">
           <h1 className="text-hero font-bold text-white leading-tight">Join GO today.</h1>
           <p className="text-white/80 text-lg mt-4 max-w-md">
@@ -69,7 +70,7 @@ export default function SignupPage() {
             </div>
           ) : (
             <>
-              <Link to="/" className="lg:hidden text-3xl font-bold text-brand-gradient block mb-8">GO</Link>
+              <Link to="/" className="lg:hidden inline-block mb-8"><Logo className="h-10 md:h-12" /></Link>
               <h2 className="text-2xl font-bold text-text-primary">Create your account</h2>
               <p className="text-body text-text-primary/55 mt-1 mb-8">
                 Already have an account?{' '}

@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { logout as logoutAction } from '../../store/authSlice'
 import { useLogout } from '../../api/auth'
 import { Avatar } from '../ui/Avatar'
+import { Logo } from '../shared/Logo'
 import { cn } from '../../utils/format'
 
 const navItems = [
@@ -43,7 +44,7 @@ export function AdminLayout() {
   const SidebarContent = (
     <>
       <div className="px-6 py-6 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold text-brand-gradient">GO</Link>
+        <Link to="/"><Logo variant="white" className="h-7" /></Link>
         <span className="text-label font-semibold text-white/50 uppercase tracking-wide">Admin</span>
       </div>
       <nav className="flex-1 px-3 py-2 space-y-1">
@@ -103,7 +104,10 @@ export function AdminLayout() {
           <button onClick={() => setDrawerOpen(true)} className="p-2 -ml-2 text-white">
             <Menu size={22} />
           </button>
-          <span className="text-xl font-bold text-brand-gradient">GO Admin</span>
+          <span className="flex items-center gap-2">
+            <Logo variant="white" className="h-6" />
+            <span className="text-label font-semibold text-white/50 uppercase tracking-wide">Admin</span>
+          </span>
           <div className="w-8" />
         </header>
         <div className="flex-1 p-5 lg:p-8 w-full">

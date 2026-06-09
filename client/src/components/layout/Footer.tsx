@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Mail, Phone } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from '../shared/BrandIcons'
+import { Logo } from '../shared/Logo'
 
 const columns = [
   {
@@ -50,7 +51,7 @@ export function Footer() {
       <div className="max-w-container mx-auto px-5 lg:px-margin-desktop py-14">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2 md:col-span-1">
-            <span className="text-2xl font-bold text-brand-gradient">GO</span>
+            <Logo variant="white" className="h-8" />
             <p className="text-body text-white/60 mt-3 max-w-xs">
               Buy. Sell. Connect. The marketplace for everything near you.
             </p>

@@ -10,6 +10,7 @@ import { loginSchema } from '../../utils/validation'
 import type { LoginValues } from '../../utils/validation'
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
+import { Logo } from '../../components/shared/Logo'
 import { apiErrorMessage } from '../../utils/format'
 
 const API_BASE = (import.meta.env.VITE_API_URL as string).replace('/api/v1', '')
@@ -59,7 +60,7 @@ export default function LoginPage() {
       {/* Left — branding */}
       <div className="hidden lg:flex flex-col justify-between bg-brand-gradient p-12 relative overflow-hidden">
         <div className="absolute top-[-15%] right-[-10%] w-[60%] h-[60%] bg-white/5 blur-3xl rounded-full" />
-        <Link to="/" className="text-3xl font-bold text-white relative z-10">GO</Link>
+        <Link to="/" className="relative z-10"><Logo variant="white" className="h-9" /></Link>
         <div className="relative z-10">
           <h1 className="text-hero font-bold text-white leading-tight">Welcome back.</h1>
           <p className="text-white/80 text-lg mt-4 max-w-md">
@@ -72,7 +73,7 @@ export default function LoginPage() {
       {/* Right — form */}
       <div className="flex items-center justify-center p-6 sm:p-12 bg-background-soft">
         <div className="w-full max-w-md">
-          <Link to="/" className="lg:hidden text-3xl font-bold text-brand-gradient block mb-8">GO</Link>
+          <Link to="/" className="lg:hidden inline-block mb-8"><Logo className="h-10 md:h-12" /></Link>
           <h2 className="text-2xl font-bold text-text-primary">Log in to your account</h2>
           <p className="text-body text-text-primary/55 mt-1 mb-8">
             New here?{' '}

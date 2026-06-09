@@ -19,6 +19,7 @@ import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { logout as logoutAction } from '../../store/authSlice'
 import { useLogout } from '../../api/auth'
 import { Avatar } from '../ui/Avatar'
+import { Logo } from '../shared/Logo'
 import { cn } from '../../utils/format'
 
 const navItems = [
@@ -50,7 +51,7 @@ export function DashboardLayout() {
   const SidebarContent = (
     <>
       <div className="px-6 py-6">
-        <Link to="/" className="text-2xl font-bold text-brand-gradient">GO</Link>
+        <Link to="/"><Logo className="h-10 md:h-12" /></Link>
       </div>
       <div className="px-4 pb-4 flex items-center gap-3 border-b border-border-divider mx-2">
         <Avatar src={user?.avatar} name={user?.name ?? 'U'} size="md" />
@@ -119,7 +120,7 @@ export function DashboardLayout() {
           <button onClick={() => setDrawerOpen(true)} className="p-2 -ml-2">
             <Menu size={22} />
           </button>
-          <Link to="/" className="text-xl font-bold text-brand-gradient">GO</Link>
+          <Link to="/"><Logo className="h-10 md:h-12" /></Link>
           <div className="w-8" />
         </header>
         <div className="flex-1 p-5 lg:p-8 max-w-[1100px] w-full mx-auto">
