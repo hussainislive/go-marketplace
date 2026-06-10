@@ -6,6 +6,7 @@ import { Mail, Phone, Send } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from '../../components/shared/BrandIcons'
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
+import { Seo } from '../../components/shared/Seo'
 import { useSendContact } from '../../api/contact'
 import { contactSchema } from '../../utils/validation'
 import type { ContactValues } from '../../utils/validation'
@@ -39,6 +40,11 @@ export default function ContactPage() {
 
   return (
     <div>
+      <Seo
+        title="Contact Us"
+        description="Get in touch with the GO Marketplace team. Send us a message with your questions, feedback, or partnership ideas."
+        path="/contact"
+      />
       {/* Hero */}
       <section className="bg-brand-gradient py-16 px-5 md:px-margin-desktop text-center">
         <motion.div

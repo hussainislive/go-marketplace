@@ -12,6 +12,19 @@ import { AdGridSkeleton } from '../../components/shared/AdCardSkeleton'
 import { CategoryCard } from '../../components/shared/CategoryCard'
 import { Button } from '../../components/ui/Button'
 import { HeroCarousel } from '../../components/shared/HeroCarousel'
+import { Seo } from '../../components/shared/Seo'
+
+const HOME_JSONLD = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'GO Marketplace',
+  url: 'https://go-marketplace-rouge.vercel.app',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://go-marketplace-rouge.vercel.app/search?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
+}
 
 const TRENDING = ['iPhone', 'Toyota', 'Apartment', 'Laptop', 'Sofa']
 
@@ -85,11 +98,12 @@ export default function HomePage() {
 
   return (
     <div>
+      <Seo path="/" jsonLd={HOME_JSONLD} />
       {/* Hero — auto-playing banner carousel (swipe / arrows / dots) */}
       <HeroCarousel />
 
       {/* Floating search card */}
-      <div className="max-w-container mx-auto px-5 md:px-margin-desktop -mt-16 relative z-20 mb-20">
+      <div className="max-w-container mx-auto px-5 md:px-margin-desktop mt-6 md:-mt-16 relative z-20 mb-20">
         <motion.form
           onSubmit={explore}
           className="bg-white rounded-card shadow-modal p-5 md:p-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center"

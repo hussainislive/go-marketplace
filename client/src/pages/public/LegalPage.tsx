@@ -1,4 +1,5 @@
 import { ShieldCheck, FileText } from 'lucide-react'
+import { Seo } from '../../components/shared/Seo'
 
 const PRIVACY = [
   {
@@ -62,6 +63,11 @@ function Section({ items }: { items: { heading: string; body: string }[] }) {
 export default function LegalPage() {
   return (
     <div className="max-w-3xl mx-auto px-5 md:px-margin-desktop py-12">
+      <Seo
+        title="Privacy Policy & Terms of Use"
+        description="Read the GO Marketplace Privacy Policy and Terms of Use covering data collection, security, user conduct, and your rights."
+        path="/legal"
+      />
       <h1 className="text-2xl md:text-section font-bold text-text-primary mb-2">Privacy Policy & Terms of Use</h1>
       <p className="text-body text-text-primary/55 mb-10">Last updated: June 2026</p>
 

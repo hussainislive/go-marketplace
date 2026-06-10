@@ -11,6 +11,7 @@ import type { SignupValues } from '../../utils/validation'
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
 import { Logo } from '../../components/shared/Logo'
+import { Seo } from '../../components/shared/Seo'
 import { cn, apiErrorMessage } from '../../utils/format'
 
 const API_BASE = (import.meta.env.VITE_API_URL as string).replace('/api/v1', '')
@@ -43,6 +44,7 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
+      <Seo title="Sign Up" path="/signup" noIndex />
       <div className="hidden lg:flex flex-col justify-between bg-brand-gradient p-12 relative overflow-hidden">
         <div className="absolute bottom-[-15%] left-[-10%] w-[60%] h-[60%] bg-white/5 blur-3xl rounded-full" />
         <Link to="/" className="relative z-10"><Logo variant="white" className="h-9" /></Link>

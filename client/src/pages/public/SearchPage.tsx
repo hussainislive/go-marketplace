@@ -6,6 +6,7 @@ import { useCategories } from '../../api/categories'
 import { AdCard } from '../../components/shared/AdCard'
 import { AdGridSkeleton } from '../../components/shared/AdCardSkeleton'
 import { EmptyState } from '../../components/shared/EmptyState'
+import { Seo } from '../../components/shared/Seo'
 import { Button } from '../../components/ui/Button'
 import { Select } from '../../components/ui/Select'
 import { PriceRangeSlider } from '../../components/ui/PriceRangeSlider'
@@ -142,6 +143,11 @@ export default function SearchPage() {
 
   return (
     <div className="max-w-container mx-auto px-5 md:px-margin-desktop py-8">
+      <Seo
+        title="Search Listings"
+        description="Search thousands of local listings on GO Marketplace. Filter by category, location, price and condition to find exactly what you need."
+        path="/search"
+      />
       <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
         <div>
           <h1 className="text-2xl font-bold text-text-primary">

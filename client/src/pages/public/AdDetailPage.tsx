@@ -14,6 +14,7 @@ import { Button } from '../../components/ui/Button'
 import { Modal } from '../../components/ui/Modal'
 import { Select } from '../../components/ui/Select'
 import { VerifiedBadge } from '../../components/shared/VerifiedBadge'
+import { Seo } from '../../components/shared/Seo'
 import { Skeleton } from '../../components/ui/Skeleton'
 import { formatPrice, formatRelativeTime, cn, cdnImage } from '../../utils/format'
 import type { ReportReason } from '../../types'
@@ -126,6 +127,25 @@ export default function AdDetailPage() {
 
   return (
     <div className="max-w-container mx-auto px-5 md:px-margin-desktop py-6 lg:py-8">
+      <Seo
+        title={ad.title}
+        description={ad.description?.slice(0, 160) || `${ad.title} for sale on GO Marketplace in ${ad.city}.`}
+        path={`/ads/${ad.id}`}
+        image={ad.images?.[0]}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: ad.title,
+          description: ad.description,
+          image: ad.images,
+          offers: {
+            '@type': 'Offer',
+            price: ad.price,
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock',
+          },
+        }}
+      />
       {/* Breadcrumb */}
       <nav className="text-caption text-text-primary/50 mb-4 flex items-center gap-1.5">
         <Link to="/" className="hover:text-brand-pink">Home</Link>

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import { HelmetProvider } from 'react-helmet-async'
 import { router } from './routes'
 import { useAppDispatch, useAppSelector } from './store/hooks'
 import { setUser, logout } from './store/authSlice'
@@ -107,10 +108,11 @@ function AuthBootstrap() {
 export default function App() {
   return (
     <ErrorBoundary>
-      <AuthBootstrap />
-      <SocketManager />
-      <RouterProvider router={router} />
-      <AuthModal />
+      <HelmetProvider>
+        <AuthBootstrap />
+        <SocketManager />
+        <RouterProvider router={router} />
+        <AuthModal />
       <Toaster
         position="top-center"
         toastOptions={{
@@ -124,7 +126,8 @@ export default function App() {
           success: { style: { background: '#22C55E', color: '#fff' } },
           error: { style: { background: '#EF4444', color: '#fff' } },
         }}
-      />
+        />
+      </HelmetProvider>
     </ErrorBoundary>
   )
 }

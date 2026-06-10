@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Don't index private / auth-only areas
+Disallow: /login
+Disallow: /signup
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /messages
+Disallow: /settings
+Disallow: /verify-email
+
+Sitemap: https://go-marketplace-rouge.vercel.app/sitemap.xml

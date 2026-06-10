@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Search, MessageCircle, Handshake, UserPlus, Camera, ShieldCheck, Zap, Heart } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { Seo } from '../../components/shared/Seo'
 
 const BUY_STEPS = [
   { icon: Search, title: 'Browse & Search', desc: 'Explore thousands of listings. Filter by category, location, price, and condition to find exactly what you need.' },
@@ -51,6 +52,11 @@ function StepCard({ icon: Icon, title, desc, index }: { icon: typeof Search; tit
 export default function HowItWorksPage() {
   return (
     <div>
+      <Seo
+        title="How It Works"
+        description="Learn how GO Marketplace works — browse listings, chat with sellers, post your ad in minutes, and buy or sell safely in your local area."
+        path="/how-it-works"
+      />
       {/* Hero */}
       <section className="bg-brand-gradient py-20 px-5 md:px-margin-desktop text-center">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-container mx-auto">

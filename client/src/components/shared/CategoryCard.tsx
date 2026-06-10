@@ -12,7 +12,7 @@ export function CategoryCard({ category }: { category: Category }) {
   const Icon = resolveIcon(category.icon)
   return (
     <Link to={`/search?category=${category.slug}`} className="group flex flex-col items-center gap-3 text-center">
-      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-card bg-white shadow-card flex items-center justify-center text-text-primary/70 transition-all duration-200 group-hover:bg-brand-gradient group-hover:text-white group-hover:shadow-card-hover group-hover:scale-105">
+      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-card bg-brand-gradient text-white shadow-card flex items-center justify-center transition-all duration-200 group-hover:bg-none group-hover:bg-white group-hover:text-brand-pink group-hover:shadow-card-hover group-hover:scale-105">
         <Icon size={28} />
       </div>
       <div>

@@ -14,6 +14,7 @@ import {
   Smartphone,
 } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from '../../components/shared/BrandIcons'
+import { Seo } from '../../components/shared/Seo'
 import hussainPhoto from '../../assets/hussain-ahmed.png'
 
 const GITHUB_URL = 'https://github.com/hussainislive'
@@ -53,6 +54,19 @@ const fade = {
 export default function DeveloperPage() {
   return (
     <div>
+      <Seo
+        title="About the Developer"
+        description="Meet Hussain Ahmed — the full-stack software engineer and mobile app developer behind GO Marketplace. Built with React, TypeScript, Node.js, Prisma and more."
+        path="/about"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Person',
+          name: 'Hussain Ahmed',
+          jobTitle: 'Full-Stack Software Engineer & Mobile App Developer',
+          url: 'https://go-marketplace-rouge.vercel.app/about',
+          sameAs: [GITHUB_URL, LINKEDIN_URL],
+        }}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden py-16 pb-24">
         <div className="absolute inset-0 bg-gradient-to-b from-brand-pink/5 via-brand-purple/5 to-background pointer-events-none" />
