@@ -58,6 +58,7 @@ export function useFeaturedAds() {
       const { data } = await api.get<ApiResponse<Ad[]>>('/ads/featured')
       return data.data
     },
+    staleTime: 1000 * 60 * 5, // matches the 5-min server featured cache
   })
 }
 

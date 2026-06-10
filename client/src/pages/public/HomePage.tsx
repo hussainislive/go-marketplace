@@ -103,7 +103,7 @@ export default function HomePage() {
       <HeroCarousel />
 
       {/* Floating search card */}
-      <div className="max-w-container mx-auto px-5 md:px-margin-desktop mt-6 md:-mt-16 relative z-20 mb-20">
+      <div className="max-w-container mx-auto px-5 md:px-margin-desktop -mt-6 md:-mt-16 relative z-20 mb-20">
         <motion.form
           onSubmit={explore}
           className="bg-white rounded-card shadow-modal p-5 md:p-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center"

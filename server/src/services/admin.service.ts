@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../config/database'
 import { ApiError } from '../utils/ApiError'
+import { cacheInvalidate, CACHE_KEYS } from '../utils/cache'
 
 type UserStatus = 'ACTIVE' | 'BANNED' | 'PENDING'
 type AdStatus = 'ACTIVE' | 'SOLD' | 'DEACTIVATED' | 'PENDING'
@@ -136,10 +137,14 @@ export async function adminDeleteAd(id: string): Promise<void> {
   const ad = await prisma.ad.findUnique({ where: { id } })
   if (!ad) throw ApiError.notFound('Ad not found')
   await prisma.ad.delete({ where: { id } })
+  // A deleted ad may have been featured — refresh the featured cache.
+  if (ad.isFeatured) await cacheInvalidate(CACHE_KEYS.featuredAds)
 }
 
 export async function toggleFeatureAd(id: string, isFeatured: boolean) {
   const ad = await prisma.ad.findUnique({ where: { id } })
   if (!ad) throw ApiError.notFound('Ad not found')
-  return prisma.ad.update({ where: { id }, data: { isFeatured } })
+  const updated = await prisma.ad.update({ where: { id }, data: { isFeatured } })
+  await cacheInvalidate(CACHE_KEYS.featuredAds)
+  return updated
 }

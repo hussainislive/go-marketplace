@@ -2,10 +2,14 @@ import { Prisma } from '@prisma/client'
 import prisma from '../config/database'
 import { ApiError } from '../utils/ApiError'
 import { createNotification } from './notification.service'
+import { cacheGetOrSet, CACHE_KEYS } from '../utils/cache'
 import type { CreateAdInput, UpdateAdInput, SearchAdsInput } from '../validators/ad.validator'
 
 type AdStatus = 'ACTIVE' | 'SOLD' | 'DEACTIVATED' | 'PENDING'
 type Condition = 'NEW' | 'USED' | 'REFURBISHED'
+
+const FEATURED_TTL = 5 * 60 // 5 minutes
+const ADS_LIST_TTL = 60 // 60 seconds — short, so new ads appear quickly
 
 const adInclude = {
   category: { select: { id: true, name: true, slug: true, icon: true } },
@@ -31,6 +35,13 @@ export async function createAd(userId: string, data: CreateAdInput, imageUrls: s
 }
 
 export async function getAds(filters: SearchAdsInput) {
+  // Cache each unique filter combination for a short window. The key is a stable
+  // hash of the normalized filters so identical queries share a cache entry.
+  const filtersHash = JSON.stringify(filters)
+  return cacheGetOrSet(CACHE_KEYS.adsList(filtersHash), ADS_LIST_TTL, () => queryAds(filters))
+}
+
+async function queryAds(filters: SearchAdsInput) {
   const { q, category, city, minPrice, maxPrice, condition, sort, page, limit } = filters
   const skip = (page - 1) * limit
 
@@ -69,12 +80,14 @@ export async function getAds(filters: SearchAdsInput) {
 }
 
 export async function getFeaturedAds() {
-  return prisma.ad.findMany({
-    where: { isFeatured: true, status: 'ACTIVE' },
-    take: 8,
-    orderBy: { createdAt: 'desc' },
-    include: adInclude,
-  })
+  return cacheGetOrSet(CACHE_KEYS.featuredAds, FEATURED_TTL, () =>
+    prisma.ad.findMany({
+      where: { isFeatured: true, status: 'ACTIVE' },
+      take: 8,
+      orderBy: { createdAt: 'desc' },
+      include: adInclude,
+    })
+  )
 }
 
 export async function getAdById(id: string) {
