@@ -1,7 +1,13 @@
 # GO Marketplace
 
+### Designed & developed by **Hussain Ahmed**
+
+[![Email](https://img.shields.io/badge/Email-developer.hussain125%40gmail.com-C82C8C?style=flat&logo=gmail&logoColor=white)](mailto:developer.hussain125@gmail.com) &nbsp;[![GitHub](https://img.shields.io/badge/GitHub-hussainislive-181717?style=flat&logo=github&logoColor=white)](https://github.com/hussainislive) &nbsp;[![LinkedIn](https://img.shields.io/badge/LinkedIn-hussainislive-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/hussainislive)
+
 > **Buy. Sell. Connect.**
 > A production-grade, full-stack classified-ads marketplace — OLX-level functionality with Airbnb-level polish.
+
+![GO Marketplace demo](client/src/assets/demo.gif)
 
 GO Marketplace is a feature-complete classifieds platform where users can post listings, browse and search ads, chat in real time with sellers, favorite items, manage their listings from a dashboard, and where administrators can moderate users, listings, and reports. It is built as a TypeScript monorepo with a React 19 frontend and an Express + Prisma backend backed by PostgreSQL (Supabase).
 

@@ -114,6 +114,8 @@ export default function HomePage() {
           <div className="flex-1 relative">
             <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-primary/40" />
             <input
+              type="search"
+              aria-label="Search listings"
               value={q}
               onChange={e => setQ(e.target.value)}
               placeholder="What are you looking for?"
@@ -123,6 +125,7 @@ export default function HomePage() {
           <select
             value={category}
             onChange={e => setCategory(e.target.value)}
+            aria-label="Filter by category"
             className="h-13 py-3.5 px-4 md:w-52 bg-background-soft border border-border rounded-input outline-none text-body focus:border-brand-pink appearance-none"
           >
             <option value="">All Categories</option>

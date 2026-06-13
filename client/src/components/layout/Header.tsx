@@ -63,6 +63,8 @@ export function Header() {
           <div className="relative">
             <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-primary/40" />
             <input
+              type="search"
+              aria-label="Search listings"
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder="Search for anything..."
@@ -75,13 +77,13 @@ export function Header() {
         <div className="hidden md:flex items-center gap-2 shrink-0">
           {isAuthenticated ? (
             <>
-              <Link to="/favorites" className="p-2.5 rounded-full hover:bg-background-soft text-text-primary/70 transition-colors">
+              <Link to="/favorites" aria-label="Favorites" className="p-2.5 rounded-full hover:bg-background-soft text-text-primary/70 transition-colors">
                 <Heart size={20} />
               </Link>
-              <Link to="/messages" className="p-2.5 rounded-full hover:bg-background-soft text-text-primary/70 transition-colors">
+              <Link to="/messages" aria-label="Messages" className="p-2.5 rounded-full hover:bg-background-soft text-text-primary/70 transition-colors">
                 <MessageCircle size={20} />
               </Link>
-              <Link to="/notifications" className="relative p-2.5 rounded-full hover:bg-background-soft text-text-primary/70 transition-colors">
+              <Link to="/notifications" aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`} className="relative p-2.5 rounded-full hover:bg-background-soft text-text-primary/70 transition-colors">
                 <Bell size={20} />
                 {unreadCount > 0 && (
                   <span className="absolute top-1 right-1 min-w-4 h-4 px-1 rounded-full bg-status-error text-white text-[10px] font-semibold flex items-center justify-center">
@@ -93,7 +95,7 @@ export function Header() {
                 <Plus size={18} /> SELL NOW
               </button>
               <div className="relative ml-1">
-                <button onClick={() => setMenuOpen(o => !o)} className="block">
+                <button onClick={() => setMenuOpen(o => !o)} aria-label="Account menu" aria-haspopup="menu" aria-expanded={menuOpen} className="block">
                   <Avatar src={user?.avatar} name={user?.name ?? 'U'} size="sm" />
                 </button>
                 {menuOpen && (
@@ -140,7 +142,7 @@ export function Header() {
           <button onClick={handleSell} className="inline-flex items-center gap-1 bg-brand-gradient text-white px-3.5 py-2 rounded-button font-medium text-label active:scale-95">
             <Plus size={16} /> Sell
           </button>
-          <button onClick={() => setMobileOpen(o => !o)} className="p-2 rounded-full hover:bg-background-soft">
+          <button onClick={() => setMobileOpen(o => !o)} aria-label={mobileOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileOpen} className="p-2 rounded-full hover:bg-background-soft">
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
@@ -153,6 +155,8 @@ export function Header() {
             <div className="relative">
               <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-primary/40" />
               <input
+                type="search"
+                aria-label="Search listings"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Search for anything..."
