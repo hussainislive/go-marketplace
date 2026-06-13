@@ -51,3 +51,14 @@ createRoot(rootEl).render(
     </Provider>
   </StrictMode>
 )
+
+// Fade out the pre-React CSS splash once the app has mounted, then remove it.
+// Done on the next animation frame so React has painted the first content.
+requestAnimationFrame(() => {
+  const splash = document.getElementById('app-splash')
+  if (!splash) return
+  splash.classList.add('is-hidden')
+  splash.addEventListener('transitionend', () => splash.remove(), { once: true })
+  // Safety net in case the transitionend never fires.
+  setTimeout(() => splash.remove(), 800)
+})
