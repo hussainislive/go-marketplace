@@ -91,7 +91,6 @@ function AuthBootstrap() {
       api
         .get('/users/me')
         .then(res => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
           dispatch(setUser(res.data.data))
         })
         .catch(() => {

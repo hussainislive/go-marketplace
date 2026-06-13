@@ -21,11 +21,14 @@ GO Marketplace is a feature-complete classifieds platform where users can post l
 10. [API Reference](#api-reference)
 11. [Real-time (Socket.io) Events](#real-time-socketio-events)
 12. [Authentication Flow](#authentication-flow)
-13. [Design System](#design-system)
-14. [Build Progress by Phase](#build-progress-by-phase)
-15. [Seed Credentials](#seed-credentials)
-16. [Notable Technical Decisions](#notable-technical-decisions)
-17. [Troubleshooting](#troubleshooting)
+13. [Caching (Redis)](#caching-redis)
+14. [SEO](#seo)
+15. [Testing & CI](#testing--ci)
+16. [Design System](#design-system)
+17. [Build Progress by Phase](#build-progress-by-phase)
+18. [Seed Credentials](#seed-credentials)
+19. [Notable Technical Decisions](#notable-technical-decisions)
+20. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -38,6 +41,9 @@ GO Marketplace is a feature-complete classifieds platform where users can post l
 - **User dashboard** — overview metrics, my-ads management, profile, and settings.
 - **Admin panel** — dashboard stats, user management (ban/delete), listing moderation (remove/feature), and a reports queue.
 - **Informational pages** — How It Works, Privacy Policy & Terms of Use, an About-the-Developer page, and a Contact page whose form emails the developer via Brevo.
+- **Server-side caching** — Redis (Upstash) cache-aside on the read-heavy endpoints (categories, featured ads, ad listings) with TTLs and write-time invalidation, and a graceful no-op fallback when Redis is unavailable.
+- **SEO** — per-page titles & meta via `react-helmet-async`, Open Graph + Twitter cards, canonical URLs, JSON-LD structured data (WebSite / Product / Person), plus `robots.txt` and `sitemap.xml`.
+- **Performance** — route-level code splitting, a React-vendor chunk, CDN-sized images (Cloudinary/Unsplash transforms), `content-visibility` on ad cards, self-hosted Inter (no font-swap CLS), and an Embla-powered hero carousel.
 - **Resilience** — a branded router error page (`errorElement`) plus a one-shot silent reload that recovers open tabs from stale-chunk MIME errors after a new deploy.
 - **Production hardening** — Helmet CSP, origin-locked CORS, HPP, per-route rate limiting, Zod validation on every input, and structured Winston logging.
 
@@ -59,8 +65,11 @@ GO Marketplace is a feature-complete classifieds platform where users can post l
 | Routing | React Router v7 |
 | Forms | React Hook Form + Zod |
 | Animations | Framer Motion |
+| Carousel | Embla Carousel (+ autoplay) |
+| SEO | react-helmet-async |
 | Icons | Lucide React |
 | Toasts | react-hot-toast |
+| Fonts | Self-hosted Inter (`@fontsource/inter`) |
 
 ### Backend (`server/`)
 
@@ -75,8 +84,10 @@ GO Marketplace is a feature-complete classifieds platform where users can post l
 | Real-time | Socket.io |
 | Email | Brevo (HTTP API) |
 | Media | Cloudinary (multer memory storage → stream upload) |
+| Caching | Upstash Redis (`@upstash/redis`, cache-aside) |
 | Security | helmet, cors, hpp, express-rate-limit, bcryptjs |
 | Logging | Winston |
+| Testing / CI | Vitest, GitHub Actions (lint · typecheck · build) |
 
 ---
 
@@ -470,6 +481,40 @@ On the client, `App.tsx`'s `SocketManager` connects the socket only when authent
 4. If refresh fails, the client dispatches `logout()` and redirects to `/login`.
 5. **Refresh-token rotation:** each refresh invalidates the previous refresh token (stored hashed on the user) and issues a new pair.
 6. **Route guards** (`routes.tsx`): unauthenticated users hitting a protected route get the Auth Modal (not a redirect); non-admins hitting `/admin/*` are redirected to `/`. The backend independently enforces the same rules via `authenticate` + `authorize` middleware.
+
+---
+
+## Caching (Redis)
+
+The read-heavy public endpoints are cached in **Upstash Redis** using a simple cache-aside pattern, taking load off PostgreSQL on the busiest routes.
+
+- **Helpers** — `server/src/config/redis.ts` (client; returns `null` when env vars are absent so the app runs uncached) and `server/src/utils/cache.ts` (`cacheGetOrSet(key, ttl, fetcher)` + `cacheInvalidate(...keys)`). Every Redis call is wrapped in `try/catch`, so a cache outage **never breaks a request** — it transparently falls back to the database.
+
+| Cached | Key | TTL | Invalidated when |
+|---|---|---|---|
+| `GET /categories` | `categories:all` | 1 hour | a category is created / updated / deleted |
+| `GET /ads/featured` | `ads:featured` | 5 min | an ad is featured / unfeatured / deleted |
+| `GET /ads?…` (list) | `ads:list:<filters>` | 60 s | expires by TTL (kept short so new ads appear quickly) |
+
+On the client, TanStack Query `staleTime` is tuned to match (categories 30 min, featured 5 min) so the browser also avoids redundant refetches.
+
+**Env vars:** `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` (both optional — omit them to disable caching).
+
+---
+
+## SEO
+
+- **Per-page meta** via `react-helmet-async` and a reusable `Seo` component (`client/src/components/shared/Seo.tsx`): unique `<title>`, description, and canonical URL on every public page; auth/dashboard pages are marked `noindex`.
+- **Social cards** — Open Graph + Twitter `summary_large_image` tags.
+- **Structured data (JSON-LD)** — `WebSite` + `SearchAction` (home), `Product`/`Offer` (ad detail), and `Person` (about) for rich Google results.
+- **Crawler files** — `client/public/robots.txt` (blocks private routes, points to the sitemap) and `client/public/sitemap.xml`.
+
+---
+
+## Testing & CI
+
+- **Unit tests** with **Vitest** cover the pure logic most worth protecting: formatters / CDN image helper (`utils/format`), Zod validators, and the Redis cache helper (with a mocked client). Run with `npm test` in `client/`.
+- **GitHub Actions** (`.github/workflows/ci.yml`) runs **lint → type-check → build → test** on every push and pull request.
 
 ---
 
