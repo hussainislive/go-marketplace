@@ -89,7 +89,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-container mx-auto px-5 lg:px-margin-desktop py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-caption text-white/50">© 2026 GO Marketplace. All rights reserved.</p>
-          <p className="text-caption text-white/50">Made with care for buyers & sellers everywhere.</p>
+          <p className="text-caption text-white/50">Made with Love for buyers & sellers everywhere.</p>
         </div>
       </div>
     </footer>
