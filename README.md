@@ -600,4 +600,4 @@ List the seeded user emails any time with `npm run db:studio`.
 
 ---
 
-<sub>Built with Claude Code. See `CLAUDE.md` for the full engineering standards and `MASTER_PROMPT.md` for the phase-by-phase build plan.</sub>
+<sub>Built by Hussain Ahmed. See `CLAUDE.md` for the full engineering standards and `MASTER_PROMPT.md` for the phase-by-phase build plan.</sub>
