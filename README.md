@@ -17,24 +17,25 @@ GO Marketplace is a feature-complete classifieds platform where users can post l
 
 1. [Features](#features)
 2. [Tech Stack](#tech-stack)
-3. [Architecture Overview](#architecture-overview)
-4. [Monorepo Folder Structure](#monorepo-folder-structure)
-5. [Prerequisites](#prerequisites)
-6. [Environment Variables](#environment-variables)
-7. [Getting Started](#getting-started)
-8. [Available Scripts](#available-scripts)
-9. [Database](#database)
-10. [API Reference](#api-reference)
-11. [Real-time (Socket.io) Events](#real-time-socketio-events)
-12. [Authentication Flow](#authentication-flow)
-13. [Caching (Redis)](#caching-redis)
-14. [SEO](#seo)
-15. [Testing & CI](#testing--ci)
-16. [Design System](#design-system)
-17. [Build Progress by Phase](#build-progress-by-phase)
-18. [Seed Credentials](#seed-credentials)
-19. [Notable Technical Decisions](#notable-technical-decisions)
-20. [Troubleshooting](#troubleshooting)
+3. [Production Deployment](#production-deployment)
+4. [Architecture Overview](#architecture-overview)
+5. [Monorepo Folder Structure](#monorepo-folder-structure)
+6. [Prerequisites](#prerequisites)
+7. [Environment Variables](#environment-variables)
+8. [Getting Started](#getting-started)
+9. [Available Scripts](#available-scripts)
+10. [Database](#database)
+11. [API Reference](#api-reference)
+12. [Real-time (Socket.io) Events](#real-time-socketio-events)
+13. [Authentication Flow](#authentication-flow)
+14. [Caching (Redis)](#caching-redis)
+15. [SEO](#seo)
+16. [Testing & CI](#testing--ci)
+17. [Design System](#design-system)
+18. [Build Progress by Phase](#build-progress-by-phase)
+19. [Seed Credentials](#seed-credentials)
+20. [Notable Technical Decisions](#notable-technical-decisions)
+21. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -81,7 +82,7 @@ GO Marketplace is a feature-complete classifieds platform where users can post l
 
 | Concern | Technology |
 |---|---|
-| Runtime | Node.js 20+ |
+| Runtime | Node.js 22.x on Heroku |
 | Framework | Express 5 + TypeScript |
 | ORM | Prisma 7 (with `@prisma/adapter-pg` driver adapter) |
 | Database | PostgreSQL via Supabase |
@@ -94,6 +95,23 @@ GO Marketplace is a feature-complete classifieds platform where users can post l
 | Security | helmet, cors, hpp, express-rate-limit, bcryptjs |
 | Logging | Winston |
 | Testing / CI | Vitest, GitHub Actions (lint · typecheck · build) |
+
+---
+
+## Production Deployment
+
+GO Marketplace is live as a split deployment:
+
+| Layer | Platform | Status |
+|---|---|---|
+| Frontend | Vercel (`https://go-marketplace-rouge.vercel.app`) | Live |
+| Backend API + Socket.io | Heroku (`https://go-marketplace-backend-35d0fbbfef8a.herokuapp.com`) | Live |
+| Database | Supabase PostgreSQL | Live |
+| Cache | Upstash Redis | Live |
+| Media | Cloudinary | Live |
+| Email | Brevo HTTP API | Live |
+
+In August 2026, the backend was successfully migrated from Railway to Heroku after the Railway trial expired. The Heroku deploy runs the `server/` monorepo app through `APP_BASE=server`, the monorepo buildpack + Node.js buildpack, `server/Procfile`, and Node `22.x`. The Vercel production build now points to Heroku through `VITE_API_URL` and `VITE_SOCKET_URL`, and Google OAuth uses the Heroku callback URL.
 
 ---
 
