@@ -159,7 +159,12 @@ export async function forgotPassword(email: string): Promise<void> {
     data: { resetToken: hashToken(resetToken), resetTokenExpires },
   })
 
-  await sendPasswordResetEmail(email, user.name, resetToken).catch(() => null)
+  try {
+    await sendPasswordResetEmail(email, user.name, resetToken)
+  } catch (err) {
+    console.error('[forgotPassword] failed to send password reset email:', err)
+    throw ApiError.internal('Could not send password reset email. Please try again later.')
+  }
 }
 
 export async function resetPassword(token: string, newPassword: string): Promise<void> {
