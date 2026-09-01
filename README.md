@@ -499,12 +499,13 @@ On the client, `App.tsx`'s `SocketManager` connects the socket only when authent
 
 ## Authentication Flow
 
-1. **Login / Register** issues a short-lived **access token (15 min)** and a long-lived **refresh token (7 days)**, both as `httpOnly`, `SameSite=Strict` cookies — never localStorage.
+1. **Login / Register** issues a short-lived **access token (15 min)** and a long-lived **refresh token (7 days)**, both as secure cookies in production, with a sessionStorage fallback for browsers that block cross-site cookies.
 2. Axios sends cookies automatically (`withCredentials: true`).
 3. On any **401**, the Axios response interceptor calls `/auth/refresh` once, rotates the tokens, and retries the original request. Concurrent 401s are queued behind a single refresh.
 4. If refresh fails, the client dispatches `logout()` and redirects to `/login`.
 5. **Refresh-token rotation:** each refresh invalidates the previous refresh token (stored hashed on the user) and issues a new pair.
 6. **Route guards** (`routes.tsx`): unauthenticated users hitting a protected route get the Auth Modal (not a redirect); non-admins hitting `/admin/*` are redirected to `/`. The backend independently enforces the same rules via `authenticate` + `authorize` middleware.
+7. **Password reset:** users can request a reset link from Login or Settings. The email lands on `/reset-password?token=...`, validates a new strong password, and then lets the user log in again.
 
 ---
 
@@ -573,7 +574,7 @@ The project follows the phased plan in `MASTER_PROMPT.md` / `CLAUDE.md`.
 | **6 — Pages** | All 17 screens implemented against the live API with skeletons + empty states: Home, Search (filters + dual price slider), Ad Detail (gallery/lightbox/chat/report), Login, Signup, Dashboard, My Ads, Create/Edit Ad (dropzone wizard), Messages (realtime + media + voice notes), Notifications, Favorites, Profile, Settings, Admin Dashboard (recharts), Users, Listings, Reports (slide-in panel), Categories | ✅ Complete |
 | **7 — Polish** | Framer Motion transitions, full mobile audit, error states, branded router error page, stale-chunk auto-recovery, and informational pages (How It Works, Privacy & Terms, About the Developer, Contact) wired into routes + footer | ✅ Complete |
 
-> **What's verified working today:** the backend API serves real seeded data; auth (register/login/refresh/logout) sets and rotates cookies; admin routes return 401/403 appropriately; the Socket.io handshake rejects unauthenticated clients and accepts authenticated ones; the full React app (all 17 pages, all components) compiles under `tsc` and builds under Vite with zero errors; new endpoints (`/users/me/stats`, `/ads/favorites`) and existing ones (`/admin/stats`, `/conversations`, `/ads/featured`, `/categories`) all respond correctly with seeded data.
+> **What's verified working today:** the backend API serves real seeded data; auth (register/login/refresh/logout/password reset) sets and rotates tokens correctly; password reset emails are delivered through Brevo and email-provider failures now surface as user-visible API errors; admin routes return 401/403 appropriately; the Socket.io handshake rejects unauthenticated clients and accepts authenticated ones; the full React app (all 17 pages, all components) compiles under `tsc` and builds under Vite with zero errors; new endpoints (`/users/me/stats`, `/ads/favorites`) and existing ones (`/admin/stats`, `/conversations`, `/ads/featured`, `/categories`) all respond correctly with seeded data.
 
 ### Frontend data layer
 
@@ -597,7 +598,7 @@ List the seeded user emails any time with `npm run db:studio`.
 - **Prisma 7 driver adapter.** Prisma 7 removed `url`/`directUrl` from `schema.prisma`. The connection is provided at runtime via `@prisma/adapter-pg` (a `pg.Pool` wrapped in `PrismaPg`) in `server/src/config/database.ts`, in `prisma.config.ts` for migrations, and in `prisma/seed.ts` for seeding.
 - **Express 5 read-only `req.query`.** Express 5 makes `req.query` a getter, so validation middleware cannot reassign it. Query validation is therefore parsed directly in the controller (`searchAdsSchema.parse(req.query)`); `validate()` only reassigns `body`/`params`.
 - **Tailwind v4 with no config file.** All tokens live in the CSS `@theme` block; the build uses `@tailwindcss/vite`.
-- **Brevo over HTTP, not SMTP.** Cloud hosts (Railway) block outbound SMTP ports (25/465/587), so email is sent via Brevo's HTTP API (`https://api.brevo.com/v3/smtp/email`) over port 443 using `fetch`. The `BREVO_API_KEY` is read lazily, so the server boots fine without it (email is inert in dev).
+- **Brevo over HTTP, not SMTP.** Cloud hosts (Railway/Heroku) block or complicate outbound SMTP ports (25/465/587), so email is sent via Brevo's HTTP API (`https://api.brevo.com/v3/smtp/email`) over port 443 using `fetch`. Password-reset sends now fail loudly with a user-visible API error if Brevo rejects the request, instead of returning a false success.
 - **String-literal enum types in services.** To stay decoupled from Prisma's generated client, services use string-literal unions (e.g. `'ACTIVE' | 'SOLD' | ...`) and the `Prisma.*WhereInput` types for query shapes.
 - **Port 5001.** macOS Control Center occupies port 5000, so the backend defaults to 5001 (client proxy and env updated to match).
 - **Stale-chunk auto-recovery.** After a deploy, a tab left open may still reference old hashed JS chunks that no longer exist; loading one fails with a "not a valid JavaScript MIME type" / dynamic-import error. `client/src/main.tsx` listens for these errors and performs a single guarded `window.location.reload()` (tracked via a `sessionStorage` flag to avoid loops) so the user silently lands on the fresh build. React Router routes also declare a branded `RouteErrorPage` as their `errorElement`.
@@ -613,6 +614,7 @@ List the seeded user emails any time with `npm run db:studio`.
 | `P1001: Can't reach database server` | Use the **pooler** host (`aws-1-<region>.pooler.supabase.com`), not the deprecated `aws-0`. Verify `DATABASE_URL`/`DIRECT_URL`. |
 | `PrismaClient needs … adapter or accelerateUrl` | Prisma 7 requires the pg adapter; make sure `@prisma/adapter-pg` is wired in `database.ts`, `prisma.config.ts`, and `seed.ts`. |
 | Verification emails not arriving | Set `BREVO_API_KEY` and verify a sender in Brevo → Senders. The "From" address in `src/utils/email.ts` must match a verified sender. |
+| Password reset toast says success but no email arrives | Check Heroku logs for Brevo errors and verify Brevo API authorized IP settings. Free Heroku dynos use changing outbound IPs, so disabling strict API IP blocking or authorizing the detected Heroku IP may be required. |
 | Socket connects but immediately errors | The handshake needs a valid `accessToken` cookie — log in first; the socket connects only when authenticated. |
 | `Cannot set property query of #<IncomingMessage>` | Express 5 — don't reassign `req.query`; parse it in the controller (already handled). |
 
