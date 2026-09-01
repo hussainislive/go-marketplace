@@ -5,11 +5,12 @@ import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { setUser } from '../../store/authSlice'
-import { useLogin, useResendVerification } from '../../api/auth'
-import { loginSchema } from '../../utils/validation'
-import type { LoginValues } from '../../utils/validation'
+import { useForgotPassword, useLogin, useResendVerification } from '../../api/auth'
+import { forgotPasswordSchema, loginSchema } from '../../utils/validation'
+import type { ForgotPasswordValues, LoginValues } from '../../utils/validation'
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
+import { Modal } from '../../components/ui/Modal'
 import { Logo } from '../../components/shared/Logo'
 import { Seo } from '../../components/shared/Seo'
 import { apiErrorMessage } from '../../utils/format'
@@ -22,9 +23,14 @@ export default function LoginPage() {
   const { isAuthenticated } = useAppSelector(s => s.auth)
   const login = useLogin()
   const resend = useResendVerification()
+  const forgotPassword = useForgotPassword()
   const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null)
+  const [forgotOpen, setForgotOpen] = useState(false)
   const { register, handleSubmit, getValues, formState: { errors } } = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
+  })
+  const forgotForm = useForm<ForgotPasswordValues>({
+    resolver: zodResolver(forgotPasswordSchema),
   })
 
   useEffect(() => {
@@ -53,6 +59,23 @@ export default function LoginPage() {
       toast.success('Verification email sent. Check your inbox.')
     } catch {
       toast.error('Could not resend verification email.')
+    }
+  }
+
+  function openForgotPassword() {
+    const email = getValues('email')
+    if (email) forgotForm.setValue('email', email)
+    setForgotOpen(true)
+  }
+
+  async function handleForgotPassword(values: ForgotPasswordValues) {
+    try {
+      await forgotPassword.mutateAsync(values)
+      toast.success('Password reset email sent. Check your inbox.')
+      setForgotOpen(false)
+      forgotForm.reset()
+    } catch (err) {
+      toast.error(apiErrorMessage(err, 'Could not send password reset email.'))
     }
   }
 
@@ -86,7 +109,13 @@ export default function LoginPage() {
             <Input label="Email" type="email" placeholder="you@example.com" error={errors.email?.message} {...register('email')} />
             <Input label="Password" type="password" placeholder="••••••••" error={errors.password?.message} {...register('password')} />
             <div className="flex justify-end">
-              <Link to="/" className="text-caption text-brand-pink hover:underline">Forgot password?</Link>
+              <button
+                type="button"
+                onClick={openForgotPassword}
+                className="text-caption text-brand-pink hover:underline"
+              >
+                Forgot password?
+              </button>
             </div>
             <Button type="submit" fullWidth size="lg" loading={login.isPending}>Log In</Button>
           </form>
@@ -120,6 +149,31 @@ export default function LoginPage() {
           </a>
         </div>
       </div>
+
+      <Modal
+        open={forgotOpen}
+        onOpenChange={setForgotOpen}
+        title="Reset password"
+        description="Enter your account email and we will send you a reset link."
+      >
+        <form onSubmit={forgotForm.handleSubmit(handleForgotPassword)} className="space-y-4">
+          <Input
+            label="Email"
+            type="email"
+            placeholder="you@example.com"
+            error={forgotForm.formState.errors.email?.message}
+            {...forgotForm.register('email')}
+          />
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <Button type="button" variant="secondary" onClick={() => setForgotOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" loading={forgotPassword.isPending}>
+              Send reset link
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </div>
   )
 }

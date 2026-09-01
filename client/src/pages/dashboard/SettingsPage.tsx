@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useMe, useUpdateProfile } from '../../api/users'
+import { useForgotPassword } from '../../api/auth'
 import { useAppDispatch } from '../../store/hooks'
 import { setUser } from '../../store/authSlice'
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
+import { apiErrorMessage } from '../../utils/format'
 
 export default function SettingsPage() {
   const me = useMe()
   const updateProfile = useUpdateProfile()
+  const forgotPassword = useForgotPassword()
   const dispatch = useAppDispatch()
 
   const [form, setForm] = useState({ name: '', phone: '', city: '', bio: '' })
@@ -33,6 +36,20 @@ export default function SettingsPage() {
       toast.success('Profile saved')
     } catch {
       toast.error('Could not save profile')
+    }
+  }
+
+  async function requestPasswordReset() {
+    if (!me.data?.email) {
+      toast.error('Could not find your account email.')
+      return
+    }
+
+    try {
+      await forgotPassword.mutateAsync({ email: me.data.email })
+      toast.success('Password reset email sent. Check your inbox.')
+    } catch (err) {
+      toast.error(apiErrorMessage(err, 'Could not send password reset email.'))
     }
   }
 
@@ -98,7 +115,14 @@ export default function SettingsPage() {
         <h2 className="text-card-title font-semibold mb-2">Privacy & account</h2>
         <p className="text-body text-text-primary/55 mb-4">Manage your account security and data.</p>
         <div className="flex flex-wrap gap-3">
-          <Button variant="secondary">Change password</Button>
+          <Button
+            variant="secondary"
+            onClick={requestPasswordReset}
+            loading={forgotPassword.isPending}
+            disabled={!me.data?.email || forgotPassword.isPending}
+          >
+            Change password
+          </Button>
           <Button variant="danger">Delete account</Button>
         </div>
       </section>

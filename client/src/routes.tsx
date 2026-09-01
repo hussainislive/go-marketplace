@@ -13,6 +13,7 @@ const AdDetailPage       = lazy(() => import('./pages/public/AdDetailPage'))
 const LoginPage          = lazy(() => import('./pages/public/LoginPage'))
 const SignupPage         = lazy(() => import('./pages/public/SignupPage'))
 const VerifyEmailPage    = lazy(() => import('./pages/public/VerifyEmailPage'))
+const ResetPasswordPage  = lazy(() => import('./pages/public/ResetPasswordPage'))
 const HowItWorksPage     = lazy(() => import('./pages/public/HowItWorksPage'))
 const LegalPage          = lazy(() => import('./pages/public/LegalPage'))
 const DeveloperPage      = lazy(() => import('./pages/public/DeveloperPage'))
@@ -67,6 +68,7 @@ export const router = createBrowserRouter([
   { path: '/login', element: <L><LoginPage /></L>, errorElement: <RouteErrorPage /> },
   { path: '/signup', element: <L><SignupPage /></L>, errorElement: <RouteErrorPage /> },
   { path: '/verify-email', element: <L><VerifyEmailPage /></L>, errorElement: <RouteErrorPage /> },
+  { path: '/reset-password', element: <L><ResetPasswordPage /></L>, errorElement: <RouteErrorPage /> },
 
   // ── Public (Header + Footer) ───────────────────────────────────────────────
   {

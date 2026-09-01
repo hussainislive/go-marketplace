@@ -14,6 +14,15 @@ export interface LoginPayload {
   password: string
 }
 
+export interface ForgotPasswordPayload {
+  email: string
+}
+
+export interface ResetPasswordPayload {
+  token: string
+  password: string
+}
+
 interface LoginResponseData {
   user: AuthUser
   accessToken: string
@@ -56,6 +65,22 @@ export function useResendVerification() {
   return useMutation({
     mutationFn: async (email: string) => {
       await api.post('/auth/resend-verification', { email })
+    },
+  })
+}
+
+export function useForgotPassword() {
+  return useMutation({
+    mutationFn: async (payload: ForgotPasswordPayload) => {
+      await api.post('/auth/forgot-password', payload)
+    },
+  })
+}
+
+export function useResetPassword() {
+  return useMutation({
+    mutationFn: async (payload: ResetPasswordPayload) => {
+      await api.post('/auth/reset-password', payload)
     },
   })
 }
